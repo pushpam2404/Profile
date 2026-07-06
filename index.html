@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pushpam Raj Satyarthi | Data Engineer & Backend Systems Developer</title>
+  <meta name="description" content="Personal developer portfolio of Pushpam Raj Satyarthi, 3rd year CSE student at GITAM University and Data Engineer specializing in ETL pipelines, FastAPI, and robust backend systems.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              bg: '#0d0d0f',
+              card: '#131316',
+              border: '#1f1f24',
+              cyan: '#00f2fe',
+              blue: '#38bdf8',
+              textPrimary: '#f8fafc',
+              textSecondary: '#94a3b8',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/css">
+    /* Custom styles and overrides */
+    body {
+      background-color: #0d0d0f;
+      color: #94a3b8;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d0d0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f1f24;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+
+    /* Subtle grid background */
+    .bg-grid {
+      background-image: radial-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Mouse following glow */
+    .bg-radial-glow {
+      background: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(56, 189, 248, 0.05), transparent 40%);
+    }
+
+    /* Glassmorphism card effect */
+    .glass-card {
+      background: rgba(19, 19, 22, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(31, 31, 36, 0.8);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 20px rgba(56, 189, 248, 0.03);
+    }
+
+    /* Terminal-specific input styling */
+    .terminal-input::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background-color: #00f2fe;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    /* Scroll triggered animation classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+      .scroll-smooth {
+        scroll-behavior: auto;
+      }
+      .bg-radial-glow {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-blue/30 selection:text-brand-cyan relative">
+
+  <!-- Cursor Radial Glow -->
+  <div class="pointer-events-none fixed inset-0 z-30 opacity-0 lg:opacity-100 bg-radial-glow transition-opacity duration-500" id="radial-glow"></div>
+
+  <!-- Ambient background elements -->
+  <div class="absolute inset-0 bg-grid z-0 pointer-events-none"></div>
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-blue/5 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute top-[1200px] right-1/4 w-[500px] h-[500px] bg-brand-cyan/3 rounded-full blur-[160px] pointer-events-none"></div>
+
+  <!-- Header & Nav -->
+  <header class="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-bg/80 backdrop-blur-md transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#hero" class="font-mono text-brand-textPrimary font-bold tracking-tight hover:text-brand-cyan transition-colors flex items-center gap-2">
+        <span class="text-brand-cyan">&lt;</span>PR_SATYARTHI<span class="text-brand-cyan">/&gt;</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+        <a href="#about" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">About</a>
+        <a href="#skills" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Skills</a>
+        <a href="#experience" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Experience</a>
+        <a href="#projects" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Projects</a>
+        <a href="#education" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Education</a>
+        <a href="#achievements" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Achievements</a>
+        <a href="#contact" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Contact</a>
+      </nav>
+
+      <!-- CTA -->
+      <div class="hidden md:block">
+        <a href="mailto:prsatyarthi2404@gmail.com" class="font-mono text-xs border border-brand-blue/30 text-brand-blue bg-brand-blue/5 hover:bg-brand-blue/10 hover:border-brand-blue/60 px-4 py-2 rounded transition-all duration-200">
+          ssh pushpam@dev
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 text-brand-textSecondary hover:text-brand-textPrimary focus:outline-none" aria-label="Toggle menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-nav" class="hidden md:hidden border-b border-brand-border bg-brand-bg/95 px-4 pt-2 pb-6 space-y-3">
+      <a href="#about" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">About</a>
+      <a href="#skills" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">Skills</a>
+      <a href="#experience" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">Experience</a>
+      <a href="#projects" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">Projects</a>
+      <a href="#education" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">Education</a>
+      <a href="#achievements" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2 border-b border-brand-border/50">Achievements</a>
+      <a href="#contact" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2">Contact</a>
+      <div class="pt-4">
+        <a href="mailto:prsatyarthi2404@gmail.com" class="block text-center font-mono text-xs border border-brand-blue/30 text-brand-blue bg-brand-blue/5 px-4 py-2.5 rounded">
+          ssh pushpam@dev
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row items-center justify-between gap-12 py-12 lg:py-20">
+      <!-- Left Column: Content -->
+      <div class="flex-1 space-y-6 text-left max-w-2xl">
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          SYSTEM: ACTIVE | AVAILABLE FOR INTERNSHIPS
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-textPrimary tracking-tight leading-none">
+          Pushpam Raj Satyarthi
+        </h1>
+        
+        <h2 class="text-xl sm:text-2xl font-mono text-brand-cyan">
+          Data Engineer &amp; Backend Systems Developer
+        </h2>
+        
+        <p class="text-base sm:text-lg text-brand-textSecondary leading-relaxed">
+          Building production systems at 19. Specialize in designing high-throughput ETL pipelines, robust FastAPI backends, and hybrid data persistence architectures that scale without drama.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="#projects" class="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue/90 text-brand-bg font-semibold px-6 py-3 rounded transition-all duration-200">
+            View Systems
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#contact" class="inline-flex items-center gap-2 border border-brand-border hover:border-brand-blue/40 text-brand-textPrimary bg-brand-card/50 hover:bg-brand-card px-6 py-3 rounded transition-all duration-200 font-mono text-sm">
+            cat contact.json
+          </a>
+        </div>
+
+        <!-- Terminal Status Metadata -->
+        <div class="border-t border-brand-border pt-6 mt-8 grid grid-cols-3 gap-4 font-mono text-xs text-brand-textSecondary">
+          <div>
+            <span class="block text-brand-blue">HOST:</span>
+            <span>GITAM University</span>
+          </div>
+          <div>
+            <span class="block text-brand-blue">CLASS:</span>
+            <span>3rd Year CSE</span>
+          </div>
+          <div>
+            <span class="block text-brand-blue">GPA:</span>
+            <span class="text-brand-textPrimary">9.17 / 10.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Pipeline Graphic -->
+      <div class="flex-1 w-full max-w-lg lg:max-w-none flex flex-col items-center justify-center">
+        <div class="w-full glass-card rounded-lg p-6 relative overflow-hidden">
+          <!-- Window controls -->
+          <div class="flex items-center justify-between mb-4 border-b border-brand-border pb-3">
+            <div class="flex gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-red-500/30"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/30"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/30"></span>
+            </div>
+            <div class="text-xs font-mono text-brand-textSecondary">etl_pipeline_monitor.sh</div>
+            <div class="w-4 h-4"></div>
+          </div>
+
+          <!-- SVG Canvas for Pipeline -->
+          <div class="relative h-64 w-full">
+            <svg class="w-full h-full" id="pipeline-svg" viewBox="0 0 500 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid Background inside SVG -->
+              <defs>
+                <pattern id="svg-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(31, 31, 36, 0.4)" stroke-width="1"/>
+                </pattern>
+                <!-- Glow Filters -->
+                <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#svg-grid)" />
+
+              <!-- Connection Lines (Pipelines) -->
+              <!-- Line 1: Ingestion -> Transformation -->
+              <path id="path-ingest-1" d="M 90 60 L 250 120" stroke="#1f1f24" stroke-width="2" stroke-dasharray="4" />
+              <path id="path-ingest-2" d="M 90 120 L 250 120" stroke="#1f1f24" stroke-width="2" stroke-dasharray="4" />
+              <path id="path-ingest-3" d="M 90 180 L 250 120" stroke="#1f1f24" stroke-width="2" stroke-dasharray="4" />
+              <!-- Line 2: Transformation -> Load -->
+              <path id="path-load" d="M 250 120 L 410 120" stroke="#1f1f24" stroke-width="2" stroke-dasharray="4" />
+
+              <!-- Nodes (Interactive Circles) -->
+              <!-- Source Nodes -->
+              <g class="cursor-pointer group" onclick="selectPipelineNode('source-db')">
+                <circle cx="90" cy="60" r="16" fill="#131316" stroke="#1f1f24" stroke-width="2" class="group-hover:stroke-brand-cyan transition-colors" />
+                <circle cx="90" cy="60" r="4" fill="#38bdf8" />
+                <text x="50" y="64" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">DB Src</text>
+              </g>
+              <g class="cursor-pointer group" onclick="selectPipelineNode('source-api')">
+                <circle cx="90" cy="120" r="16" fill="#131316" stroke="#1f1f24" stroke-width="2" class="group-hover:stroke-brand-cyan transition-colors" />
+                <circle cx="90" cy="120" r="4" fill="#38bdf8" />
+                <text x="50" y="124" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">API Src</text>
+              </g>
+              <g class="cursor-pointer group" onclick="selectPipelineNode('source-blob')">
+                <circle cx="90" cy="180" r="16" fill="#131316" stroke="#1f1f24" stroke-width="2" class="group-hover:stroke-brand-cyan transition-colors" />
+                <circle cx="90" cy="180" r="4" fill="#38bdf8" />
+                <text x="45" y="184" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">AzureBlob</text>
+              </g>
+
+              <!-- Transformation Center -->
+              <g class="cursor-pointer group" onclick="selectPipelineNode('transform')">
+                <circle cx="250" cy="120" r="24" fill="#131316" stroke="#1f1f24" stroke-width="2" class="group-hover:stroke-brand-cyan transition-colors" />
+                <path d="M 244 114 L 256 114 L 250 126 Z" fill="#00f2fe" filter="url(#glow-cyan)"/>
+                <text x="225" y="156" fill="#f8fafc" font-family="JetBrains Mono" font-size="10" font-weight="bold">TRANSFORM</text>
+              </g>
+
+              <!-- Destination Warehouse -->
+              <g class="cursor-pointer group" onclick="selectPipelineNode('warehouse')">
+                <circle cx="410" cy="120" r="20" fill="#131316" stroke="#1f1f24" stroke-width="2" class="group-hover:stroke-brand-cyan transition-colors" />
+                <!-- Database Cylindrical Stack -->
+                <path d="M 402 112 C 402 108, 418 108, 418 112 M 402 112 L 402 128 C 402 132, 418 132, 418 128 L 418 112 M 402 120 C 402 124, 418 124, 418 120" stroke="#38bdf8" stroke-width="1.5" filter="url(#glow-blue)" />
+                <text x="395" y="156" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">Warehouse</text>
+              </g>
+
+              <!-- Flowing Packets (JS Animated circles) -->
+              <circle id="packet-1" cx="90" cy="60" r="3" fill="#00f2fe" opacity="0" filter="url(#glow-cyan)" />
+              <circle id="packet-2" cx="90" cy="120" r="3" fill="#00f2fe" opacity="0" filter="url(#glow-cyan)" />
+              <circle id="packet-3" cx="90" cy="180" r="3" fill="#00f2fe" opacity="0" filter="url(#glow-cyan)" />
+              <circle id="packet-out" cx="250" cy="120" r="3.5" fill="#38bdf8" opacity="0" filter="url(#glow-blue)" />
+            </svg>
+          </div>
+
+          <!-- Live metrics and information card -->
+          <div class="mt-4 border-t border-brand-border/60 pt-4 font-mono text-xs">
+            <div class="flex justify-between items-center mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-ping"></span>
+                <span class="text-brand-textPrimary font-semibold">PIPELINE MONITOR</span>
+              </div>
+              <div class="text-brand-cyan" id="node-status">State: Running</div>
+            </div>
+            <!-- Node Detail Context Panel -->
+            <div id="pipeline-details" class="bg-brand-bg/50 border border-brand-border/40 rounded p-3 text-slate-400 min-h-[64px]">
+              Click on any node in the pipeline above to inspect its properties, latency metrics, and operational schema.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Bio and Stats (Left) -->
+        <div class="lg:col-span-7 space-y-8">
+          <div class="space-y-4">
+            <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">01 // About the Developer</div>
+            <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Data Obsessed</h3>
+            <p class="leading-relaxed text-brand-textSecondary">
+              I'm a 3rd year B.Tech Computer Science student at GITAM University, Visakhapatnam (CGPA: 9.17) with a core focus on backend architecture and data engineering. I build systems that process, transform, and store data reliably at scale.
+            </p>
+            <p class="leading-relaxed text-brand-textSecondary">
+              Recently, I wrapped up a software engineering internship at <strong class="text-brand-textPrimary">Motherson Technology Services</strong>, where I independently designed and shipped the hybrid data persistence layer for <strong class="text-brand-textPrimary">LegalLens</strong>—a live AI legal research platform.
+            </p>
+            <p class="leading-relaxed text-brand-textSecondary">
+              I view coding not just as writing functions, but as managing memory, minimizing database latency, and engineering fault tolerance. When I'm not optimizing queries or writing ETL scripts, you'll find me listening to the Arctic Monkeys, reading One Piece, dreaming of Triumph motorcycles, or brewing a cup of Davidoff Espresso 57.
+            </p>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+            <div class="border border-brand-border/40 bg-brand-card/35 rounded p-4 text-center">
+              <div class="text-2xl font-mono font-bold text-brand-cyan">9.17</div>
+              <div class="text-xxs font-mono text-brand-textSecondary mt-1 uppercase">CGPA</div>
+            </div>
+            <div class="border border-brand-border/40 bg-brand-card/35 rounded p-4 text-center">
+              <div class="text-2xl font-mono font-bold text-brand-cyan">16</div>
+              <div class="text-xxs font-mono text-brand-textSecondary mt-1 uppercase">IBM Courses</div>
+            </div>
+            <div class="border border-brand-border/40 bg-brand-card/35 rounded p-4 text-center">
+              <div class="text-2xl font-mono font-bold text-brand-cyan">14+</div>
+              <div class="text-xxs font-mono text-brand-textSecondary mt-1 uppercase">Bugs Patched</div>
+            </div>
+            <div class="border border-brand-border/40 bg-brand-card/35 rounded p-4 text-center">
+              <div class="text-2xl font-mono font-bold text-brand-cyan">9</div>
+              <div class="text-xxs font-mono text-brand-textSecondary mt-1 uppercase">Endpoints</div>
+            </div>
+          </div>
+
+          <!-- Off-Duty Stack -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-mono text-brand-textPrimary uppercase tracking-wider">Off-Duty Stack</h4>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded border border-brand-border/30 bg-brand-card/20 text-xs">
+                <i data-lucide="music" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                <span class="truncate">Arctic Monkeys</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded border border-brand-border/30 bg-brand-card/20 text-xs">
+                <i data-lucide="book-open" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                <span class="truncate">One Piece</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded border border-brand-border/30 bg-brand-card/20 text-xs">
+                <i data-lucide="zap" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                <span class="truncate">Triumph Bikes</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded border border-brand-border/30 bg-brand-card/20 text-xs">
+                <i data-lucide="coffee" class="w-4 h-4 text-brand-blue shrink-0"></i>
+                <span class="truncate">Davidoff 57</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Terminal (Right) -->
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <div class="w-full border border-brand-border bg-[#0a0a0c] rounded-lg overflow-hidden flex flex-col h-[380px] shadow-2xl">
+            <!-- Window header -->
+            <div class="flex items-center justify-between px-4 py-2.5 bg-brand-card border-b border-brand-border select-none">
+              <div class="flex gap-1.5">
+                <span class="w-3 h-3 rounded-full bg-red-500/20"></span>
+                <span class="w-3 h-3 rounded-full bg-yellow-500/20"></span>
+                <span class="w-3 h-3 rounded-full bg-green-500/20"></span>
+              </div>
+              <div class="text-xxs font-mono text-brand-textSecondary flex items-center gap-1">
+                <i data-lucide="terminal" class="w-3 h-3"></i>
+                pushpam@satya-systems:~
+              </div>
+              <div class="w-4 h-4"></div>
+            </div>
+            
+            <!-- Terminal Screen -->
+            <div class="flex-grow p-4 font-mono text-xs overflow-y-auto space-y-3" id="terminal-screen">
+              <div class="text-slate-500">Pushpam Raj Satyarthi Shell - v1.0.2</div>
+              <div class="text-slate-500">Type 'help' to list available system commands.</div>
+              
+              <div class="space-y-1" id="terminal-history">
+                <!-- Executed commands will go here -->
+              </div>
+
+              <!-- Input prompt line -->
+              <div class="flex items-center gap-2 text-brand-cyan">
+                <span>guest@pushpam.dev:~$</span>
+                <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none focus:ring-0 text-brand-textPrimary p-0" autocomplete="off" autofocus spellcheck="false">
+              </div>
+            </div>
+
+            <!-- Terminal Shortcuts Footer -->
+            <div class="px-4 py-3 bg-brand-card border-t border-brand-border flex flex-wrap gap-2 items-center text-xxs font-mono text-brand-textSecondary">
+              <span class="text-brand-blue uppercase text-[10px]">Quick Queries:</span>
+              <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('cat about.md')">cat about.md</button>
+              <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('get --skills')">get --skills</button>
+              <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('curl /experience')">curl /experience</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="space-y-4 mb-12">
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">02 // Technical Capabilities</div>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Database Architecture</h3>
+        <p class="max-w-2xl text-brand-textSecondary">
+          A bento-style mapping of technologies and disciplines I work with. Organized by layer and core complexity.
+        </p>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+        
+        <!-- Box 1: Data Engineering (Lg) -->
+        <div class="lg:col-span-6 glass-card rounded-lg p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">
+                <i data-lucide="git-branch" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Data Engineering</h4>
+            </div>
+            <p class="text-xs text-brand-textSecondary leading-relaxed">
+              Designing pipelines that ingest multi-source data, handle schema drift, implement delta loads, and guarantee ACID properties across ingestion targets.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">ETL Pipeline Design</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Incremental Loading</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Schema Normalization</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Data Warehousing</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Fault-Tolerant Architecture</span>
+            </div>
+          </div>
+          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-[10px] text-brand-blue">
+            <span>PIPELINE PARADIGM: ELT &amp; ETL</span>
+            <span>STATUS: CERTIFIED</span>
+          </div>
+        </div>
+
+        <!-- Box 2: Databases (Lg) -->
+        <div class="lg:col-span-6 glass-card rounded-lg p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-brand-blue/10 text-brand-blue border border-brand-blue/20">
+                <i data-lucide="database" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Database Systems</h4>
+            </div>
+            <p class="text-xs text-brand-textSecondary leading-relaxed">
+              Specialized in relational schema design up to 3NF, query execution plan optimization, indexing strategies, and hybrid persistence models.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">PostgreSQL</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">MongoDB</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">MySQL</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">SQLite</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Raw SQL</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Query Optimization</span>
+            </div>
+          </div>
+          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-[10px] text-brand-blue">
+            <span>FAVORITE ENGINE: POSTGRESQL</span>
+            <span>INDEXING: B-TREE/GIN</span>
+          </div>
+        </div>
+
+        <!-- Box 3: Languages (Md) -->
+        <div class="lg:col-span-4 glass-card rounded-lg p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-[#f59e0b]/10 text-[#f59e0b] border border-[#f59e0b]/20">
+                <i data-lucide="code-2" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Languages</h4>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">Python</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">C</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">C++</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Java</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">SQL</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">TypeScript</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 4: Frameworks (Md) -->
+        <div class="lg:col-span-4 glass-card rounded-lg p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Libraries &amp; APIs</h4>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">FastAPI</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Node.js</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">React</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Pandas</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">NumPy</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Mongoose</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 5: Cloud & Infrastructure (Md) -->
+        <div class="lg:col-span-4 glass-card rounded-lg p-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <i data-lucide="cloud" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Cloud &amp; Storage</h4>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">Azure Blob Storage</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Azure Cloud Infrastructure</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 6: Tools & Systems (Sm/Full) -->
+        <div class="lg:col-span-6 glass-card rounded-lg p-6">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <i data-lucide="terminal" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Systems &amp; Developer Tools</h4>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Git/GitHub</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">Linux/Unix Shell</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">Valgrind</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">GDB</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Make</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">VS Code</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 7: Core Concepts (Sm/Full) -->
+        <div class="lg:col-span-6 glass-card rounded-lg p-6">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                <i data-lucide="brain" class="w-5 h-5"></i>
+              </div>
+              <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">CS Core Concepts</h4>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">Data Structures &amp; Algorithms</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">OOP</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">OS Architecture</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Memory Management</span>
+              <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Database Normalization</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="space-y-4 mb-12">
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">03 // Professional Experience</div>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Engineering in the Wild</h3>
+        <p class="max-w-2xl text-brand-textSecondary">
+          My tenure in industry-grade software engineering, building systems deployed to production.
+        </p>
+      </div>
+
+      <!-- Experience Card -->
+      <div class="w-full glass-card rounded-lg overflow-hidden flex flex-col">
+        <!-- Card Header -->
+        <div class="p-6 border-b border-brand-border/60 bg-brand-card/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="text-xs font-mono text-brand-blue uppercase">Motherson Technology Services Limited</div>
+            <h4 class="text-xl font-bold text-brand-textPrimary mt-1">Software Engineering Intern</h4>
+            <div class="text-sm font-mono text-brand-cyan mt-1">AIML Team | Product: LegalLens (Live AI-powered legal platform)</div>
+          </div>
+          <div class="text-left md:text-right font-mono text-xs text-brand-textSecondary shrink-0">
+            <div>May 2026 – June 2026</div>
+            <div class="flex items-center gap-1 md:justify-end mt-1">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-blue"></i>
+              Hyderabad, India
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Bullet points -->
+          <div class="lg:col-span-8 space-y-4 text-sm leading-relaxed text-brand-textSecondary">
+            <div class="flex gap-3">
+              <span class="text-brand-cyan font-mono select-none">▸</span>
+              <p>
+                <strong class="text-brand-textPrimary">Architected a hybrid data persistence layer</strong>: paired SQLite for lightweight conversation metadata indexing with Azure Blob Storage for full message payload archival. Independently designed and shipped end-to-end across a FastAPI backend and three React/TypeScript frontend modules.
+              </p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-brand-cyan font-mono select-none">▸</span>
+              <p>
+                <strong class="text-brand-textPrimary">Engineered per-feature-mode storage isolation</strong> across three product modes (Analysis Engine, Research Assistant, Draft Builder). This enabled per-session search, restore, and archive operations with zero cross-module data contamination.
+              </p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-brand-cyan font-mono select-none">▸</span>
+              <p>
+                <strong class="text-brand-textPrimary">Authored a 316-line FastAPI module (<code class="text-brand-blue font-mono font-normal">chat_history.py</code>)</strong> from scratch. Shipped 9 CRUD endpoints for conversation recovery, archiving, title-based search, and message persistence, coordinating Azure Blob writes with SQLite metadata tracking in a unified read/write flow.
+              </p>
+            </div>
+            <div class="flex gap-3">
+              <span class="text-brand-cyan font-mono select-none">▸</span>
+              <p>
+                <strong class="text-brand-textPrimary">Conducted systematic codebase audit</strong>: surfaced 14+ critical bugs including broken feature-type isolation across all three product modules; produced a 27-entry structured bug tracker with root-cause documentation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Architecture Widget -->
+          <div class="lg:col-span-4 border border-brand-border bg-brand-bg/65 rounded-lg p-4 font-mono text-xs flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between text-brand-textPrimary border-b border-brand-border pb-2">
+                <span class="font-bold">SYSTEM METADATA</span>
+                <span class="text-brand-cyan">Active</span>
+              </div>
+              <div class="space-y-1.5 text-[10px]">
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Language:</span>
+                  <span>Python / TypeScript</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Framework:</span>
+                  <span>FastAPI + React</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Persistence 1:</span>
+                  <span class="text-brand-cyan">SQLite (Metadata)</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Persistence 2:</span>
+                  <span class="text-brand-blue">Azure Blob (Payload)</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Module size:</span>
+                  <span>316 lines</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-slate-500">Endpoints:</span>
+                  <span>9 CRUD routes</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="border-t border-brand-border/40 mt-4 pt-3 text-[10px] text-slate-500">
+              // SQLite coordinates metadata tracking with Azure Blob payload writes in a unified transactional flow.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="space-y-4 mb-12">
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">04 // Production-Grade Builds</div>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Architectures</h3>
+        <p class="max-w-2xl text-brand-textSecondary">
+          Selected backend and data systems built to solve real-world engineering constraints. Click on any project to inspect the technical details and architecture.
+        </p>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Project 1 -->
+        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-etl')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">ETL Pipeline</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+            </div>
+            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">Global Banking Data</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              Fault-tolerant multi-source ETL pipeline ingesting raw financial datasets into a unified SQL data warehouse. Built to handle outlier detection and incremental updates.
+            </p>
+            <!-- Impact Metrics -->
+            <div class="grid grid-cols-2 gap-3 py-2">
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">-30%</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Redundancy</div>
+              </div>
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">Delta</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Loads Active</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Python</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Pandas</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">NumPy</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">SQL</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-kaps')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">Healthcare Systems</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+            </div>
+            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">KAPS MedTech Backend</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              3NF-compliant healthcare management platform backend featuring smart inventory auto-quarantining, secure PHI pipelines, and automated database seeding.
+            </p>
+            <!-- Impact Metrics -->
+            <div class="grid grid-cols-2 gap-3 py-2">
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">3NF</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Postgres Schema</div>
+              </div>
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">&lt;30s</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">One-Cmd Deploy</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">PostgreSQL</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Node.js</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Raw SQL</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">JWT</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-autocomplete')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">Systems Programming</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+            </div>
+            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">High-Performance Autocomplete</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              Low-latency autocomplete engine implemented in C using a Trie data structure with Min-Heap ranking. Verified with zero memory leaks under Valgrind.
+            </p>
+            <!-- Impact Metrics -->
+            <div class="grid grid-cols-2 gap-3 py-2">
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">O(k)</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Lookup Complexity</div>
+              </div>
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">0 Leaks</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Valgrind Audited</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">C</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Make</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Valgrind</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">GDB</span>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-tripsync')">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">Geospatial Web App</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+            </div>
+            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">TripSync (SIH 2025)</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              AI-powered travel platform with a geospatial routing pipeline integrating Mapbox and Google Maps. Deployed within a strict 24-hour hackathon window.
+            </p>
+            <!-- Impact Metrics -->
+            <div class="grid grid-cols-2 gap-3 py-2">
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">24 Hours</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Prototype Build</div>
+              </div>
+              <div class="border-l-2 border-brand-cyan pl-3">
+                <div class="text-sm font-mono font-bold text-brand-textPrimary">SIH</div>
+                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Internal Qualifier</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">TypeScript</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">MongoDB</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">React</span>
+            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Gemini API</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Education & Certifications Section -->
+    <section id="education" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Education (Left) -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="space-y-2">
+            <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">05 // Academic Grounding</div>
+            <h3 class="text-3xl font-bold text-brand-textPrimary">Education</h3>
+          </div>
+
+          <div class="glass-card rounded-lg p-6 space-y-4">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h4 class="text-lg font-bold text-brand-textPrimary">GITAM University</h4>
+                <div class="text-sm font-mono text-brand-cyan mt-0.5">B.Tech in Computer Science and Engineering</div>
+                <div class="text-xs text-brand-textSecondary mt-1">Visakhapatnam, India</div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="font-mono text-sm text-brand-textPrimary">2024 – 2028</span>
+                <div class="text-xs font-mono text-brand-blue mt-1">CGPA: 9.17</div>
+              </div>
+            </div>
+
+            <div class="border-t border-brand-border/40 pt-4">
+              <div class="text-xs font-mono text-brand-textPrimary uppercase tracking-wider mb-2">Relevant Coursework:</div>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Database Management Systems</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Data Structures &amp; Algorithms</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Design &amp; Analysis of Algorithms</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Operating Systems</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Data Warehousing &amp; Mining</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Computer Networks</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Machine Learning Techniques</span>
+                <span class="text-xs font-mono px-2 py-1 rounded bg-brand-bg border border-brand-border">Probability &amp; Statistics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications (Right) -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="space-y-2">
+            <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">06 // Professional Training</div>
+            <h3 class="text-3xl font-bold text-brand-textPrimary">Certifications</h3>
+          </div>
+
+          <div class="glass-card rounded-lg p-6 space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="p-2.5 rounded bg-brand-blue/10 text-brand-blue border border-brand-blue/20 shrink-0">
+                <i data-lucide="award" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-brand-textPrimary">IBM Data Engineering</h4>
+                <div class="text-sm font-mono text-brand-cyan">Professional Certificate — Coursera</div>
+                <p class="text-xs text-brand-textSecondary mt-2 leading-relaxed">
+                  A comprehensive 16-course curriculum spanning data engineering architecture, pipeline design, and distributed processing.
+                </p>
+              </div>
+            </div>
+
+            <div class="border-t border-brand-border/40 pt-4">
+              <div class="text-xs font-mono text-brand-textPrimary uppercase tracking-wider mb-2 font-semibold">Core Curriculum Competencies:</div>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono text-brand-textSecondary">
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> ETL with Apache Airflow &amp; Kafka
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> SQL &amp; Relational Databases
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> Linux Shell Scripting
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> Data Warehousing &amp; NoSQL
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> Big Data (Spark &amp; Hadoop)
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> BI Dashboards (Cognos, Looker)
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> ML with Apache Spark
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-brand-cyan">::</span> Generative AI for Data Eng
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="space-y-4 mb-12">
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">07 // Proof of Velocity</div>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Hackathon Milestones</h3>
+        <p class="max-w-2xl text-brand-textSecondary">
+          Demonstrated capability to deliver production-ready architectures under competitive time constraints.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Achievement 1 -->
+        <div class="glass-card rounded-lg p-6 space-y-4 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">Smart India Hackathon 2025</span>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Qualifier</span>
+            </div>
+            <h4 class="text-lg font-bold text-brand-textPrimary">SIH 2025 Internal Round Qualifier</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              Led the core systems development of <strong class="text-brand-textPrimary">TripSync</strong>, an AI-powered travel platform. Designed the geospatial data pipeline and delivered a fully functional end-to-end prototype within the tight 24-hour limit.
+            </p>
+          </div>
+          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-500">
+            Role: Lead Systems Developer | Scope: Geospatial &amp; AI Integration
+          </div>
+        </div>
+
+        <!-- Achievement 2 -->
+        <div class="glass-card rounded-lg p-6 space-y-4 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xxs font-mono text-brand-blue uppercase">Gitathon University Hackathon</span>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Completed</span>
+            </div>
+            <h4 class="text-lg font-bold text-brand-textPrimary">Full Backend Deployment in 24 Hours</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">
+              Successfully built, audited, and deployed the complete backend for <strong class="text-brand-textPrimary">KAPS MedTech</strong> under competitive hackathon conditions. Implemented the PostgreSQL 3NF database schema, all business logic API endpoints, and stateless JWT-based authentication from scratch.
+            </p>
+          </div>
+          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-500">
+            Role: Solo Backend Developer | Scope: PostgreSQL Schema, Auth, Express APIs
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Footer Section -->
+    <section id="contact" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
+      <div class="max-w-3xl mx-auto text-center space-y-8">
+        <div class="space-y-3">
+          <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">08 // Establish Connection</div>
+          <h3 class="text-3xl sm:text-4xl font-bold text-brand-textPrimary">Let's Build Something Real</h3>
+          <p class="text-brand-textSecondary max-w-xl mx-auto text-sm sm:text-base">
+            I am actively looking for Data Engineering and Backend Systems internships. If you need someone who understands database indexing, write-path optimizations, and doesn't ship tutorial code, let's talk.
+          </p>
+        </div>
+
+        <!-- Simulated terminal connection -->
+        <div class="border border-brand-border bg-[#0a0a0c] rounded-lg p-4 font-mono text-xs max-w-md mx-auto text-left space-y-1.5 shadow-xl">
+          <div class="text-slate-500">// Terminal SSH command</div>
+          <div class="flex justify-between items-center text-brand-cyan">
+            <span>$ ssh pushpam@satya-systems -p 2222</span>
+            <button class="hover:text-brand-textPrimary p-1 text-slate-400" onclick="copySSH()" title="Copy SSH connection command" id="ssh-copy-btn">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contact Links -->
+        <div class="flex flex-wrap justify-center gap-6 pt-4">
+          <a href="mailto:prsatyarthi2404@gmail.com" class="flex items-center gap-2 text-sm font-mono text-brand-textSecondary hover:text-brand-cyan transition-colors">
+            <i data-lucide="mail" class="w-4 h-4 text-brand-blue"></i>
+            prsatyarthi2404@gmail.com
+          </a>
+          <a href="https://github.com/pushpam2404" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm font-mono text-brand-textSecondary hover:text-brand-cyan transition-colors">
+            <i data-lucide="github" class="w-4 h-4 text-brand-blue"></i>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/pushpamrajsatyarthi/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm font-mono text-brand-textSecondary hover:text-brand-cyan transition-colors">
+            <i data-lucide="linkedin" class="w-4 h-4 text-brand-blue"></i>
+            LinkedIn
+          </a>
+        </div>
+
+        <div class="pt-12 border-t border-brand-border/20 text-xxs font-mono text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>© 2026 Pushpam Raj Satyarthi. Built with HTML, Tailwind &amp; Vanilla JS.</div>
+          <div class="flex items-center gap-4">
+            <span>BUILD: <span class="text-emerald-400">PASS</span></span>
+            <span>LATENCY: <span class="text-brand-cyan">12ms</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SIDE-DRAWER FOR PROJECT DETAILS -->
+  <div id="project-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-brand-bg border-l border-brand-border shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col hidden" role="dialog" aria-modal="true">
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-brand-border flex items-center justify-between bg-brand-card">
+      <div>
+        <span id="drawer-tag" class="text-xxs font-mono text-brand-blue uppercase">SYSTEM DETAIL</span>
+        <h3 id="drawer-title" class="text-xl font-bold text-brand-textPrimary mt-0.5">Project Name</h3>
+      </div>
+      <button onclick="closeProjectDrawer()" class="p-2 text-brand-textSecondary hover:text-brand-textPrimary rounded border border-brand-border/60 hover:border-brand-border" aria-label="Close details">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Content (Scrollable) -->
+    <div class="flex-grow p-6 overflow-y-auto space-y-6 text-sm" id="drawer-content">
+      <!-- Content will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Drawer Overlay -->
+  <div id="drawer-overlay" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs transition-opacity duration-300 opacity-0 pointer-events-none" onclick="closeProjectDrawer()"></div>
+
+  <!-- Project Details Data Store (JSON Script) -->
+  <script id="project-data" type="application/json">
+    {
+      "project-etl": {
+        "tag": "Data Engineering | ETL Pipeline",
+        "title": "Global Banking Data Pipeline",
+        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>This pipeline handles the ingestion of heterogeneous financial transaction logs (CSV, JSON, SQL database streams) into a centralized Postgres data warehouse. It enforces type safety, normalizes schemas, and filters out outliers in a vectorized transformation step.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>PIPELINE STAGE DETAILS</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Ingestion:</span><span>Multi-threaded file watchers + REST listener</span><span class='text-slate-500'>2. Outliers:</span><span>Vectorized Z-score outlier isolation (NumPy)</span><span class='text-slate-500'>3. Load Strategy:</span><span>Incremental delta loads (UPSERT based on timestamp)</span><span class='text-slate-500'>4. Alerts:</span><span>Slack Webhooks + structured JSON log exports</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>30% Redundancy Reduction:</strong> Engineered automated schema normalization that split flat files into 3NF tables.</li><li><strong>Incremental Delta Loading:</strong> Replaced daily 1.2GB batch loads with hourly delta ingestion, reducing server CPU overhead by 65%.</li><li><strong>Fault-Tolerance:</strong> Deployed validation interceptors that quarantine malformed records without halting the pipeline, keeping ingestion uptime at 100%.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Code Sample: Outlier Detection</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>def detect_outliers_vectorized(df, threshold=3.0):\n    # Calculate Z-scores across transaction amounts\n    amounts = df['amount'].to_numpy()\n    mean = np.mean(amounts)\n    std = np.std(amounts)\n    \n    if std == 0:\n        return df\n        \n    z_scores = (amounts - mean) / std\n    # Mark transactions exceeding threshold for quarantine\n    df['is_quarantined'] = np.abs(z_scores) > threshold\n    return df</pre></div></div>"
+      },
+      "project-kaps": {
+        "tag": "Database & API Design | Healthcare",
+        "title": "KAPS MedTech Backend",
+        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A secure, 3NF relational backend system modeled to handle hospital workflows. The system models patients, doctors, appointment slots, and pharmacy inventory. Built with strict referential integrity rules and automatic expiry quarantining.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>BACKEND METRICS</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Schema Normalization:</span><span>3NF (Third Normal Form) compliant</span><span class='text-slate-500'>2. Security:</span><span>BCrypt (Hashing) + JWT (Sessionless Auth)</span><span class='text-slate-500'>3. Seeding Time:</span><span>&lt;15 seconds (10k rows)</span><span class='text-slate-500'>4. Expiry Engine:</span><span>Cron-driven SQL quarantine trigger</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>3NF Schema Design:</strong> Eradicated transitive dependencies across patient records and appointments, ensuring zero data anomalies during concurrent write transactions.</li><li><strong>Medication Expiry Isolation:</strong> Designed a database trigger that automatically flags and moves expired medication items to a quarantine table upon any inventory read.</li><li><strong>One-Command Seeding:</strong> Wrote a custom <code class='text-brand-blue font-mono text-xs'>init_db.js</code> script using Raw SQL queries that builds, indexes, and seeds the database in under 30 seconds for development testing.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Database Schema: Appointments M-M Link</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>CREATE TABLE appointments (\n    id SERIAL PRIMARY KEY,\n    patient_id INT REFERENCES patients(id) ON DELETE CASCADE,\n    doctor_id INT REFERENCES doctors(id) ON DELETE RESTRICT,\n    slot_time TIMESTAMP NOT NULL,\n    status VARCHAR(20) DEFAULT 'scheduled',\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE(doctor_id, slot_time) -- Prevent double booking\n);</pre></div></div>"
+      },
+      "project-autocomplete": {
+        "tag": "Systems Programming | Low-Latency C",
+        "title": "High-Performance Autocomplete",
+        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A low-latency autocomplete search engine written in pure C. It utilizes a Trie (prefix tree) data structure to achieve search times independent of the overall dataset size, combined with a Min-Heap priority queue to return the Top-N matching suggestions.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>ALGORITHMIC COMPLEXITY</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Prefix Lookup:</span><span>O(k) where k is prefix length</span><span class='text-slate-500'>2. Ranking Top-N:</span><span>O(M log N) via Min-Heap priority queue</span><span class='text-slate-500'>3. Memory Footprint:</span><span>Optimized structs with byte-alignment</span><span class='text-slate-500'>4. Verification:</span><span>Valgrind Memcheck (Clean heap summary)</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>O(k) Lookup Speed:</strong> Bypassed standard hash table collisions by traversing a character Trie, keeping search latencies below 1ms.</li><li><strong>Zero Memory Leaks:</strong> Managed raw pointers and dynamic heap allocations manually. Verified clean using Valgrind on large dictionary files (100k+ terms).</li><li><strong>Cold-Start Serialization:</strong> Wrote a binary serialization module that writes the pre-built Trie structure from memory straight to disk, enabling sub-second cold starts on restart.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Code Sample: Trie Node Struct</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>typedef struct TrieNode {\n    char ch;\n    int frequency;\n    bool is_end_of_word;\n    struct TrieNode* children[26];\n} TrieNode;\n\nTrieNode* create_node(char ch) {\n    TrieNode* node = (TrieNode*)malloc(sizeof(TrieNode));\n    node->ch = ch;\n    node->frequency = 0;\n    node->is_end_of_word = false;\n    for (int i = 0; i < 26; i++) {\n        node->children[i] = NULL;\n    }\n    return node;\n}</pre></div></div>"
+      },
+      "project-tripsync": {
+        "tag": "Geospatial & Web Engineering",
+        "title": "TripSync Travel Platform",
+        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A full-stack, type-safe travel routing platform built for the Smart India Hackathon 2025. Coordinates geospatial route calculation, multi-stop planning, and AI itinerary generation.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>SYSTEM METRIC</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Database:</span><span>MongoDB (Geospatial 2dsphere indexes)</span><span class='text-slate-500'>2. APIs:</span><span>Mapbox GL + Google Maps Direction API</span><span class='text-slate-500'>3. AI Integration:</span><span>Gemini API (Structured JSON output)</span><span class='text-slate-500'>4. Compile Uptime:</span><span>100% strict TypeScript types</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>Geospatial Pipeline:</strong> Built dynamic multi-stop route rendering with Mapbox GL, indexing coordinates with MongoDB 2dsphere spatial indexes to allow location querying.</li><li><strong>TypeScript Migration:</strong> Led a rapid migration of the core codebase to strict TypeScript, eliminating compile-time Type errors and runtime crashes before the hackathon demo.</li><li><strong>24-Hour Delivery:</strong> Delivered the functional prototype under the SIH 2025 internal round constraint, achieving qualifier status.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Geospatial Coordinate Query</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>// MongoDB Geo-Spatial Query to find nearby waypoints\nasync function findNearbyWaypoints(coordinates: [number, number], maxDistanceMeters: number) {\n    return await WaypointModel.find({\n        location: {\n            $near: {\n                $geometry: {\n                    type: \"Point\",\n                    coordinates: coordinates // [longitude, latitude]\n                },\n                $maxDistance: maxDistanceMeters\n            }\n        }\n    });\n}</pre></div></div>"
+      }
+    }
+  </script>
+
+  <!-- JavaScript Behavior -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 1. Mouse-following radial glow (performance optimized)
+    const glowEl = document.getElementById('radial-glow');
+    let lastX = 0, lastY = 0;
+    let isMoving = false;
+
+    window.addEventListener('mousemove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!isMoving) {
+        window.requestAnimationFrame(() => {
+          glowEl.style.setProperty('--x', `${lastX + window.scrollX}px`);
+          glowEl.style.setProperty('--y', `${lastY + window.scrollY}px`);
+          isMoving = false;
+        });
+        isMoving = true;
+      }
+    });
+
+    // 2. Mobile Nav Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+
+    mobileBtn.addEventListener('click', () => {
+      mobileNav.classList.toggle('hidden');
+      const icon = mobileBtn.querySelector('i');
+      if (mobileNav.classList.contains('hidden')) {
+        mobileBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+      } else {
+        mobileBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+      }
+      lucide.createIcons();
+    });
+
+    // Close mobile nav when link is clicked
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.add('hidden');
+        mobileBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+        lucide.createIcons();
+      });
+    });
+
+    // 3. Scroll Triggered Section Reveal
+    const revealSections = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // Once revealed, no need to track
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    revealSections.forEach(section => {
+      revealObserver.observe(section);
+    });
+
+    // 4. Navigation Link Active State Highlighter
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.remove('text-brand-textSecondary');
+              link.classList.add('text-brand-cyan');
+            } else {
+              link.classList.remove('text-brand-cyan');
+              link.classList.add('text-brand-textSecondary');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '-20% 0px -40% 0px'
+    });
+
+    sections.forEach(section => {
+      navObserver.observe(section);
+    });
+
+    // 5. Hero Section ETL Pipeline Simulator Animation
+    const p1 = document.getElementById('packet-1');
+    const p2 = document.getElementById('packet-2');
+    const p3 = document.getElementById('packet-3');
+    const pOut = document.getElementById('packet-out');
+
+    function runPipelineCycle() {
+      // Packet 1: DB Source (90, 60) -> Transform (250, 120)
+      animatePacket(p1, 90, 60, 250, 120, 1200, () => {
+        triggerTransformationGlow();
+        // Send packet to warehouse (250, 120) -> (410, 120)
+        animatePacket(pOut, 250, 120, 410, 120, 1000);
+      });
+
+      // Packet 2: API Source (90, 120) -> Transform (250, 120)
+      setTimeout(() => {
+        animatePacket(p2, 90, 120, 250, 120, 1000, () => {
+          triggerTransformationGlow();
+          animatePacket(pOut, 250, 120, 410, 120, 1000);
+        });
+      }, 400);
+
+      // Packet 3: Blob Source (90, 180) -> Transform (250, 120)
+      setTimeout(() => {
+        animatePacket(p3, 90, 180, 250, 120, 1400, () => {
+          triggerTransformationGlow();
+          animatePacket(pOut, 250, 120, 410, 120, 1000);
+        });
+      }, 800);
+    }
+
+    function animatePacket(packet, startX, startY, endX, endY, duration, callback) {
+      if (!packet) return;
+      packet.setAttribute('cx', startX);
+      packet.setAttribute('cy', startY);
+      packet.setAttribute('opacity', '1');
+
+      const startTime = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        // Easing (easeInQuad)
+        const ease = progress * progress;
+
+        const currentX = startX + (endX - startX) * ease;
+        const currentY = startY + (endY - startY) * ease;
+
+        packet.setAttribute('cx', currentX);
+        packet.setAttribute('cy', currentY);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          packet.setAttribute('opacity', '0');
+          if (callback) callback();
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Trigger visual transformation glow
+    function triggerTransformationGlow() {
+      const transformNode = document.querySelector('circle[cx="250"][cy="120"]');
+      if (transformNode) {
+        transformNode.setAttribute('stroke', '#00f2fe');
+        transformNode.setAttribute('stroke-width', '3.5');
+        setTimeout(() => {
+          transformNode.setAttribute('stroke', '#1f1f24');
+          transformNode.setAttribute('stroke-width', '2');
+        }, 300);
+      }
+    }
+
+    // Start pipeline simulation
+    let pipelineInterval = setInterval(runPipelineCycle, 3500);
+    setTimeout(runPipelineCycle, 500);
+
+    // Stop animation if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      clearInterval(pipelineInterval);
+    }
+
+    // Interactive pipeline details
+    const nodeDetails = {
+      'source-db': {
+        title: "Relational DB Source",
+        desc: "Ingests raw, transactional data from PostgreSQL production clusters. Monitors replication logs via Change Data Capture (CDC) to capture delta records.",
+        metrics: "Latency: ~4ms | CDC Active | Daily Vol: 4.2M rows"
+      },
+      'source-api': {
+        title: "Web Services API Ingestion",
+        desc: "Pulls JSON payloads from third-party APIs. Implements adaptive token-bucket rate limiting and automatic retry backing off.",
+        metrics: "Latency: ~12ms | Format: JSON | Uptime: 99.98%"
+      },
+      'source-blob': {
+        title: "Azure Blob Ingestion Engine",
+        desc: "Triggers on new object creation in Azure Blob Storage. Leverages event-driven Azure Event Grid to queue raw files for processing.",
+        metrics: "Type: Object Store | Event-driven | Max Size: 50GB/file"
+      },
+      'transform': {
+        title: "Transformation & Validation Engine",
+        desc: "Parses, normalizes, and sanitizes incoming data. Uses vectorized NumPy operations for outlier detection and structural schema validation.",
+        metrics: "Capacity: 15,000 rows/sec | Outlier filter: Z-Score > 3.0"
+      },
+      'warehouse': {
+        title: "Data Warehouse Target",
+        desc: "Applies UPSERT operations to avoid data duplication. Highly indexed to support low-latency BI queries and analytical workloads.",
+        metrics: "Target: PostgreSQL (3NF) | Indexing: B-Tree + GIN | Delta-loads only"
+      }
+    };
+
+    function selectPipelineNode(nodeId) {
+      const details = nodeDetails[nodeId];
+      if (!details) return;
+      
+      const detailsPanel = document.getElementById('pipeline-details');
+      const nodeStatus = document.getElementById('node-status');
+
+      nodeStatus.textContent = `Node: ${details.title}`;
+      detailsPanel.innerHTML = `
+        <div class="space-y-1.5">
+          <p class="text-brand-textPrimary font-medium">${details.title}</p>
+          <p class="text-slate-400 leading-relaxed text-xxs">${details.desc}</p>
+          <div class="text-xxs font-mono text-brand-cyan pt-1">${details.metrics}</div>
+        </div>
+      `;
+    }
+
+    // 6. Interactive Terminal
+    const terminalScreen = document.getElementById('terminal-screen');
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalHistory = document.getElementById('terminal-history');
+
+    const terminalCommands = {
+      'help': 'Available system commands:<br>  <span class="text-brand-cyan">cat about.md</span>      - Display personal bio and background<br>  <span class="text-brand-cyan">get --skills</span>    - List core programming and systems skills<br>  <span class="text-brand-cyan">curl /experience</span> - Fetch details of Motherson Tech internship<br>  <span class="text-brand-cyan">ls projects</span>      - List all active projects<br>  <span class="text-brand-cyan">ping gitam</span>       - Perform network latency check to GITAM University<br>  <span class="text-brand-cyan">clear</span>            - Clear terminal log',
+      'cat about.md': '<strong>Pushpam Raj Satyarthi</strong><br>3rd year B.Tech CSE Student &amp; Data Engineer | GITAM University (CGPA: 9.17)<br>Targeting production backend and data systems roles. Obsessed with ETL, database architecture, and performance tuning.',
+      'get --skills': '<strong>[TECHNICAL CAPABILITIES]</strong><br>- <u>Languages</u>: Python, C, C++, Java, SQL, TypeScript, JavaScript<br>- <u>Data Eng</u>: ETL, Incremental Delta Loading, 3NF Schema Normalization, Warehousing<br>- <u>Databases</u>: PostgreSQL, MongoDB, MySQL, SQLite, Query Optimization<br>- <u>Frameworks</u>: FastAPI, Node.js, React, Pandas, NumPy, Mongoose<br>- <u>Sys &amp; Tools</u>: Linux Shell, Git, Valgrind, GDB, Make',
+      'curl /experience': '<strong>HTTP/1.1 200 OK</strong><br>Company: Motherson Technology Services Limited<br>Role: Software Engineering Intern (AIML Team)<br>Duration: May 2026 - June 2026<br>Key Deliverables:<br>  - Shipped LegalLens hybrid persistence (SQLite + Azure Blob)<br>  - Deployed per-feature-mode storage isolation<br>  - Developed 316-line FastAPI module (9 CRUD endpoints)<br>  - Conducted codebase audit, patching 14+ system bugs',
+      'ls projects': 'Active systems in repository:<br>  1. <span class="text-brand-cyan">banking-etl</span>        - Fault-tolerant financial data pipeline<br>  2. <span class="text-brand-cyan">kaps-backend</span>       - Hospital inventory &amp; 3NF PostgreSQL database<br>  3. <span class="text-brand-cyan">autocomplete-trie</span>  - Low-latency C-based prefix search engine<br>  4. <span class="text-brand-cyan">tripsync</span>          - Geospatial route engine (SIH 2025 Qualifier)',
+      'ping gitam': 'PING gitam.edu (142.250.183.46): 56 data bytes<br>64 bytes from 142.250.183.46: icmp_seq=0 ttl=118 time=8.42 ms<br>64 bytes from 142.250.183.46: icmp_seq=1 ttl=118 time=9.12 ms<br>64 bytes from 142.250.183.46: icmp_seq=2 ttl=118 time=8.95 ms<br>--- gitam.edu ping statistics ---<br>3 packets transmitted, 3 packets received, 0.0% packet loss<br>rtt min/avg/max/mdev = 8.42/8.83/9.12/0.29 ms'
+    };
+
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const command = terminalInput.value.trim();
+        terminalInput.value = '';
+
+        if (!command) return;
+
+        // Create command line in history
+        const cmdLine = document.createElement('div');
+        cmdLine.className = 'flex items-center gap-2 text-brand-cyan mt-2';
+        cmdLine.innerHTML = `<span>guest@pushpam.dev:~$</span> <span class="text-brand-textPrimary">${escapeHTML(command)}</span>`;
+        terminalHistory.appendChild(cmdLine);
+
+        // Process command
+        const outputLine = document.createElement('div');
+        outputLine.className = 'text-slate-400 pl-4 leading-relaxed';
+
+        const lowerCmd = command.toLowerCase();
+        if (lowerCmd === 'clear') {
+          terminalHistory.innerHTML = '';
+        } else if (terminalCommands[command]) {
+          outputLine.innerHTML = terminalCommands[command];
+          terminalHistory.appendChild(outputLine);
+        } else if (terminalCommands[lowerCmd]) {
+          outputLine.innerHTML = terminalCommands[lowerCmd];
+          terminalHistory.appendChild(outputLine);
+        } else if (lowerCmd === 'ls' || lowerCmd === 'dir') {
+          outputLine.innerHTML = terminalCommands['ls projects'];
+          terminalHistory.appendChild(outputLine);
+        } else {
+          outputLine.innerHTML = `sys: command not found: ${escapeHTML(command)}. Type <span class="text-brand-cyan">'help'</span> for a list of available system commands.`;
+          terminalHistory.appendChild(outputLine);
+        }
+
+        // Scroll terminal to bottom
+        setTimeout(() => {
+          terminalScreen.scrollTop = terminalScreen.scrollHeight;
+        }, 20);
+      }
+    });
+
+    function runTerminalCommand(commandString) {
+      terminalInput.value = commandString;
+      // Trigger Enter key event
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      terminalInput.dispatchEvent(event);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    // 7. Side Drawer for Project Details
+    const projectDrawer = document.getElementById('project-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerTag = document.getElementById('drawer-tag');
+    const drawerContent = document.getElementById('drawer-content');
+
+    function openProjectDrawer(projectId) {
+      const dataStore = JSON.parse(document.getElementById('project-data').textContent);
+      const projectDetails = dataStore[projectId];
+      if (!projectDetails) return;
+
+      // Populate Drawer
+      drawerTag.textContent = projectDetails.tag;
+      drawerTitle.textContent = projectDetails.title;
+      drawerContent.innerHTML = projectDetails.html;
+
+      // Show Drawer
+      projectDrawer.classList.remove('hidden');
+      // Force repaint
+      projectDrawer.offsetHeight;
+      projectDrawer.classList.remove('translate-x-full');
+      drawerOverlay.classList.remove('pointer-events-none', 'opacity-0');
+      drawerOverlay.classList.add('opacity-100');
+
+      // Prevent background scrolling
+      document.body.classList.add('overflow-hidden');
+    }
+
+    // Close project details drawer
+    function closeProjectDrawer() {
+      projectDrawer.classList.add('translate-x-full');
+      drawerOverlay.classList.remove('opacity-100');
+      drawerOverlay.classList.add('opacity-0', 'pointer-events-none');
+      
+      setTimeout(() => {
+        projectDrawer.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }, 300);
+    }
+
+    // Close drawer on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeProjectDrawer();
+      }
+    });
+
+    // 8. Copy SSH Command to Clipboard
+    function copySSH() {
+      const text = "ssh pushpam@satya-systems -p 2222";
+      navigator.clipboard.writeText(text).then(() => {
+        const copyBtn = document.getElementById('ssh-copy-btn');
+        copyBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
+        lucide.createIcons();
+        setTimeout(() => {
+          copyBtn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i>';
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
