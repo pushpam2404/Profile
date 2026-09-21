@@ -1,7 +1,31 @@
 import { describe, it, expect } from 'vitest';
-import { buildWarehouse, TABLE_NAMES } from '~/lib/warehouse';
+import { buildWarehouse, TABLE_NAMES, type Warehouse } from '~/lib/warehouse';
 
 const wh = await buildWarehouse();
+
+const COLUMNS: Record<keyof Warehouse, string[]> = {
+  dim_org: ['org_id', 'name', 'kind', 'location'],
+  dim_person: ['person_id', 'name', 'title', 'org_id', 'profile_url'],
+  dim_skill: ['skill_id', 'name', 'category', 'first_used_on'],
+  dim_project: [
+    'project_id', 'name', 'codename', 'year', 'context', 'org_id',
+    'repo_url', 'live_url', 'status', 'summary',
+  ],
+  dim_credential: [
+    'credential_id', 'name', 'issuer_id', 'issued_on', 'verify_url', 'track',
+  ],
+  fact_claim: [
+    'claim_id', 'project_id', 'metric', 'value', 'unit', 'verification',
+    'method', 'caveat', 'source_url', 'evidence',
+  ],
+  fact_contribution: ['project_id', 'skill_id', 'is_primary'],
+  fact_role: [
+    'role_id', 'org_id', 'title', 'started_on', 'ended_on', 'summary',
+  ],
+  fact_testimonial: [
+    'testimonial_id', 'person_id', 'body', 'given_on', 'source_url',
+  ],
+};
 
 describe('warehouse', () => {
   it('emits every declared table, none empty', () => {
@@ -59,5 +83,19 @@ describe('warehouse', () => {
   it('never mentions the excluded project', () => {
     const blob = JSON.stringify(wh).toLowerCase();
     for (const banned of ['drdo', 'lidar', 'jetson']) expect(blob).not.toContain(banned);
+  });
+
+  it('emits exactly the declared columns, with no undefined values', () => {
+    for (const table of TABLE_NAMES) {
+      const expected = COLUMNS[table];
+      for (const row of wh[table]) {
+        // A reader typo (p.sumary for p.summary) yields undefined, which tsc
+        // cannot catch through the any-typed JSON reads. This is that guard.
+        expect(Object.keys(row).sort()).toEqual([...expected].sort());
+        for (const [key, value] of Object.entries(row)) {
+          expect(value, `${table}.${key} is undefined`).not.toBeUndefined();
+        }
+      }
+    }
   });
 });
