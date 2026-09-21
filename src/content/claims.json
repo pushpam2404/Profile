@@ -1,135 +1,14 @@
 [
   {
-    "id": "ibm-course-introduction-to-data-engineering",
-    "metric": "IBM course completed: Introduction to Data Engineering",
-    "value": null,
-    "unit": null,
+    "id": "ibm-data-engineering-track",
+    "metric": "IBM Data Engineering Professional Certificate",
+    "value": "11 of 16",
+    "unit": "courses",
     "verification": "verified",
     "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/PPXM2EIVYUGV",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-python-for-data-science",
-    "metric": "IBM course completed: Python for Data Science, AI & Development",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/E43M6MRBAPH6",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-databases-and-sql",
-    "metric": "IBM course completed: Databases and SQL for Data Science with Python",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/TBZI4GRB0QZD",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-python-project-for-data-engineering",
-    "metric": "IBM course completed: Python Project for Data Engineering",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/A0PS6Y2XWMLN",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-introduction-to-relational-databases",
-    "metric": "IBM course completed: Introduction to Relational Databases (RDBMS)",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/HZEFOAE0FXBR",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-linux-commands-and-shell-scripting",
-    "metric": "IBM course completed: Hands-on Introduction to Linux Commands and Shell Scripting",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/NVGIXXVUL7GQ",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-relational-database-administration",
-    "metric": "IBM course completed: Relational Database Administration (DBA)",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/LD888BFZGA6V",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-etl-and-data-pipelines",
-    "metric": "IBM course completed: ETL and Data Pipelines with Shell, Airflow and Kafka",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/1SQO6M7Y6E1S",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-data-warehouse-fundamentals",
-    "metric": "IBM course completed: Data Warehouse Fundamentals",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/OAW14U4FU5CW",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-bi-dashboards",
-    "metric": "IBM course completed: BI Dashboards with IBM Cognos Analytics and Google Looker",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/OIXEVWGB9X4K",
-    "evidence": null
-  },
-  {
-    "id": "ibm-course-introduction-to-nosql-databases",
-    "metric": "IBM course completed: Introduction to NoSQL Databases",
-    "value": null,
-    "unit": null,
-    "verification": "verified",
-    "method": null,
-    "caveat": "One of the sixteen courses in the IBM Data Engineering Professional Certificate. Eleven are complete; the certificate itself is not.",
-    "source_url": "https://www.coursera.org/account/accomplishments/records/O86Z5NMJW6BV",
-    "evidence": null
-  },
-  {
-    "id": "ibm-data-engineering-track-progress",
-    "metric": "IBM Data Engineering Professional Certificate courses completed",
-    "value": "11",
-    "unit": "of 16",
-    "verification": "verified",
-    "method": null,
-    "caveat": "The professional certificate is not complete, and this site does not claim it. Eleven course certificates are individually verifiable at Coursera; the remaining five courses have not been taken.",
-    "source_url": "https://www.coursera.org/professional-certificates/ibm-data-engineer",
-    "evidence": "The author's resume lists the professional certificate as a certification. That overstates it, and the correction is recorded here rather than left in place."
+    "caveat": null,
+    "source_url": "https://www.linkedin.com/in/pushpamrajsatyarthi/",
+    "evidence": "Each completed course is listed individually on /credentials with its own Coursera verification URL."
   },
   {
     "id": "internal-sih-2026-qualification",
@@ -211,7 +90,6 @@
     "source_url": "https://github.com/pushpam2404/SIH_149/actions/workflows/tests.yml",
     "evidence": null
   },
-
   {
     "id": "threat-detection-x-accuracy",
     "project": "threat-detection",
@@ -308,7 +186,6 @@
     "source_url": "https://github.com/pushpam2404/fake_acc",
     "evidence": null
   },
-
   {
     "id": "secure-erasure-nist-clear-512mb",
     "project": "secure-erasure",
@@ -381,7 +258,6 @@
     "source_url": "https://github.com/pushpam2404/SIH_149",
     "evidence": null
   },
-
   {
     "id": "autocomplete-lookup-complexity",
     "project": "autocomplete-engine",
@@ -418,7 +294,6 @@
     "source_url": null,
     "evidence": null
   },
-
   {
     "id": "kaps-integration-checks",
     "project": "kaps-medtech",
@@ -431,7 +306,6 @@
     "source_url": "https://github.com/pushpam2404/KAPS-Medtech",
     "evidence": null
   },
-
   {
     "id": "cgpa",
     "metric": "CGPA, B.Tech Computer Science and Engineering, GITAM University",
@@ -500,7 +374,6 @@
     "source_url": null,
     "evidence": "Stated on the author's resume. The tracker itself is internal."
   },
-
   {
     "id": "nist-800-88-purge",
     "project": "secure-erasure",
