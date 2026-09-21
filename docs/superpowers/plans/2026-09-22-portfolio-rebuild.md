@@ -23,6 +23,8 @@ Every task's requirements implicitly include this section.
 - **Forbidden visual defaults (spec §4.3):** tracked-out ALL-CAPS eyebrow labels; accenting one word of a headline; meta strings joined with middle dots; `→` appended to link text; identical rounded cards with soft grey shadows; drop shadows anywhere.
 - **Copy rule:** result-set footers use the authentic engine form `N rows in set (0.00X s)`, never `N items · 0.00Xs · duckdb`.
 - **Content truthfulness:** every value comes from the author's resume (`~/Documents/College/Internship/My Resume 2.pdf`), LinkedIn export (`~/Downloads/Basic_LinkedInDataExport_09-21-2026/`), his GitHub repos, or local certificate PDFs. Invent nothing. If a number cannot be sourced, it does not ship.
+- **One `<h1>` per page.** Task 16 asserts exactly one on every route. Applies to Tasks 9–12 and 14.
+- **The console Run control is a `<button>`** whose accessible name is "Run". Task 16 locates it by role.
 - **Commit style:** imperative subject, body explains why. Commit at the end of every task.
 
 ---
@@ -120,11 +122,15 @@ export default defineConfig({
 
 - [ ] **Step 5: Write `vitest.config.ts`**
 
+Use `getViteConfig` from `astro/config`, not a bare `defineConfig`. Later tasks test code
+that imports `astro:content`, which is a virtual module only Astro's own Vite pipeline can
+resolve. Stubbing it would defeat Task 5, whose whole purpose is to read the real content.
+
 ```ts
-import { defineConfig } from 'vitest/config';
+import { getViteConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
-export default defineConfig({
+export default getViteConfig({
   resolve: {
     alias: { '~': fileURLToPath(new URL('./src', import.meta.url)) },
   },
@@ -603,7 +609,8 @@ export const collections = {
 Run: `npx vitest run tests/unit/schema.test.ts`
 Expected: 7 tests PASS.
 
-Note: if Vitest cannot resolve the `astro:content` virtual module, add to `vitest.config.ts` `test.alias`: `{ 'astro:content': fileURLToPath(new URL('./tests/stubs/astro-content.ts', import.meta.url)) }` and create `tests/stubs/astro-content.ts` re-exporting `z` from `zod` plus no-op `defineCollection`/`reference`/`glob`/`file` stubs. The refinement logic under test is pure Zod and unaffected.
+`astro:content` resolves because Task 1's `vitest.config.ts` uses `getViteConfig`. Do not
+stub the module.
 
 - [ ] **Step 5: Commit**
 
@@ -1010,10 +1017,8 @@ export async function buildWarehouse(): Promise<Warehouse> {
 Run: `npx vitest run tests/unit/warehouse.test.ts`
 Expected: 5 tests PASS.
 
-If `getCollection` cannot run outside Astro, run this suite through `astro check`'s
-environment instead by moving it to `tests/integration/` and adding a second Vitest
-project that uses `getViteConfig` from `astro/config`. Do not stub `getCollection` — the
-point of the test is that it reads the real content.
+`getCollection` runs because Task 1's `vitest.config.ts` uses `getViteConfig`. Never stub
+it — the point of this suite is that it reads the real content.
 
 - [ ] **Step 5: Commit**
 
@@ -1167,7 +1172,12 @@ type inference cannot differ between them."
   - `formatFooter(rows: number, seconds: number): string` → `"6 rows in set (0.004 s)"`
   - `formatValue(value: string | null, unit: string | null): string` → `"90.04 %"` / `"NULL"`
   - `<StatusTag status={Verification} />`
-  - `<ResultTable columns={Column[]} rows={Row[]} footerSeconds={number} caption={string} />` where `Column = { key: string; label: string; numeric?: boolean }`
+  - `<ResultTable columns={Column[]} rows={Row[]} footerSeconds={number} caption={string} />` where
+    `Column = { key: string; label: string; numeric?: boolean; type?: 'text' | 'status' | 'link'; hrefKey?: string }`
+
+Cells render by `type`, not by slot. Astro's named slots are filled once by the parent, so
+a slot per row would collide on every name after the first — do not attempt it. A page
+needing a cell shape outside these three writes its own table, as `HeroQuery` does.
 
 This is the layout primitive for the whole site (spec §4.4). Projects, credentials,
 skills and claims all render through it. There are no cards.
@@ -1271,9 +1281,18 @@ const label: Record<Verification, string> = {
 ```astro
 ---
 import { formatFooter } from '~/lib/format';
+import StatusTag from '~/components/StatusTag.astro';
 import type { Row } from '~/lib/warehouse';
+import type { Verification } from '~/content.config';
 
-export interface Column { key: string; label: string; numeric?: boolean }
+export interface Column {
+  key: string;
+  label: string;
+  numeric?: boolean;
+  type?: 'text' | 'status' | 'link';
+  /** For type 'link': the row key holding the href. */
+  hrefKey?: string;
+}
 
 interface Props {
   columns: Column[];
@@ -1297,11 +1316,21 @@ const { columns, rows, caption, footerSeconds = 0.004 } = Astro.props;
     <tbody>
       {rows.map((row) => (
         <tr>
-          {columns.map((c) => (
-            <td class={c.numeric ? 'numeric' : undefined}>
-              <slot name={`cell-${c.key}`}>{row[c.key] ?? 'NULL'}</slot>
-            </td>
-          ))}
+          {columns.map((c) => {
+            const raw = row[c.key];
+            const href = c.hrefKey ? row[c.hrefKey] : null;
+            return (
+              <td class={c.numeric ? 'numeric' : undefined}>
+                {c.type === 'status' && raw !== null ? (
+                  <StatusTag status={raw as Verification} />
+                ) : c.type === 'link' && href ? (
+                  <a href={String(href)} rel="noopener">{raw ?? String(href)}</a>
+                ) : (
+                  raw ?? 'NULL'
+                )}
+              </td>
+            );
+          })}
         </tr>
       ))}
     </tbody>
@@ -1809,10 +1838,10 @@ export interface Engine {
   close(): Promise<void>;
 }
 
-const TABLES = [
-  'dim_org', 'dim_person', 'dim_skill', 'dim_project', 'dim_credential',
-  'fact_claim', 'fact_contribution', 'fact_role', 'fact_testimonial',
-];
+interface Manifest {
+  generated_at: string;
+  tables: { name: string; rows: number; checksum: string }[];
+}
 
 /**
  * The data is public, static and read-only, so this guard is not a security
@@ -1836,11 +1865,21 @@ export async function initEngine(): Promise<Engine> {
 
   const conn = await db.connect();
   await conn.query(`CREATE SCHEMA IF NOT EXISTS career`);
-  for (const t of TABLES) {
-    const url = new URL(`/warehouse/${t}.parquet`, location.origin).href;
-    await conn.query(`CREATE VIEW career.${t} AS SELECT * FROM read_parquet('${url}')`);
+
+  // The build emits the manifest, so the table list has one definition.
+  // This module cannot import lib/warehouse.ts — that pulls in astro:content,
+  // which does not exist in the browser.
+  const manifest: Manifest = await fetch('/warehouse/manifest.json').then((r) => {
+    if (!r.ok) throw new Error('Warehouse manifest is unavailable.');
+    return r.json();
+  });
+
+  for (const { name } of manifest.tables) {
+    if (!/^[a-z_]+$/.test(name)) throw new Error(`Refusing suspicious table name: ${name}`);
+    const url = new URL(`/warehouse/${name}.parquet`, location.origin).href;
+    await conn.query(`CREATE VIEW career.${name} AS SELECT * FROM read_parquet('${url}')`);
     // Unqualified names resolve too, so a reader need not type the schema.
-    await conn.query(`CREATE VIEW ${t} AS SELECT * FROM career.${t}`);
+    await conn.query(`CREATE VIEW ${name} AS SELECT * FROM career.${name}`);
   }
 
   return {
@@ -1918,8 +1957,10 @@ An Astro `<script>` (bundled, module) that:
 5. Does nothing at all if the engine fails to load — the static table stays, which is the correct fallback.
 
 ```ts
+// Reduced motion suppresses the staggered reveal, not the engine: spec §4.5 asks
+// for rows rendered immediately, not for the live query to be skipped.
 const mount = document.querySelector<HTMLElement>('[data-hero-state]');
-if (mount && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+if (mount) {
   const io = new IntersectionObserver(async (entries) => {
     if (!entries.some((e) => e.isIntersecting)) return;
     io.disconnect();
