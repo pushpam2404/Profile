@@ -16,6 +16,7 @@ Every task's requirements implicitly include this section.
 
 - **Branch:** all work on `rebuild/warehouse`. `index.html` stays untouched and live until Task 17.
 - **DRDO exclusion:** the `sih_053` / DRDO LiDAR project must not appear in any content, schema, fixture, example query, comment, commit message, or metadata. Non-negotiable (spec §5.3, §10).
+- **No `astro check`.** It is inert without `@astrojs/check`, and that package peers on TypeScript ^5||^6 against our pinned TS 7. `typecheck` is therefore `tsc --noEmit` alone. Content-schema violations are caught by `astro build` (Astro validates collections during the build) and again by Task 5's suite, which reads the real content through `getCollection`. Never reintroduce `astro check` into a script or a CI step.
 - **Versions (pinned exactly):** `astro@7.3.3`, `tailwindcss@4.3.3`, `@tailwindcss/vite@4.3.3`, `typescript@7.0.2`, `vitest@5.0.1`, `@playwright/test@1.63.0`, `@duckdb/duckdb-wasm@1.32.0` (the `latest` dist-tag is a `-dev` build — do not use it), `@duckdb/node-api@1.5.5-r.5`, `tsx@4.23.15`, `@astrojs/sitemap@3.7.4`, `@fontsource-variable/newsreader@5.3.0`, `@fontsource/ibm-plex-mono@5.3.0`, `satori@0.33.4`, `@resvg/resvg-js@2.6.2`.
 - **No UI framework.** No React, Preact, Vue, or Svelte. The console is vanilla TypeScript in an Astro `<script>`, lazily initialised by `IntersectionObserver`. This keeps the static pages at zero JS.
 - **Typography rule (spec §4.3):** prose is Newsreader, data is IBM Plex Mono, there is no third family and no sans-serif. Never break this for convenience.
@@ -60,7 +61,7 @@ git checkout -b rebuild/warehouse
     "prebuild": "tsx scripts/build-warehouse.ts",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "astro check && tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
@@ -830,8 +831,13 @@ rejects it. Example row:
 
 - [ ] **Step 10: Run the tests to verify they pass**
 
-Run: `npx vitest run tests/unit/content.test.ts && npx astro check`
-Expected: 5 tests PASS, and `astro check` validates every entry against Task 3's schemas.
+Run: `npx vitest run tests/unit/content.test.ts && npx astro build`
+Expected: 5 tests PASS, and the build validates every entry against Task 3's schemas —
+a bad `reference()` id or a claim missing its required evidence fails the build here.
+
+Prove the gate is live before moving on: temporarily change one claim's `verification` to
+`measured` and delete its `method`, confirm `npx astro build` fails naming that entry, then
+restore it. A gate nobody has seen fail is not known to be a gate.
 
 - [ ] **Step 11: Commit**
 
