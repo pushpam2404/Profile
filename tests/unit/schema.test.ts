@@ -53,4 +53,27 @@ describe('claim schema', () => {
     const r = claimSchema.safeParse({ ...base, verification: 'probably_true' });
     expect(r.success).toBe(false);
   });
+
+  it('rejects an untested claim that still carries a value', () => {
+    const r = claimSchema.safeParse({
+      ...base, verification: 'untested', value: '5',
+      caveat: 'Needs a recorded run on real hardware.',
+    });
+    expect(r.success).toBe(false);
+  });
+
+  it('refuses whitespace as a substitute for a disclosed method', () => {
+    const r = claimSchema.safeParse({ ...base, verification: 'measured', method: '   ' });
+    expect(r.success).toBe(false);
+  });
+
+  it('refuses whitespace as a substitute for a caveat', () => {
+    const r = claimSchema.safeParse({ ...base, verification: 'measured', caveat: '  ' });
+    expect(r.success).toBe(false);
+  });
+
+  it('refuses an empty string where absence is meant', () => {
+    const r = claimSchema.safeParse({ ...base, verification: 'measured', method: '' });
+    expect(r.success).toBe(false);
+  });
 });

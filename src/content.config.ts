@@ -8,16 +8,24 @@ export type Verification = (typeof VERIFICATION)[number];
  * A claim may not be stated without the evidence its status demands.
  * These refinements are the site's thesis expressed as a build gate (spec §3).
  */
+/**
+ * Every string that can carry evidence is trimmed and required to be non-empty.
+ * Absence is expressed as null, never as "" or "   " — otherwise a claim could
+ * satisfy a disclosure gate with whitespace, which is the whole failure this
+ * schema exists to prevent.
+ */
+const evidenceText = z.string().trim().min(1).nullable();
+
 export const claimSchema = z
   .object({
-    metric: z.string().min(1),
-    value: z.string().nullable(),
-    unit: z.string().nullable(),
+    metric: z.string().trim().min(1),
+    value: evidenceText,
+    unit: evidenceText,
     verification: z.enum(VERIFICATION),
-    method: z.string().nullable(),
-    caveat: z.string().nullable(),
+    method: evidenceText,
+    caveat: evidenceText,
     source_url: z.string().url().nullable(),
-    evidence: z.string().nullable(),
+    evidence: evidenceText,
   })
   .superRefine((c, ctx) => {
     const fail = (path: string, message: string) =>
