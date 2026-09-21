@@ -344,8 +344,8 @@ degrades to the static ledger table with a note explaining what is unavailable.
 
 | Layer | Choice | Reason |
 |---|---|---|
-| Framework | Astro 5 | Ships zero JS for the static 90%; islands for the console only. |
-| Language | TypeScript, `strict` | The author's own TripSync migration precedent. |
+| Framework | Astro 7 | Ships zero JS for the static 90%; islands for the console only. |
+| Language | TypeScript 7, `strict` | The author's own TripSync migration precedent. |
 | Styling | Tailwind v4 (CSS-first `@theme`) | Tokens live in CSS custom properties, matching §4.2. |
 | Content | Astro content collections + Zod | Schema enforcement is the integrity mechanism (§3). |
 | Query engine | `@duckdb/duckdb-wasm` | Real engine, real SQL, no emulation. |
