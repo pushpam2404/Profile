@@ -1,0 +1,29 @@
+---
+import type { Verification } from '~/content.config';
+
+interface Props { status: Verification }
+const { status } = Astro.props;
+
+const label: Record<Verification, string> = {
+  verified: 'verified',
+  measured: 'measured',
+  self_reported: 'self-reported',
+  untested: 'untested',
+};
+---
+<span class={`status status--${status}`} data-status={status}>{label[status]}</span>
+
+<style>
+  /* Status is text first; colour is reinforcement, never the only signal. */
+  .status {
+    font-family: var(--font-data);
+    font-size: var(--text-label);
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 1px;
+    white-space: nowrap;
+  }
+  .status--verified { color: var(--color-verified); }
+  .status--measured { color: var(--color-measured); }
+  .status--self_reported { color: var(--color-reported); }
+  .status--untested { color: var(--color-untested); }
+</style>
