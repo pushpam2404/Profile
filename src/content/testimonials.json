@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ambuj-2026-06",
+    "person": "ambuj-upadhyay",
+    "body": "I worked with Pushpam during his internship at Motherson Technology Services, where he was part of the team building LegalLens, our AI powered legal research platform.   Pushpam was tasked with implementing the Chat History feature, which sounds contained, but wasn't. It spanned a FastAPI backend, SQLite for session metadata, Azure Blob Storage for full message persistence, and a React/TypeScript frontend across multiple large feature files. He had no prior web development experience coming in.   What I noticed was how seriously he approached the codebase. He didn't cut corners to get things working, he traced through existing architecture before touching anything, asked the right questions, and wrote code that was reviewable and merge ready. He also handled his own QA, thinking through edge cases methodically rather than just testing the happy path.   Adapting from data engineering to full-stack development on a production application in a matter of weeks is not easy. Pushpam did it, and did it without needing to be hand held. I'd be happy to work with him again.",
+    "given_on": "2026-06",
+    "source_url": "https://www.linkedin.com/in/pushpamrajsatyarthi/"
+  },
+  {
+    "id": "sachin-2026-07",
+    "person": "sachin-singhal",
+    "body": "Pushpam was a valuable member of our AI/ML internship team, demonstrating exceptional learning agility, strong problem-solving skills, and a collaborative mindset throughout his internship. His curiosity, analytical thinking, and willingness to take on challenging tasks enabled him to make meaningful contributions to our projects. He consistently approached problems with creativity and a growth mindset while supporting his teammates. I wish him all the very best for future endeavour.",
+    "given_on": "2026-07",
+    "source_url": "https://www.linkedin.com/in/pushpamrajsatyarthi/"
+  }
+]

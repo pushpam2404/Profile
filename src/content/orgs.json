@@ -1,0 +1,10 @@
+[
+  { "id": "gitam", "name": "GITAM University", "kind": "university", "location": "Visakhapatnam, India" },
+  { "id": "motherson", "name": "Motherson Technology Services", "kind": "employer", "location": "Hyderabad, India" },
+  { "id": "github-community-gitam", "name": "GitHub Community GITAM", "kind": "club", "location": "Visakhapatnam, India" },
+  { "id": "aerogitam", "name": "AeroGITAM", "kind": "club", "location": "Visakhapatnam, India" },
+  { "id": "ibm", "name": "IBM", "kind": "issuer", "location": null },
+  { "id": "sih", "name": "Smart India Hackathon", "kind": "issuer", "location": null },
+  { "id": "ntro", "name": "National Technical Research Organisation", "kind": "agency", "location": "India" },
+  { "id": "itbp", "name": "Indo-Tibetan Border Police / Ministry of Home Affairs", "kind": "agency", "location": "India" }
+]

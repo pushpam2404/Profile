@@ -1,0 +1,34 @@
+[
+  {
+    "id": "motherson-aiml-intern",
+    "org": "motherson",
+    "title": "AI/ML Intern",
+    "started_on": "2026-05",
+    "ended_on": "2026-06",
+    "summary": "Built and shipped the Chat History feature for LegalLens, an AI-powered legal research and document analysis platform, owning it end to end across a Python/FastAPI backend and a React/TypeScript frontend. The design paired SQLite for session metadata with Azure Blob Storage for full message persistence, and kept the three product modes — Analysis Engine, Research Assistant and Draft Builder — isolated from one another so a session in one could not read or overwrite a session in another. Wrote the REST endpoints, wired them to the frontend, and handled his own QA: stress-testing edge cases, documenting bugs and flagging fixes, with every change submitted for senior review before merge. He had no prior web development experience going in."
+  },
+  {
+    "id": "github-community-gitam-open-source-lead",
+    "org": "github-community-gitam",
+    "title": "Open Source Lead",
+    "started_on": "2026-08",
+    "ended_on": null,
+    "summary": "Leads the Open Source domain at GitHub Community GITAM Vizag. Runs workshops and technical sessions on Git, GitHub, version control and open-source development, mentors students through their first contributions, and works with the other domain leads to plan and run events and projects. Promotes participation in initiatives such as Hacktoberfest, with the aim of getting students into real repositories and developer communities rather than only coursework."
+  },
+  {
+    "id": "aerogitam-aircraft-domain-lead",
+    "org": "aerogitam",
+    "title": "Aircraft Domain Lead",
+    "started_on": "2025-02",
+    "ended_on": "2025-11",
+    "summary": "Led the aircraft and drones domain at AeroGITAM, working with technical systems and coordinating teams in project-driven work. The LinkedIn position carries no written description; this summary is taken from the author's own profile About text, which is the only record of what the role involved."
+  },
+  {
+    "id": "aerogitam-aircraft-domain-member",
+    "org": "aerogitam",
+    "title": "Aircraft Domain Member",
+    "started_on": "2024-08",
+    "ended_on": "2025-02",
+    "summary": "Member of the aircraft domain at AeroGITAM for the first six months of the B.Tech programme, before taking the domain lead role. No description of this position was recorded on LinkedIn and none is reconstructed here."
+  }
+]

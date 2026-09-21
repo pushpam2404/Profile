@@ -1,0 +1,56 @@
+[
+  { "id": "python", "name": "Python", "category": "language", "first_used_on": "2025-09" },
+  { "id": "c", "name": "C", "category": "language", "first_used_on": "2024-08" },
+  { "id": "cpp", "name": "C++", "category": "language", "first_used_on": "2024-08" },
+  { "id": "java", "name": "Java", "category": "language", "first_used_on": "2024-08" },
+  { "id": "sql", "name": "SQL", "category": "language", "first_used_on": "2025-09" },
+  { "id": "typescript", "name": "TypeScript", "category": "language", "first_used_on": "2025-12" },
+  { "id": "javascript", "name": "JavaScript", "category": "language", "first_used_on": "2025-12" },
+
+  { "id": "etl-pipeline-design", "name": "ETL Pipeline Design", "category": "data-engineering", "first_used_on": "2026-01" },
+  { "id": "incremental-delta-loading", "name": "Incremental/Delta Loading", "category": "data-engineering", "first_used_on": "2026-01" },
+  { "id": "schema-normalization", "name": "Schema Normalization", "category": "data-engineering", "first_used_on": "2025-12" },
+  { "id": "data-warehousing", "name": "Data Warehousing", "category": "data-engineering", "first_used_on": "2026-03" },
+  { "id": "fault-tolerant-pipeline-architecture", "name": "Fault-Tolerant Pipeline Architecture", "category": "data-engineering", "first_used_on": "2026-01" },
+  { "id": "feature-engineering", "name": "Feature Engineering", "category": "data-engineering", "first_used_on": "2026-08" },
+
+  { "id": "postgresql", "name": "PostgreSQL", "category": "database", "first_used_on": "2025-12" },
+  { "id": "mongodb", "name": "MongoDB", "category": "database", "first_used_on": "2025-12" },
+  { "id": "mysql", "name": "MySQL", "category": "database", "first_used_on": "2025-11" },
+  { "id": "sqlite", "name": "SQLite", "category": "database", "first_used_on": "2026-01" },
+  { "id": "raw-sql", "name": "Raw SQL", "category": "database", "first_used_on": "2025-12" },
+  { "id": "stored-procedures", "name": "Stored Procedures", "category": "database", "first_used_on": "2026-01" },
+  { "id": "query-optimization", "name": "Query Optimization", "category": "database", "first_used_on": "2026-01" },
+
+  { "id": "xgboost", "name": "XGBoost", "category": "machine-learning", "first_used_on": "2026-08" },
+  { "id": "scikit-learn", "name": "Scikit-learn", "category": "machine-learning", "first_used_on": "2026-08" },
+  { "id": "pandas", "name": "Pandas", "category": "machine-learning", "first_used_on": "2026-01" },
+  { "id": "numpy", "name": "NumPy", "category": "machine-learning", "first_used_on": "2026-01" },
+  { "id": "sentencetransformers", "name": "SentenceTransformers (NLP)", "category": "machine-learning", "first_used_on": "2026-08" },
+  { "id": "shap-explainability", "name": "SHAP Explainability", "category": "machine-learning", "first_used_on": "2026-08" },
+  { "id": "model-tuning-and-eval", "name": "Model Tuning & Eval", "category": "machine-learning", "first_used_on": "2026-08" },
+
+  { "id": "fastapi", "name": "FastAPI", "category": "framework", "first_used_on": "2026-05" },
+  { "id": "nodejs", "name": "Node.js", "category": "framework", "first_used_on": "2025-12" },
+  { "id": "expressjs", "name": "Express.js", "category": "framework", "first_used_on": "2025-12" },
+  { "id": "react", "name": "React", "category": "framework", "first_used_on": "2025-12" },
+  { "id": "mongoose", "name": "Mongoose", "category": "framework", "first_used_on": "2025-12" },
+  { "id": "playwright", "name": "Playwright", "category": "framework", "first_used_on": "2026-08" },
+
+  { "id": "azure-blob-storage", "name": "Azure Blob Storage", "category": "cloud", "first_used_on": "2026-05" },
+  { "id": "azure-cloud-infrastructure", "name": "Azure Cloud Infrastructure", "category": "cloud", "first_used_on": "2026-05" },
+
+  { "id": "vs-code", "name": "VS Code", "category": "tool", "first_used_on": "2024-08" },
+  { "id": "git-github", "name": "Git/GitHub", "category": "tool", "first_used_on": "2025-02" },
+  { "id": "linux-unix-shell", "name": "Linux/Unix Shell", "category": "tool", "first_used_on": "2026-01" },
+  { "id": "valgrind", "name": "Valgrind", "category": "tool", "first_used_on": "2024-08" },
+  { "id": "gdb", "name": "GDB", "category": "tool", "first_used_on": "2024-08" },
+  { "id": "make", "name": "Make", "category": "tool", "first_used_on": "2024-08" },
+  { "id": "networkx", "name": "NetworkX", "category": "tool", "first_used_on": "2026-08" },
+
+  { "id": "data-structures-and-algorithms", "name": "Data Structures & Algorithms", "category": "concept", "first_used_on": "2024-08" },
+  { "id": "oop", "name": "OOP", "category": "concept", "first_used_on": "2024-08" },
+  { "id": "os-architecture", "name": "OS Architecture", "category": "concept", "first_used_on": "2024-08" },
+  { "id": "memory-management", "name": "Memory Management", "category": "concept", "first_used_on": "2024-08" },
+  { "id": "database-normalization", "name": "Database Normalization", "category": "concept", "first_used_on": "2025-12" }
+]
