@@ -4,7 +4,7 @@
 
 **Goal:** Replace the single-file `index.html` portfolio with a static Astro site where every claim carries a build-enforced verification status, and where the rendered pages and an in-browser DuckDB warehouse are compiled from one typed source.
 
-**Architecture:** Typed Zod-validated content collections are the single source of truth. Astro renders static pages from them at build time; a prebuild script feeds the same collections through DuckDB and emits Parquet, which DuckDB-WASM queries in the reader's browser. Because both artifacts derive from one input, the page and the warehouse cannot disagree. Schema refinements make an unverifiable claim a build failure rather than a convention.
+**Architecture:** Typed Zod-validated content collections are the single source of truth. Astro renders static pages from them at build time; a postbuild script feeds the same files through DuckDB and emits Parquet, which DuckDB-WASM queries in the reader's browser. Because both artifacts derive from one input, the page and the warehouse cannot disagree. Schema refinements make an unverifiable claim a build failure rather than a convention.
 
 **Tech Stack:** Astro 7, TypeScript 7 (strict), Tailwind v4 (CSS-first `@theme`), `@duckdb/node-api` (build) + `@duckdb/duckdb-wasm` (browser), Vitest, Playwright, Vercel.
 
@@ -58,8 +58,8 @@ git checkout -b rebuild/warehouse
   "engines": { "node": ">=22" },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "tsx scripts/build-warehouse.ts",
     "build": "astro build",
+    "postbuild": "tsx scripts/build-warehouse.ts",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -71,7 +71,8 @@ git checkout -b rebuild/warehouse
     "@astrojs/sitemap": "3.7.4",
     "@fontsource-variable/newsreader": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.3.0",
-    "@duckdb/duckdb-wasm": "1.32.0"
+    "@duckdb/duckdb-wasm": "1.32.0",
+    "js-yaml": "4.3.2"
   },
   "devDependencies": {
     "@duckdb/node-api": "1.5.5-r.5",
@@ -80,6 +81,7 @@ git checkout -b rebuild/warehouse
     "@tailwindcss/vite": "4.3.3",
     "satori": "0.33.4",
     "tailwindcss": "4.3.3",
+    "@types/js-yaml": "4.0.9",
     "tsx": "4.23.15",
     "typescript": "7.0.2",
     "vitest": "5.0.1"
@@ -151,7 +153,6 @@ dist/
 .astro/
 .DS_Store
 .vercel/
-public/warehouse/
 test-results/
 playwright-report/
 ```
@@ -211,7 +212,7 @@ mkdir -p src/pages
 - [ ] **Step 10: Run the tests and the build to verify they pass**
 
 Run: `npm test && npm run build`
-Expected: 2 tests PASS. Build fails on the missing `prebuild` script — temporarily run `npx astro build` instead and confirm it succeeds; Task 6 adds the script.
+Expected: 2 tests PASS. `npm run build` runs `astro build`; its `postbuild` step fails on the missing `scripts/build-warehouse.ts` until Task 6 adds it, which is expected. Use `npx astro build` to confirm the Astro build itself succeeds.
 
 - [ ] **Step 11: Commit**
 
@@ -979,8 +980,34 @@ Expected: FAIL — cannot resolve `~/lib/warehouse`.
 
 - [ ] **Step 3: Write `src/lib/warehouse.ts`**
 
+This module must run under plain Node, not only inside Astro. It is imported by pages
+during the build, by the Vitest suite, and by Task 6's Parquet script — and `astro:content`
+is a virtual module that exists in none of the latter two. So the warehouse reads the
+content files directly. Astro still validates the same files through `content.config.ts`
+on every build; that path is unchanged and remains the schema gate.
+
 ```ts
-import { getCollection } from 'astro:content';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { load as parseYaml } from 'js-yaml';
+
+const CONTENT = 'src/content';
+
+const readJson = <T>(file: string): T[] =>
+  JSON.parse(readFileSync(join(CONTENT, file), 'utf8')) as T[];
+
+/** Project frontmatter, read without Astro so this works under plain Node. */
+function readProjects(): Record<string, unknown>[] {
+  const dir = join(CONTENT, 'projects');
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => {
+      const raw = readFileSync(join(dir, f), 'utf8');
+      const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw);
+      if (!m) throw new Error(`${f} has no frontmatter block`);
+      return { id: f.replace(/\.md$/, ''), ...(parseYaml(m[1]!) as object) };
+    });
+}
 
 export type Row = Record<string, string | number | boolean | null>;
 
@@ -1001,78 +1028,89 @@ export const TABLE_NAMES = [
   'fact_claim', 'fact_contribution', 'fact_role', 'fact_testimonial',
 ] as const satisfies readonly (keyof Warehouse)[];
 
-/** Astro's `reference()` stores the target as `{ id, collection }`. */
-const ref = (v: unknown): string | null =>
-  v && typeof v === 'object' && 'id' in v ? String((v as { id: string }).id) : null;
+/**
+ * In the JSON and frontmatter, a reference is written as a bare id string.
+ * Astro wraps it as `{ id, collection }` on its own read path; this one does not,
+ * so accept either shape rather than assuming.
+ */
+const ref = (v: unknown): string | null => {
+  if (v == null) return null;
+  if (typeof v === 'string') return v;
+  return typeof v === 'object' && 'id' in v ? String((v as { id: string }).id) : null;
+};
 
 export async function buildWarehouse(): Promise<Warehouse> {
-  const [orgs, people, skills, projects, credentials, claims, roles, testimonials] =
-    await Promise.all([
-      getCollection('orgs'), getCollection('people'), getCollection('skills'),
-      getCollection('projects'), getCollection('credentials'), getCollection('claims'),
-      getCollection('roles'), getCollection('testimonials'),
-    ]);
+  const orgs = readJson<Row>('orgs.json');
+  const people = readJson<Row>('people.json');
+  const skills = readJson<Row>('skills.json');
+  const credentials = readJson<Row>('credentials.json');
+  const claims = readJson<Row>('claims.json');
+  const roles = readJson<Row>('roles.json');
+  const testimonials = readJson<Row>('testimonials.json');
+  const projects = readProjects() as Record<string, any>[];
 
   const dim_project: Row[] = projects
-    .sort((a, b) => a.data.order - b.data.order)
+    .sort((a, b) => Number(a.order) - Number(b.order))
     .map((p) => ({
-      project_id: p.id,
-      name: p.data.name,
-      codename: p.data.codename,
-      year: p.data.year,
-      context: p.data.context,
-      org_id: ref(p.data.org),
-      repo_url: p.data.repo_url,
-      live_url: p.data.live_url,
-      status: p.data.status,
-      summary: p.data.summary,
+      project_id: String(p.id),
+      name: p.name,
+      codename: p.codename ?? null,
+      year: p.year,
+      context: p.context,
+      org_id: ref(p.org),
+      repo_url: p.repo_url ?? null,
+      live_url: p.live_url ?? null,
+      status: p.status,
+      summary: p.summary,
     }));
 
   const fact_contribution: Row[] = projects.flatMap((p) =>
-    p.data.skills.map((s) => ({
-      project_id: p.id,
+    (p.skills as unknown[]).map((s) => ({
+      project_id: String(p.id),
       skill_id: ref(s),
-      is_primary: p.data.stack.some((t) => t.toLowerCase() === ref(s)?.toLowerCase()),
+      is_primary: (p.stack as string[]).some(
+        (t) => t.toLowerCase() === ref(s)?.toLowerCase(),
+      ),
     })),
   );
 
   return {
-    dim_org: orgs.map((o) => ({
-      org_id: o.id, name: o.data.name, kind: o.data.kind, location: o.data.location,
+    dim_org: orgs.map((o: any) => ({
+      org_id: o.id, name: o.name, kind: o.kind, location: o.location ?? null,
     })),
-    dim_person: people.map((p) => ({
-      person_id: p.id, name: p.data.name, title: p.data.title,
-      org_id: ref(p.data.org), profile_url: p.data.profile_url,
+    dim_person: people.map((p: any) => ({
+      person_id: p.id, name: p.name, title: p.title,
+      org_id: ref(p.org), profile_url: p.profile_url ?? null,
     })),
-    dim_skill: skills.map((s) => ({
-      skill_id: s.id, name: s.data.name, category: s.data.category,
-      first_used_on: s.data.first_used_on,
+    dim_skill: skills.map((s: any) => ({
+      skill_id: s.id, name: s.name, category: s.category,
+      first_used_on: s.first_used_on,
     })),
     dim_project,
-    dim_credential: credentials.map((c) => ({
-      credential_id: c.id, name: c.data.name, issuer_id: ref(c.data.issuer),
-      issued_on: c.data.issued_on, verify_url: c.data.verify_url, track: c.data.track,
+    dim_credential: credentials.map((c: any) => ({
+      credential_id: c.id, name: c.name, issuer_id: ref(c.issuer),
+      issued_on: c.issued_on, verify_url: c.verify_url, track: c.track ?? null,
     })),
-    fact_claim: claims.map((c) => ({
+    fact_claim: claims.map((c: any) => ({
       claim_id: c.id,
-      project_id: ref(c.data.project),
-      metric: c.data.metric,
-      value: c.data.value,
-      unit: c.data.unit,
-      verification: c.data.verification,
-      method: c.data.method,
-      caveat: c.data.caveat,
-      source_url: c.data.source_url,
-      evidence: c.data.evidence,
+      project_id: ref(c.project),
+      metric: c.metric,
+      value: c.value ?? null,
+      unit: c.unit ?? null,
+      verification: c.verification,
+      method: c.method ?? null,
+      caveat: c.caveat ?? null,
+      source_url: c.source_url ?? null,
+      evidence: c.evidence ?? null,
     })),
     fact_contribution,
-    fact_role: roles.map((r) => ({
-      role_id: r.id, org_id: ref(r.data.org), title: r.data.title,
-      started_on: r.data.started_on, ended_on: r.data.ended_on, summary: r.data.summary,
+    fact_role: roles.map((r: any) => ({
+      role_id: r.id, org_id: ref(r.org), title: r.title,
+      started_on: r.started_on, ended_on: r.ended_on ?? null, summary: r.summary,
     })),
-    fact_testimonial: testimonials.map((t) => ({
-      testimonial_id: t.id, person_id: ref(t.data.person), body: t.data.body,
-      given_on: t.data.given_on, source_url: t.data.source_url,
+    fact_testimonial: testimonials.map((t: any) => ({
+      testimonial_id: t.id, person_id: ref(t.person), body: t.body,
+      given_on: t.given_on, source_url: t.source_url,
     })),
   };
 }
@@ -1103,11 +1141,11 @@ project and every contribution's skill must resolve to a dimension row."
 **Files:**
 - Create: `scripts/build-warehouse.ts`
 - Test: `tests/unit/parity.test.ts`
-- Modify: `package.json` (the `prebuild` script already added in Task 1 now has a target)
+- Modify: `package.json` (the `postbuild` script already added in Task 1 now has a target)
 
 **Interfaces:**
 - Consumes: Task 5 `buildWarehouse()`, `TABLE_NAMES`.
-- Produces: `public/warehouse/<table>.parquet` for all nine tables, plus `public/warehouse/manifest.json` of shape `{ generated_at: string, tables: { name: string, rows: number, checksum: string }[] }`.
+- Produces: `dist/warehouse/<table>.parquet` for all nine tables, plus `dist/warehouse/manifest.json` of shape `{ generated_at: string, tables: { name: string, rows: number, checksum: string }[] }`.
 
 This task delivers spec §12 criterion 3: the page and the warehouse are provably the same data.
 
@@ -1127,13 +1165,13 @@ beforeAll(() => {
 describe('warehouse parity', () => {
   it('writes a parquet file for every table', () => {
     for (const t of TABLE_NAMES) {
-      expect(existsSync(`public/warehouse/${t}.parquet`)).toBe(true);
+      expect(existsSync(`dist/warehouse/${t}.parquet`)).toBe(true);
     }
   });
 
   it('records the same row count the collections produced', async () => {
     const wh = await buildWarehouse();
-    const manifest = JSON.parse(readFileSync('public/warehouse/manifest.json', 'utf8'));
+    const manifest = JSON.parse(readFileSync('dist/warehouse/manifest.json', 'utf8'));
     for (const t of TABLE_NAMES) {
       const entry = manifest.tables.find((x: { name: string }) => x.name === t);
       expect(entry, `missing manifest entry for ${t}`).toBeDefined();
@@ -1156,7 +1194,7 @@ import { mkdir, writeFile, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { buildWarehouse, TABLE_NAMES, type Row } from '../src/lib/warehouse.ts';
 
-const OUT = 'public/warehouse';
+const OUT = 'dist/warehouse';
 
 /** Stable checksum over the rows, so parity is provable and not just counted. */
 const checksum = (rows: Row[]) =>
@@ -1204,18 +1242,18 @@ main().catch((err) => {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `npx vitest run tests/unit/parity.test.ts`
-Expected: 2 tests PASS, and `public/warehouse/` contains nine `.parquet` files plus `manifest.json`.
+Expected: 2 tests PASS, and `dist/warehouse/` contains nine `.parquet` files plus `manifest.json`.
 
 - [ ] **Step 5: Verify the full build wiring**
 
 Run: `npm run build`
-Expected: `prebuild` emits the warehouse, then `astro build` succeeds.
+Expected: `astro build` succeeds, then `postbuild` emits the warehouse into `dist/warehouse/`.
 
 - [ ] **Step 6: Commit**
 
 ```bash
 git add scripts/build-warehouse.ts tests/unit/parity.test.ts
-git commit -m "Emit the warehouse as Parquet during prebuild
+git commit -m "Emit the warehouse as Parquet after the build
 
 Both artifacts now derive from one typed input, and a manifest of row
 counts and checksums makes that provable rather than asserted. Uses the
@@ -2381,7 +2419,7 @@ git rm index.html
 
 Replace the single-file description entirely. Cover: the content-collections-as-source-of-truth
 architecture; that `src/content.config.ts` refinements are a build gate, not a
-convention, so adding a claim means supplying its evidence; the `prebuild` warehouse
+convention, so adding a claim means supplying its evidence; the `postbuild` warehouse
 step and why page and warehouse cannot drift; the serif-prose/mono-data typography rule;
 the four status hues being the only colors; that no UI framework is installed and the
 console is vanilla TS; and the DRDO exclusion. Include the real commands: `npm run dev`,
