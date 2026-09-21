@@ -7,8 +7,8 @@
     "verification": "verified",
     "method": null,
     "caveat": null,
-    "source_url": "https://www.linkedin.com/in/pushpamrajsatyarthi/",
-    "evidence": "Each completed course is listed individually on /credentials with its own Coursera verification URL."
+    "source_url": "https://www.coursera.org/professional-certificates/ibm-data-engineer",
+    "evidence": "The sixteen-course structure is stated on the linked Coursera track page. The eleven completed courses are listed individually on /credentials, each with its own Coursera verification URL."
   },
   {
     "id": "internal-sih-2026-qualification",
@@ -24,11 +24,11 @@
   {
     "id": "motherson-internship",
     "metric": "Software engineering internship, Motherson Technology Services",
-    "value": "2",
-    "unit": "months",
+    "value": "May–Jun 2026",
+    "unit": null,
     "verification": "verified",
     "method": null,
-    "caveat": "May to June 2026, on the AI/ML team. The work itself was on a private production codebase and cannot be shown.",
+    "caveat": "On the AI/ML team. The work itself was on a private production codebase and cannot be shown; the two public recommendations are the part a reader can check.",
     "source_url": "https://www.linkedin.com/in/pushpamrajsatyarthi/",
     "evidence": null
   },
@@ -249,14 +249,14 @@
   {
     "id": "secure-erasure-verification-sampling",
     "project": "secure-erasure",
-    "metric": "Share of blocks read back during erase verification on a 1 TB drive",
+    "metric": "Configured erase-verification sampling rate at 1 TB",
     "value": "0.2",
     "unit": "%",
-    "verification": "measured",
-    "method": "Verification reads a sample of blocks after each pass. The sample is 100 percent at 64 MB, 6 percent at 1 GB and 0.2 percent at 1 TB.",
-    "caveat": "Verification coverage falls as the drive grows. On a large drive, a passing verification is a sampled result and is not evidence that every block was overwritten.",
+    "verification": "self_reported",
+    "method": null,
+    "caveat": null,
     "source_url": "https://github.com/pushpam2404/SIH_149",
-    "evidence": null
+    "evidence": "A configured ratio, not a measurement. Verification reads a sample of blocks after each pass, and the README states the ladder as 100 percent at 64 MB, 6 percent at 1 GB and 0.2 percent at 1 TB. It appears in that README's works-with-caveats column rather than its benchmark table, and no drive of this size was ever erased: the same README records no erase against a physical drive on any operating system. The consequence still matters. Verification coverage falls as the drive grows, so on a large drive a passing verification is a sampled result and is not evidence that every block was overwritten."
   },
   {
     "id": "autocomplete-lookup-complexity",

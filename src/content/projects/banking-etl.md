@@ -6,7 +6,7 @@ context: A personal data-engineering project. Scrapes market-capitalisation data
 repo_url: https://github.com/pushpam2404/global-finance-etl
 live_url: null
 status: shipped
-summary: A fault-tolerant extract, transform and load pipeline in Python that ingests heterogeneous financial sources, normalises them into one SQL schema, and refuses to load anything that fails validation.
+summary: An extract, transform and load pipeline in Python. It scrapes market-capitalisation figures for the world's largest banks from a public page, normalises the currency with vectorised Pandas and NumPy, and loads the result into SQLite and CSV, logging every stage so a failure is caught before the load step rather than after it.
 stack:
   - Python
   - Pandas
@@ -37,24 +37,32 @@ surface weeks later as an analytics result nobody can explain.
 
 ## The approach
 
-The pipeline is built so that failure is loud and pre-load. Extraction targets the
-page structure rather than a fixed offset, so a shifted column does not silently
-read the wrong field. Transformation normalises currency, enforces type validation
-at the boundary, and replaces loop-based calculation with vectorised NumPy
-operations. Loading writes to a SQLite warehouse and to CSV for downstream use.
+Extraction targets the page structure rather than a fixed offset, so a shifted
+column does not silently read the wrong field. Transformation normalises the
+currency and replaces loop-based calculation with vectorised NumPy operations.
+Loading writes to a SQLite warehouse and to CSV for downstream use. Every stage
+writes a timestamped log entry.
 
-Every stage writes a timestamped log entry. The point of that log is not
-observability for its own sake: it is the mechanism by which an ingestion failure
-or a schema mismatch is intercepted before the load step runs, so a corrupt batch
-never reaches the warehouse in the first place.
+The log is the part worth arguing for. Its purpose is not observability for its
+own sake but interception: a run that fails at extraction or transformation should
+say so before the load step, because the alternative is a corrupt batch that
+reaches the warehouse and surfaces weeks later as an analytics result nobody can
+explain. The timestamped stage logging is in the repository. The stricter version
+described on the author's resume, which adds type validation at the transformation
+boundary and alerting on schema mismatches, is not.
 
 ## Architecture
 
 Extract, transform and load are three separate stages with the log as the seam
 between them, rather than one script that does everything in a single pass. That
-shape is what makes the stages independently testable and what lets a delta load
-replace a full batch refresh: because the load stage knows what it wrote last
-time, a run only reprocesses what changed rather than rebuilding the table.
+shape is what makes the stages independently testable, and it is the shape a delta
+load needs: if the load stage records what it wrote last time, a run can reprocess
+only what changed instead of rebuilding the table.
+
+That last sentence is deliberately conditional. Incremental delta loading is
+described on the author's resume, and the published code does not show it. What is
+in the repository is the stage separation that would make it possible, not the
+delta load itself.
 
 ## What it does not do
 
