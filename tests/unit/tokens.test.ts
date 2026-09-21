@@ -30,12 +30,16 @@ describe('design tokens', () => {
     expect(themeCss).not.toMatch(/--font-sans|Inter|Helvetica Neue/);
   });
 
-  it('defines focus token and keeps status hues out of global styles', () => {
+  it('keeps verification-status hues out of non-status styles', () => {
     expect(themeCss).toContain('--color-focus');
-    // Status hues must never appear in global.css to prevent non-status signals
-    const statusHues = ['#0F6E63', '#2E4A63', '#9A6B1F', '#8C3A2B'];
-    for (const hex of statusHues) {
-      expect(globalCss).not.toContain(hex);
-    }
+    // The four status hues are the site's legend. global.css holds non-status UI
+    // rules, so a reference to one here means a control is signalling a meaning
+    // it does not have — which is exactly how the focus ring regressed.
+    expect(globalCss).not.toMatch(/var\(--color-(verified|measured|reported|untested)\)/);
+  });
+
+  it('gives the focus ring its own non-legend token', () => {
+    const focusRule = globalCss.match(/:focus-visible\s*\{[^}]*\}/)?.[0] ?? '';
+    expect(focusRule).toContain('var(--color-focus)');
   });
 });
