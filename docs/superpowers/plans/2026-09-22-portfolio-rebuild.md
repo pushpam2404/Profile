@@ -1438,8 +1438,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 
 Navigation links, set in `--font-data`, to `/`, `/projects`, `/claims`, `/credentials`,
 `/console`, `/about`. The author's name is set in `--font-prose`. No ALL-CAPS labels, no
-`→` glyphs. Mark the current page with `aria-current="page"` and a `--color-measured`
-underline.
+`→` glyphs. Mark the current page with `aria-current="page"` and a `--color-ink` underline —
+never a status hue, which would read as a claim about the page (spec §4.2).
 
 - [ ] **Step 3: Write `src/components/SiteFooter.astro`**
 
