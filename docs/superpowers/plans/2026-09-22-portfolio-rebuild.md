@@ -297,6 +297,10 @@ Expected: FAIL — `ENOENT: src/styles/theme.css`.
   --color-reported: #9A6B1F;
   --color-untested: #8C3A2B;
 
+  /* Focus is not a status. Borrowing a legend hue here would make every
+     focused control read as a claim with a disclosed method (spec §4.2). */
+  --color-focus: var(--color-ink);
+
   /* Prose is serif, data is mono, there is no third family (spec §4.3) */
   --font-prose: "Newsreader Variable", Georgia, serif;
   --font-data: "IBM Plex Mono", ui-monospace, monospace;
@@ -361,7 +365,7 @@ tbody tr:nth-child(even) { background-color: var(--color-bar); }
 a { color: inherit; text-underline-offset: 0.18em; }
 
 :focus-visible {
-  outline: 2px solid var(--color-measured);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 

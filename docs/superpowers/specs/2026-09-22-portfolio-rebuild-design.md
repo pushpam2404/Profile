@@ -116,7 +116,14 @@ table appears in the interface.
 --measured:  #2E4A63;  /* slate  — own benchmark, method shown   */
 --reported:  #9A6B1F;  /* ochre  — author's word only            */
 --untested:  #8C3A2B;  /* oxide  — built, not proven             */
+
+--focus:     var(--ink);  /* keyboard focus — deliberately not a status hue */
 ```
+
+The four status hues carry meaning, so no non-status element may borrow one. That
+includes the focus ring: focus is signalled by the outline's weight and offset against
+`--ink`, which clears 13:1 on `--paper`. A focus ring tinted `--measured` would make every
+focused control read as a claim with a disclosed method.
 
 Status is never communicated by color alone: every status renders as a text label
 (`verified`, `measured`, …) alongside its hue, satisfying WCAG 1.4.1.
@@ -361,7 +368,7 @@ Non-negotiable, verified before the work is called done:
 - **Responsive** to 360px with no horizontal scroll. Tables scroll inside their own
   `overflow-x` container; the page body never does.
 - **Keyboard**: every interactive control reachable and operable; visible focus ring in
-  `--measured` at 2px offset. The console editor traps no focus: `Escape` moves focus to
+  `--focus` at 2px offset. The console editor traps no focus: `Escape` moves focus to
   the Run control, and `Tab` from there leaves the island.
 - **Screen reader**: result tables use real `<table>` semantics with `<caption>` and
   scoped headers. Status is text, not color alone.
