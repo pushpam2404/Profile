@@ -933,6 +933,31 @@ describe('warehouse', () => {
     }
   });
 
+  // Astro logs a broken reference() id as an error but still exits 0, so the
+  // build is NOT the referential-integrity gate. This test is.
+  it('resolves every foreign key in the warehouse', () => {
+    const keyed = (rows: typeof wh.dim_org, k: string) => new Set(rows.map((r) => r[k]));
+    const orgs = keyed(wh.dim_org, 'org_id');
+    const people = keyed(wh.dim_person, 'person_id');
+    const projects = keyed(wh.dim_project, 'project_id');
+
+    const edges: [string, unknown[], Set<unknown>][] = [
+      ['dim_person.org_id', wh.dim_person.map((r) => r.org_id), orgs],
+      ['dim_project.org_id', wh.dim_project.map((r) => r.org_id), orgs],
+      ['dim_credential.issuer_id', wh.dim_credential.map((r) => r.issuer_id), orgs],
+      ['fact_role.org_id', wh.fact_role.map((r) => r.org_id), orgs],
+      ['fact_testimonial.person_id', wh.fact_testimonial.map((r) => r.person_id), people],
+      ['fact_claim.project_id', wh.fact_claim.map((r) => r.project_id), projects],
+    ];
+
+    for (const [label, values, valid] of edges) {
+      for (const v of values) {
+        if (v === null) continue;
+        expect(valid.has(v), `${label} points at missing id: ${String(v)}`).toBe(true);
+      }
+    }
+  });
+
   it('carries method and caveat on every measured claim', () => {
     for (const c of wh.fact_claim.filter((r) => r.verification === 'measured')) {
       expect(c.method).toBeTruthy();
@@ -1056,7 +1081,7 @@ export async function buildWarehouse(): Promise<Warehouse> {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `npx vitest run tests/unit/warehouse.test.ts`
-Expected: 5 tests PASS.
+Expected: 6 tests PASS.
 
 `getCollection` runs because Task 1's `vitest.config.ts` uses `getViteConfig`. Never stub
 it — the point of this suite is that it reads the real content.
