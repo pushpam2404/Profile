@@ -1,0 +1,45 @@
+@import "./theme.css";
+@import "@fontsource-variable/newsreader";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+:root { color-scheme: light; }
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-prose);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Prose measure caps at 68 characters (spec §4.3) */
+.prose-measure { max-width: 68ch; }
+
+/* Data is mono with aligned numerals, everywhere, without exception */
+.data, table, code, pre {
+  font-family: var(--font-data);
+  font-size: var(--text-data);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Paper does not float: hairline rules and bands carry structure, never shadow */
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--color-rule); }
+td.numeric, th.numeric { text-align: right; }
+tbody tr:nth-child(even) { background-color: var(--color-bar); }
+
+a { color: inherit; text-underline-offset: 0.18em; }
+
+:focus-visible {
+  outline: 2px solid var(--color-measured);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}

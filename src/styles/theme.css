@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ground — greenbar continuous-feed stock (spec §4.1) */
+  --color-paper: #EDEFEA;
+  --color-bar: #E2E8DD;
+  --color-rule: #C9D0C6;
+  --color-ink: #16231D;
+  --color-ink-soft: #4A5A52;
+
+  /* Verification legend — the only other hues in the interface (spec §4.2) */
+  --color-verified: #0F6E63;
+  --color-measured: #2E4A63;
+  --color-reported: #9A6B1F;
+  --color-untested: #8C3A2B;
+
+  /* Prose is serif, data is mono, there is no third family (spec §4.3) */
+  --font-prose: "Newsreader Variable", Georgia, serif;
+  --font-data: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Type scale, 1.25 ratio */
+  --text-display: 3.052rem;
+  --text-display--line-height: 1.1;
+  --text-h1: 2.441rem;
+  --text-h1--line-height: 1.15;
+  --text-h2: 1.953rem;
+  --text-h2--line-height: 1.2;
+  --text-h3: 1.563rem;
+  --text-h3--line-height: 1.3;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-data: 0.9375rem;
+  --text-data--line-height: 1.55;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+
+  --radius-control: 2px;
+}
