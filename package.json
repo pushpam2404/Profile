@@ -2,11 +2,13 @@
   "name": "pushpam-portfolio",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "tsx scripts/build-warehouse.ts",
     "build": "astro build",
+    "postbuild": "tsx scripts/build-warehouse.ts",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -14,17 +16,19 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "astro": "7.3.3",
     "@astrojs/sitemap": "3.7.4",
+    "@duckdb/duckdb-wasm": "1.32.0",
     "@fontsource-variable/newsreader": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.3.0",
-    "@duckdb/duckdb-wasm": "1.32.0"
+    "astro": "7.3.3",
+    "js-yaml": "4.3.2"
   },
   "devDependencies": {
     "@duckdb/node-api": "1.5.5-r.5",
     "@playwright/test": "1.63.0",
     "@resvg/resvg-js": "2.6.2",
     "@tailwindcss/vite": "4.3.3",
+    "@types/js-yaml": "4.0.9",
     "satori": "0.33.4",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",

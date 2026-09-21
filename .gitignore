@@ -3,6 +3,5 @@ dist/
 .astro/
 .DS_Store
 .vercel/
-public/warehouse/
 test-results/
 playwright-report/

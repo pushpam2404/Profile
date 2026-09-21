@@ -1,4 +1,24 @@
-import { getCollection } from 'astro:content';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { load as parseYaml } from 'js-yaml';
+
+const CONTENT = 'src/content';
+
+const readJson = <T>(file: string): T[] =>
+  JSON.parse(readFileSync(join(CONTENT, file), 'utf8')) as T[];
+
+/** Project frontmatter, read without Astro so this works under plain Node. */
+function readProjects(): Record<string, unknown>[] {
+  const dir = join(CONTENT, 'projects');
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => {
+      const raw = readFileSync(join(dir, f), 'utf8');
+      const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw);
+      if (!m) throw new Error(`${f} has no frontmatter block`);
+      return { id: f.replace(/\.md$/, ''), ...(parseYaml(m[1]!) as object) };
+    });
+}
 
 export type Row = Record<string, string | number | boolean | null>;
 
@@ -19,78 +39,89 @@ export const TABLE_NAMES = [
   'fact_claim', 'fact_contribution', 'fact_role', 'fact_testimonial',
 ] as const satisfies readonly (keyof Warehouse)[];
 
-/** Astro's `reference()` stores the target as `{ id, collection }`. */
-const ref = (v: unknown): string | null =>
-  v && typeof v === 'object' && 'id' in v ? String((v as { id: string }).id) : null;
+/**
+ * In the JSON and frontmatter, a reference is written as a bare id string.
+ * Astro wraps it as `{ id, collection }` on its own read path; this one does not,
+ * so accept either shape rather than assuming.
+ */
+const ref = (v: unknown): string | null => {
+  if (v == null) return null;
+  if (typeof v === 'string') return v;
+  return typeof v === 'object' && 'id' in v ? String((v as { id: string }).id) : null;
+};
 
 export async function buildWarehouse(): Promise<Warehouse> {
-  const [orgs, people, skills, projects, credentials, claims, roles, testimonials] =
-    await Promise.all([
-      getCollection('orgs'), getCollection('people'), getCollection('skills'),
-      getCollection('projects'), getCollection('credentials'), getCollection('claims'),
-      getCollection('roles'), getCollection('testimonials'),
-    ]);
+  const orgs = readJson<Row>('orgs.json');
+  const people = readJson<Row>('people.json');
+  const skills = readJson<Row>('skills.json');
+  const credentials = readJson<Row>('credentials.json');
+  const claims = readJson<Row>('claims.json');
+  const roles = readJson<Row>('roles.json');
+  const testimonials = readJson<Row>('testimonials.json');
+  const projects = readProjects() as Record<string, any>[];
 
   const dim_project: Row[] = projects
-    .sort((a, b) => a.data.order - b.data.order)
+    .sort((a, b) => Number(a.order) - Number(b.order))
     .map((p) => ({
-      project_id: p.id,
-      name: p.data.name,
-      codename: p.data.codename,
-      year: p.data.year,
-      context: p.data.context,
-      org_id: ref(p.data.org),
-      repo_url: p.data.repo_url,
-      live_url: p.data.live_url,
-      status: p.data.status,
-      summary: p.data.summary,
+      project_id: String(p.id),
+      name: p.name,
+      codename: p.codename ?? null,
+      year: p.year,
+      context: p.context,
+      org_id: ref(p.org),
+      repo_url: p.repo_url ?? null,
+      live_url: p.live_url ?? null,
+      status: p.status,
+      summary: p.summary,
     }));
 
   const fact_contribution: Row[] = projects.flatMap((p) =>
-    p.data.skills.map((s) => ({
-      project_id: p.id,
+    (p.skills as unknown[]).map((s) => ({
+      project_id: String(p.id),
       skill_id: ref(s),
-      is_primary: p.data.stack.some((t) => t.toLowerCase() === ref(s)?.toLowerCase()),
+      is_primary: (p.stack as string[]).some(
+        (t) => t.toLowerCase() === ref(s)?.toLowerCase(),
+      ),
     })),
   );
 
   return {
-    dim_org: orgs.map((o) => ({
-      org_id: o.id, name: o.data.name, kind: o.data.kind, location: o.data.location,
+    dim_org: orgs.map((o: any) => ({
+      org_id: o.id, name: o.name, kind: o.kind, location: o.location ?? null,
     })),
-    dim_person: people.map((p) => ({
-      person_id: p.id, name: p.data.name, title: p.data.title,
-      org_id: ref(p.data.org), profile_url: p.data.profile_url,
+    dim_person: people.map((p: any) => ({
+      person_id: p.id, name: p.name, title: p.title,
+      org_id: ref(p.org), profile_url: p.profile_url ?? null,
     })),
-    dim_skill: skills.map((s) => ({
-      skill_id: s.id, name: s.data.name, category: s.data.category,
-      first_used_on: s.data.first_used_on,
+    dim_skill: skills.map((s: any) => ({
+      skill_id: s.id, name: s.name, category: s.category,
+      first_used_on: s.first_used_on,
     })),
     dim_project,
-    dim_credential: credentials.map((c) => ({
-      credential_id: c.id, name: c.data.name, issuer_id: ref(c.data.issuer),
-      issued_on: c.data.issued_on, verify_url: c.data.verify_url, track: c.data.track,
+    dim_credential: credentials.map((c: any) => ({
+      credential_id: c.id, name: c.name, issuer_id: ref(c.issuer),
+      issued_on: c.issued_on, verify_url: c.verify_url, track: c.track ?? null,
     })),
-    fact_claim: claims.map((c) => ({
+    fact_claim: claims.map((c: any) => ({
       claim_id: c.id,
-      project_id: ref(c.data.project),
-      metric: c.data.metric,
-      value: c.data.value,
-      unit: c.data.unit,
-      verification: c.data.verification,
-      method: c.data.method,
-      caveat: c.data.caveat,
-      source_url: c.data.source_url,
-      evidence: c.data.evidence,
+      project_id: ref(c.project),
+      metric: c.metric,
+      value: c.value ?? null,
+      unit: c.unit ?? null,
+      verification: c.verification,
+      method: c.method ?? null,
+      caveat: c.caveat ?? null,
+      source_url: c.source_url ?? null,
+      evidence: c.evidence ?? null,
     })),
     fact_contribution,
-    fact_role: roles.map((r) => ({
-      role_id: r.id, org_id: ref(r.data.org), title: r.data.title,
-      started_on: r.data.started_on, ended_on: r.data.ended_on, summary: r.data.summary,
+    fact_role: roles.map((r: any) => ({
+      role_id: r.id, org_id: ref(r.org), title: r.title,
+      started_on: r.started_on, ended_on: r.ended_on ?? null, summary: r.summary,
     })),
-    fact_testimonial: testimonials.map((t) => ({
-      testimonial_id: t.id, person_id: ref(t.data.person), body: t.data.body,
-      given_on: t.data.given_on, source_url: t.data.source_url,
+    fact_testimonial: testimonials.map((t: any) => ({
+      testimonial_id: t.id, person_id: ref(t.person), body: t.body,
+      given_on: t.given_on, source_url: t.source_url,
     })),
   };
 }
