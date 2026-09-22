@@ -1848,11 +1848,19 @@ export const GET: APIRoute = async () => {
 
 - [ ] **Step 6: Write `src/pages/claims.astro`**
 
-The complete `fact_claim` table through `<ResultTable>`, grouped by verification status
-with `verified` first and `untested` last — the unflattering rows are not buried. A
-legend explains what each status requires, taken from spec §3's table. A link to
+The complete `fact_claim` table through `<ResultTable>`, grouped by verification status.
+
+**The page opens with the status distribution — all four counts, visible together, before
+any group.** Saying "unflattering rows are not buried" while ordering `untested` last is a
+contradiction: last is where things get buried. The distribution resolves it. A reader sees
+the real shape of the evidence in one line, so the group order below it cannot mislead, and
+the `untested` count is known before anything else is read. Groups then run `verified`,
+`measured`, `self_reported`, `untested`.
+
+A legend explains what each status requires, taken from spec §3's table. A link to
 `/claims.csv`. Filtering is progressive enhancement: native `<details>` per group works
-with no JavaScript.
+with no JavaScript, and the groups must be open by default — a collapsed `untested` group
+would bury it more effectively than ordering ever could.
 
 Include a short prose paragraph stating that the site's own claims appear in this table
 on the same terms, and pointing at the `self_reported` CGPA row as the example.
