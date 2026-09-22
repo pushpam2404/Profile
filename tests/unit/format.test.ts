@@ -17,7 +17,12 @@ describe('formatFooter', () => {
 
 describe('formatValue', () => {
   it('joins value and unit with a thin space', () => {
-    expect(formatValue('90.04', '%')).toBe('90.04 %');
+    expect(formatValue('90.04', '%')).toBe('90.04 %');
+  });
+
+  it('joins with a thin space, not an ordinary one', () => {
+    expect(formatValue('90.04', '%')).not.toBe('90.04 %'); // plain U+0020
+    expect(formatValue('90.04', '%').charCodeAt(5)).toBe(0x2009);
   });
 
   it('renders a missing value as NULL', () => {
