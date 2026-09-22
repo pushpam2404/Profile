@@ -1,65 +1,65 @@
 # Pushpam Raj Satyarthi — Developer Portfolio
 
-Single-page personal portfolio site with a dark, terminal/IDE-inspired aesthetic. Built as one self-contained `index.html` — no build step, no bundler, no `npm install`.
+A personal portfolio built around one idea: every factual claim on the site carries a
+verification status, and the site states what has not been proven as prominently as what
+has. The claims ledger is a real dataset, rendered into the pages at build time and also
+queryable live, in the browser, with actual SQL.
 
-**Live:** [pushpam2404-profile.vercel.app](https://pushpam2404-profile.vercel.app/)
-
-## Stack
-
-- Plain HTML5 + vanilla JS (no framework)
-- [Tailwind CSS](https://tailwindcss.com/) via CDN (`cdn.tailwindcss.com`), custom theme extension for colors/fonts
-- [Lucide Icons](https://lucide.dev/) via CDN
-- Google Fonts: Inter (body), JetBrains Mono (code/terminal UI)
-- Everything (CSS, JS, data) lives inline in `index.html`
+**This branch (`rebuild/warehouse`) is a from-scratch rebuild** of what was previously a
+single-file `index.html`. That file still exists at the repo root and is still the live
+site until this branch is finished and merged — see [Status](#status) below.
 
 ## Running it
 
-No install needed. Either:
-
 ```bash
-open index.html          # macOS, opens directly in browser
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # writes dist/, then emits dist/warehouse/*.parquet
+npm run preview   # serve the production build locally
 ```
 
-or serve it locally (recommended, since some browsers restrict `fetch`/clipboard APIs on `file://`):
-
 ```bash
-python3 -m http.server 8000
-# visit http://localhost:8000
+npm test          # vitest — schema, warehouse, formatting, parity
+npm run typecheck # tsc --noEmit
+npm run test:e2e  # playwright — accessibility and behaviour, once Task 16 lands
 ```
 
-## Sections
+## Architecture
 
-| Section | `id` | Content |
-|---|---|---|
-| Hero | `#hero` | Intro, status badge, animated ETL pipeline SVG diagram |
-| About | `#about` | Bio |
-| Skills | `#skills` | Languages, data eng stack, databases, frameworks, tools, CS fundamentals |
-| Experience | `#experience` | Motherson Technology Services internship (AIML team) |
-| Projects | `#projects` | 4 project cards, each opens a detail drawer |
-| Education | `#education` | GITAM University + certifications |
-| Achievements | `#achievements` | Awards/recognition |
-| Contact | `#contact` | Contact links |
+Content lives as typed, Zod-validated collections in `src/content/` — not as strings in
+markup. A claim's `verification` status determines what fields it must carry:
 
-## Notable interactive bits
+| Status | Requires |
+|---|---|
+| `verified` | a public `source_url` a reader can open right now |
+| `measured` | a `method` (hardware, dataset, procedure) and a `caveat` (what it doesn't prove) |
+| `self_reported` | nothing — it's the author's word, and it's labelled as such |
+| `untested` | a `caveat` saying what proving it would require, and `value: null` |
 
-- **ETL pipeline animation** (hero, `#pipeline-svg`) — animated packets flow from source nodes → transform → warehouse; click a node to see its details in the panel (`selectPipelineNode()`).
-- **Project drawer** — clicking a project card calls `openProjectDrawer(id)`, which pulls structured data out of the inline `<script type="application/json" id="project-data">` block and renders it into a slide-out panel.
-- **Fake terminal** (`#terminal-input`) — supports commands like `help`, `cat about.md`, `get --skills`, `curl /experience`, `ls projects`, `ping gitam`, `clear`. Unknown input returns a `command not found` message. Input is escaped via `escapeHTML()` before rendering.
-- **Copy-to-clipboard SSH string** — `copySSH()`, uses `navigator.clipboard`.
-- Scroll-triggered section reveals and active-nav-link highlighting via `IntersectionObserver`.
-- Respects `prefers-reduced-motion`: disables the pipeline animation loop and reveal transitions.
+These rules are enforced by `src/content.config.ts` at build time — a claim missing its
+required evidence fails the build. This is the mechanism that keeps the site honest; it
+isn't a convention anyone has to remember to follow.
 
-## Editing content
+`src/lib/warehouse.ts` reads those same content files and projects them into a small star
+schema (`dim_project`, `dim_credential`, `fact_claim`, …). Astro pages call it directly to
+render; a `postbuild` script (`scripts/build-warehouse.ts`) also writes it out as Parquet.
+Both paths read the same files, so the rendered pages and the queryable database cannot
+disagree.
 
-There's no CMS or data file — content lives directly in the markup:
+On `/` and `/console`, that Parquet is loaded into **DuckDB-WASM** running in your
+browser — a real SQL engine, not a canned demo. The home page's hero query and the
+`/console` page both execute against it live. Every page is fully readable with
+JavaScript off; the WASM engine is a progressive enhancement over a statically rendered
+result.
 
-- **Project details**: edit the JSON in the `#project-data` `<script>` block (~line 1081).
-- **Terminal commands/output**: edit the `terminalCommands` object in the JS (~line 1332).
-- **Pipeline node descriptions**: edit the `nodeDetails` object (~line 1282).
-- **Colors/fonts**: edit `tailwind.config` in the `<head>` (~line 20).
+## Adding or editing a claim
 
-## Known gaps
+Edit `src/content/claims.json`. Pick a `verification` status and supply what it requires
+(above) — the build will refuse to compile otherwise, naming the offending claim. There is
+no other content file to keep in sync: the ledger page, the CSV export, the home page's
+hero, and the live SQL console all read from this one file.
 
-- Tailwind is loaded from the CDN (`cdn.tailwindcss.com`), which is explicitly [not recommended for production](https://tailwindcss.com/docs/installation/play-cdn) by the Tailwind docs — fine for a portfolio, but worth a proper build step (PostCSS/CLI) if this ever needs to scale or drop the CDN dependency.
-- No meta tags beyond title/description — no Open Graph/Twitter card, no favicon, no `robots.txt`/sitemap.
-- No analytics or form backend wired to the Contact section (check `#contact` for whether it's mailto-only or expects a form submission target).
+## Status
+
+Rebuild in progress, task-by-task, each with its own commit. Not yet merged to `main`, and
+`index.html` is untouched and still live at the deployed URL until this branch replaces it.
