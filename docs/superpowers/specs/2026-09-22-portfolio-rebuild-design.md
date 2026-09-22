@@ -322,6 +322,16 @@ server-rendered at build time, so the hero is fully populated and readable with
 JavaScript disabled or still loading. The live engine replaces identical content — the
 reader never sees a layout shift.
 
+**The hero query must return a stratified sample — two rows per verification status —
+not a plain `ORDER BY` with a limit.** This is not a presentation preference. A plain
+ordering fills the fold with whichever status sorts first, and `measured` both sorts
+first alphabetically and is the most numerous status in the data. The opening view would
+then show eight flattering rows and nothing else, so a reader who never scrolls would
+leave believing the opposite of what this site exists to say. The stratified form
+guarantees `untested` appears above the fold. The build-time render and the live query
+must produce identical rows, so the static render sorts by `claim_id` within each status
+to match the window function's `ORDER BY`.
+
 **Console behaviour:** a real editor against the real schema. Arbitrary `SELECT` is
 permitted. Saved example queries seed the reader who does not write SQL:
 
