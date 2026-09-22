@@ -1,0 +1,186 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ResultTable from '~/components/ResultTable.astro';
+import type { Column } from '~/components/ResultTable.astro';
+import { buildWarehouse } from '~/lib/warehouse';
+import { formatValue } from '~/lib/format';
+
+const wh = await buildWarehouse();
+
+const orgName = (orgId: string | null) =>
+  wh.dim_org.find((o) => o.org_id === orgId)?.name ?? orgId;
+
+const roleColumns = [
+  { key: 'title', label: 'role' },
+  { key: 'organization', label: 'organization' },
+  { key: 'started', label: 'started' },
+  { key: 'ended', label: 'ended' },
+] satisfies Column[];
+
+const roleRows = [...wh.fact_role]
+  .sort((a, b) => String(b.started_on).localeCompare(String(a.started_on)))
+  .map((r) => ({
+    title: r.title,
+    organization: orgName(r.org_id as string | null),
+    started: r.started_on,
+    ended: r.ended_on ?? 'present',
+  }));
+
+// Both figures below are pulled from the ledger's own claims, not retyped,
+// so the prose and the claims page can never drift apart.
+const cgpaClaim = wh.fact_claim.find((c) => c.claim_id === 'cgpa');
+if (!cgpaClaim) throw new Error('Expected the cgpa claim in the warehouse.');
+const cgpaValue = formatValue(cgpaClaim.value as string | null, cgpaClaim.unit as string | null);
+
+const testimonialOrder = ['ambuj-2026-06', 'sachin-2026-07'];
+const testimonials = testimonialOrder.map((id) => {
+  const t = wh.fact_testimonial.find((row) => row.testimonial_id === id);
+  if (!t) throw new Error(`Expected testimonial ${id} in the warehouse.`);
+  const speaker = wh.dim_person.find((p) => p.person_id === t.person_id);
+  if (!speaker) throw new Error(`Expected speaker for testimonial ${id} in dim_person.`);
+  const speakerOrg = wh.dim_org.find((o) => o.org_id === speaker.org_id);
+  return { testimonial: t, speaker, speakerOrgName: speakerOrg?.name ?? null };
+});
+---
+<BaseLayout
+  title="About — Pushpam Raj Satyarthi"
+  description="Roles, education and testimonials, drawn from the same warehouse the rest of the site queries."
+>
+  <header class="intro">
+    <h1>About</h1>
+    <p class="prose-measure">
+      Third-year Computer Science undergraduate at GITAM University, working
+      toward Data Engineering and Backend roles. In his own words, from his
+      GitHub profile README: "I prefer building robust, scalable pipelines
+      and data infrastructure over abstract, math-heavy ML theory." The six
+      case studies on this site — an ETL pipeline, a threat-detection
+      classifier, a secure-erasure toolkit, a medication-management backend,
+      an autocomplete engine and a trip-planning app — are what that
+      preference has produced so far.
+    </p>
+  </header>
+
+  <section aria-labelledby="roles-heading">
+    <h2 id="roles-heading">Roles</h2>
+    <p class="prose-measure">
+      He joined AeroGITAM's aircraft domain as a first-term member in August
+      2024, six months into the programme, and was made Aircraft Domain Lead
+      the following February, a role he held until November 2025 — leading
+      the domain's technical work and coordinating its teams. In May 2026 he
+      took a two-month AI/ML internship at Motherson Technology Services,
+      where he owned the Chat History feature for LegalLens end to end: a
+      Python/FastAPI backend, a React/TypeScript frontend, SQLite for session
+      metadata, and Azure Blob Storage for full message persistence, with no
+      prior web development experience going in. That August he became Open
+      Source Lead for GitHub Community GITAM Vizag, the role he holds now,
+      running Git and GitHub workshops and mentoring students through their
+      first open-source contributions.
+    </p>
+    <ResultTable
+      columns={roleColumns}
+      rows={roleRows}
+      caption="Four roles, most recent first"
+      footerSeconds={0.002}
+    />
+  </section>
+
+  <section aria-labelledby="education-heading">
+    <h2 id="education-heading">Education</h2>
+    <p class="prose-measure">
+      GITAM University, B.Tech in Computer Science and Engineering, 2024–2028.
+      CGPA {cgpaValue} — his own figure, held on semester transcripts that
+      are not published, so it carries the same self-reported status in the
+      <a href="/claims#self_reported-heading">claims ledger</a> as it does
+      here.
+    </p>
+  </section>
+
+  <section aria-labelledby="testimonials-heading" class="testimonials">
+    <h2 id="testimonials-heading">What colleagues say</h2>
+    {testimonials.map(({ testimonial, speaker, speakerOrgName }) => (
+      <blockquote class="pull prose-measure">
+        <p>{testimonial.body}</p>
+        <footer>
+          {speaker.name} — {speaker.title}{speakerOrgName ? `, ${speakerOrgName}` : ''}, <a href={testimonial.source_url as string} rel="noopener">LinkedIn</a>
+        </footer>
+      </blockquote>
+    ))}
+  </section>
+
+  <section aria-labelledby="now-heading">
+    <h2 id="now-heading">Currently</h2>
+    <p class="prose-measure">
+      Leading the Open Source domain at GitHub Community GITAM Vizag, and
+      looking for Data Engineering and Backend internships and new-grad
+      roles.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-family: var(--font-prose);
+    font-weight: 400;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    margin: 0 0 1rem;
+  }
+
+  .intro p {
+    margin: 0;
+  }
+
+  section {
+    margin: 3rem 0;
+  }
+
+  h2 {
+    font-family: var(--font-prose);
+    font-weight: 500;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    margin: 0 0 1rem;
+  }
+
+  section > p {
+    margin: 0 0 1.5rem;
+  }
+
+  a {
+    color: var(--color-ink);
+  }
+
+  .testimonials {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .testimonials h2 {
+    margin-bottom: 0;
+  }
+
+  .pull {
+    margin: 0;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-rule);
+  }
+
+  .pull p {
+    margin: 0 0 0.75rem;
+  }
+
+  .pull footer {
+    font-family: var(--font-data);
+    font-size: var(--text-label);
+    color: var(--color-ink-soft);
+  }
+
+  .pull footer a {
+    color: inherit;
+  }
+</style>
