@@ -11,15 +11,14 @@ import type { Verification } from '~/content.config';
 // chr(8201) is the thin space formatValue uses to join a value to its unit.
 // Spelling it out keeps the live result byte-identical to the build-time render
 // instead of quietly dropping the unit, which would turn "30 %" into "30".
-const HERO_SQL = `SELECT metric,
-       CASE WHEN unit IS NULL THEN value
-            ELSE value || chr(8201) || unit END AS value,
+// concat_ws returns '' when both args are null (untested rows), not null —
+// NULLIF turns that back into null so it renders as the literal NULL text
+// the rest of the site uses, instead of a blank cell.
+const HERO_SQL = `SELECT metric, NULLIF(concat_ws(chr(8201), value, unit), '') AS value,
        verification, source_url
-  FROM (SELECT *, row_number() OVER (
-          PARTITION BY verification ORDER BY claim_id) AS rn
-        FROM career.fact_claim)
- WHERE rn <= 2
- ORDER BY verification`;
+  FROM (SELECT *, row_number() OVER (PARTITION BY verification
+          ORDER BY claim_id) AS rn FROM career.fact_claim)
+ WHERE rn <= 2 ORDER BY verification`;
 
 const PER_STATUS = 2;
 
