@@ -39,13 +39,15 @@ const LEGEND: { status: Verification; meaning: string; requirement: string }[] =
   {
     status: 'untested',
     meaning: 'Built, but never proven.',
-    requirement: 'The caveat must state what proving it would require.',
+    requirement:
+      'The caveat must state what proving it would require, and the value must be null — an untested claim has no measurement to report.',
   },
 ];
 
 const claimColumns = [
   { key: 'metric', label: 'metric' },
   { key: 'value', label: 'value', numeric: true },
+  { key: 'verification', label: 'status', type: 'status' },
   { key: 'method', label: 'method' },
   { key: 'caveat', label: 'caveat' },
   { key: 'evidence', label: 'evidence' },
@@ -68,6 +70,7 @@ function rowsFor(status: Verification) {
     .map((c) => ({
       metric: c.metric,
       value: formatValue(c.value as string | null, c.unit as string | null),
+      verification: c.verification,
       method: c.method,
       caveat: c.caveat,
       evidence: c.evidence,
