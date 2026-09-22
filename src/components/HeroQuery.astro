@@ -8,7 +8,13 @@ import type { Verification } from '~/content.config';
 // sort first — here `measured`, of which there are 17. The opening view would then
 // show only flattering rows, which is the one thing this site must not do. Two rows
 // per status guarantees the reader meets `untested` above the fold.
-const HERO_SQL = `SELECT metric, value, verification
+// chr(8201) is the thin space formatValue uses to join a value to its unit.
+// Spelling it out keeps the live result byte-identical to the build-time render
+// instead of quietly dropping the unit, which would turn "30 %" into "30".
+const HERO_SQL = `SELECT metric,
+       CASE WHEN unit IS NULL THEN value
+            ELSE value || chr(8201) || unit END AS value,
+       verification, source_url
   FROM (SELECT *, row_number() OVER (
           PARTITION BY verification ORDER BY claim_id) AS rn
         FROM career.fact_claim)
@@ -45,7 +51,7 @@ const total = rows.length;
           <td>{r.metric}</td>
           <td class="numeric">{formatValue(r.value as string | null, r.unit as string | null)}</td>
           <td>
-            <StatusTag status={r.verification as Verification} />
+            <StatusTag status={r.verification as Verification} />{' '}
             {r.source_url && (
               <a href={r.source_url as string} rel="noopener">check</a>
             )}

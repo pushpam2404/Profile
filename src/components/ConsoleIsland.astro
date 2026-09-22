@@ -28,7 +28,9 @@
           const sql = queryEl.textContent ?? '';
           const result = await engine.query(sql);
           if (result.rows.length === 0) return; // keep the static table
-          renderInto(resultEl, result);
+          renderInto(resultEl, result, {
+            foldUrlInto: { column: 'source_url', label: 'check' },
+          });
           footerEl.textContent = formatFooter(result.rows.length, result.seconds);
           mount.dataset.heroState = 'live';
         } catch {
