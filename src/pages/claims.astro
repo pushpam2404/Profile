@@ -1,0 +1,291 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ResultTable from '~/components/ResultTable.astro';
+import type { Column } from '~/components/ResultTable.astro';
+import StatusTag from '~/components/StatusTag.astro';
+import { buildWarehouse } from '~/lib/warehouse';
+import { formatValue } from '~/lib/format';
+import { VERIFICATION } from '~/content.config';
+import type { Verification } from '~/content.config';
+
+const wh = await buildWarehouse();
+
+const counts = Object.fromEntries(
+  VERIFICATION.map((status) => [
+    status,
+    wh.fact_claim.filter((c) => c.verification === status).length,
+  ]),
+) as Record<Verification, number>;
+
+const total = wh.fact_claim.length;
+
+const LEGEND: { status: Verification; meaning: string; requirement: string }[] = [
+  {
+    status: 'verified',
+    meaning: 'A third party confirms it, at a URL the reader can open right now.',
+    requirement: 'The source must be a public link that needs no login.',
+  },
+  {
+    status: 'measured',
+    meaning: 'The author measured it.',
+    requirement:
+      'The method must state hardware, dataset and procedure. The caveat must state what the number does not prove.',
+  },
+  {
+    status: 'self_reported',
+    meaning: "The author's word. No external check available.",
+    requirement: 'The evidence may note a document held but not published.',
+  },
+  {
+    status: 'untested',
+    meaning: 'Built, but never proven.',
+    requirement: 'The caveat must state what proving it would require.',
+  },
+];
+
+const claimColumns = [
+  { key: 'metric', label: 'metric' },
+  { key: 'value', label: 'value', numeric: true },
+  { key: 'method', label: 'method' },
+  { key: 'caveat', label: 'caveat' },
+  { key: 'evidence', label: 'evidence' },
+  { key: 'source', label: 'source', type: 'link', hrefKey: 'source_url' },
+] satisfies Column[];
+
+const stripProtocol = (url: string) => url.replace(/^https?:\/\//, '');
+
+const groupFootSeconds: Record<Verification, number> = {
+  verified: 0.004,
+  measured: 0.007,
+  self_reported: 0.003,
+  untested: 0.005,
+};
+
+function rowsFor(status: Verification) {
+  return wh.fact_claim
+    .filter((c) => c.verification === status)
+    .sort((a, b) => String(a.claim_id).localeCompare(String(b.claim_id)))
+    .map((c) => ({
+      metric: c.metric,
+      value: formatValue(c.value as string | null, c.unit as string | null),
+      method: c.method,
+      caveat: c.caveat,
+      evidence: c.evidence,
+      source: c.source_url ? stripProtocol(c.source_url as string) : null,
+      source_url: c.source_url,
+    }));
+}
+
+const groupLabel: Record<Verification, string> = {
+  verified: 'Verified',
+  measured: 'Measured',
+  self_reported: 'Self-reported',
+  untested: 'Untested',
+};
+---
+<BaseLayout
+  title="Claims ledger — Pushpam Raj Satyarthi"
+  description="Every claim on this site, with its verification status, method and caveats, exportable as CSV."
+>
+  <header class="intro">
+    <h1>Claims ledger</h1>
+    <p class="prose-measure">
+      Every claim made anywhere on this site is recorded here, with the
+      status that says how it was checked. Nothing is filtered out for this
+      page: what follows is all {total} rows in the ledger, in the same
+      four groups the build itself enforces.
+    </p>
+    <p class="prose-measure">
+      The site's own claims appear in this table on the same terms as
+      anyone else's. The CGPA figure in the <a href="#self_reported-heading">self-reported group</a>
+      below has no public transcript behind it — that row is the proof the
+      rest of this ledger means anything.
+    </p>
+    <p class="download">
+      <a href="/claims.csv">Download the complete ledger as CSV</a>
+    </p>
+  </header>
+
+  <section aria-label="Status distribution" class="distribution">
+    <dl>
+      {VERIFICATION.map((status) => (
+        <div class="dist-row">
+          <dt><StatusTag status={status} /></dt>
+          <dd>{counts[status]}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section aria-labelledby="legend-heading" class="legend">
+    <h2 id="legend-heading">What each status requires</h2>
+    <dl>
+      {LEGEND.map(({ status, meaning, requirement }) => (
+        <div class="legend-row">
+          <dt><StatusTag status={status} /></dt>
+          <dd>
+            <p class="meaning">{meaning}</p>
+            <p class="requirement">{requirement}</p>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  {VERIFICATION.map((status) => {
+    const rows = rowsFor(status);
+    return (
+      <section aria-label={`${groupLabel[status]} claims`} class="group">
+        <details open>
+          <summary>
+            <h2 id={`${status}-heading`}>
+              {groupLabel[status]} <span class="count">({rows.length})</span>
+            </h2>
+          </summary>
+          <ResultTable
+            columns={claimColumns}
+            rows={rows}
+            caption={`${groupLabel[status]} claims, ${rows.length} rows`}
+            footerSeconds={groupFootSeconds[status]}
+          />
+        </details>
+      </section>
+    );
+  })}
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-family: var(--font-prose);
+    font-weight: 400;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    margin: 0 0 1rem;
+  }
+
+  .intro p {
+    margin: 0 0 1rem;
+  }
+
+  .intro a {
+    color: var(--color-ink);
+  }
+
+  .download {
+    font-family: var(--font-data);
+    font-size: var(--text-small);
+  }
+
+  .distribution {
+    margin: 2.5rem 0;
+    padding: 1rem 1.25rem;
+    background-color: var(--color-bar);
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .distribution dl {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+  }
+
+  .dist-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .dist-row dt {
+    margin: 0;
+  }
+
+  .dist-row dd {
+    margin: 0;
+    font-family: var(--font-data);
+    font-size: var(--text-h3);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .legend {
+    margin: 2.5rem 0;
+  }
+
+  h2 {
+    font-family: var(--font-prose);
+    font-weight: 500;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    margin: 0 0 1rem;
+  }
+
+  .legend dl {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .legend-row {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+  }
+
+  .legend-row dt {
+    margin: 0;
+  }
+
+  .legend-row dd {
+    margin: 0;
+  }
+
+  .legend-row .meaning {
+    margin: 0 0 0.25rem;
+  }
+
+  .legend-row .requirement {
+    margin: 0;
+    color: var(--color-ink-soft);
+    font-size: var(--text-small);
+  }
+
+  .group {
+    margin: 2.5rem 0;
+  }
+
+  .group summary {
+    cursor: pointer;
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+
+  .group summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .group summary h2 {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .group .count {
+    font-family: var(--font-data);
+    font-size: var(--text-data);
+    color: var(--color-ink-soft);
+  }
+
+  @media (max-width: 640px) {
+    .legend-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
