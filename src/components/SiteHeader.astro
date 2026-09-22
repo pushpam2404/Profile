@@ -1,0 +1,89 @@
+---
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/claims', label: 'Claims' },
+  { href: '/credentials', label: 'Credentials' },
+  { href: '/console', label: 'Console' },
+  { href: '/about', label: 'About' },
+];
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
+---
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="wordmark" href="/">Pushpam Raj Satyarthi</a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-rule);
+    background-color: var(--color-paper);
+  }
+
+  .site-header__inner {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 2rem;
+  }
+
+  .wordmark {
+    font-family: var(--font-prose);
+    font-size: var(--text-h3);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .wordmark:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    font-family: var(--font-data);
+    font-size: var(--text-small);
+    color: var(--color-ink-soft);
+    text-decoration: none;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav a:hover {
+    color: var(--color-ink);
+  }
+
+  .nav a[aria-current='page'] {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-ink);
+  }
+</style>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pushpam2404-profile.vercel.app/sitemap-index.xml
