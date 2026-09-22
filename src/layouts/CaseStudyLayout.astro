@@ -87,8 +87,8 @@ const stripProtocol = (url: string) => url.replace(/^https?:\/\//, '');
                   </tr>
                 </thead>
                 <tbody>
-                  {claims.flatMap((c) => [
-                    <tr>
+                  {claims.flatMap((c, i) => [
+                    <tr class={`claim-row${i % 2 === 1 ? ' band' : ''}`}>
                       <td>{c.metric}</td>
                       <td class="numeric">
                         {formatValue(c.value as string | null, c.unit as string | null)}
@@ -219,8 +219,16 @@ const stripProtocol = (url: string) => url.replace(/^https?:\/\//, '');
     border-bottom: 1px solid var(--color-rule);
   }
 
-  .claims-table tr {
+  /* The global tbody tr:nth-child(even) rule stripes by raw row position,
+     which would band unevenly once caveat rows are interleaved at irregular
+     intervals (not every claim has one). Band explicitly by claim index
+     instead, and keep every caveat row transparent regardless of position. */
+  .claims-table tbody tr {
     background-color: transparent;
+  }
+
+  .claims-table tbody tr.claim-row.band {
+    background-color: var(--color-bar);
   }
 
   .caveat-row td {

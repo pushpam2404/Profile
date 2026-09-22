@@ -18,7 +18,6 @@ skills:
   - python
   - sql
   - etl-pipeline-design
-  - schema-normalization
   - pandas
   - numpy
   - sqlite
