@@ -111,16 +111,12 @@ const speakerOrg = wh.dim_org.find((o) => o.org_id === speaker.org_id);
   </section>
 
   <section aria-labelledby="contact-heading" class="contact">
-    <h2 id="contact-heading">Get in touch</h2>
+    <h2 id="contact-heading">Availability</h2>
     <p class="prose-measure">
-      The fastest way to reach me is email. The claims ledger and the
-      console are open to read and query without asking first.
+      Looking for Data Engineering and Backend internships and new-grad
+      roles. Contact details, the claims ledger and the console this page
+      queries are all in the footer below.
     </p>
-    <ul class="contact-list">
-      <li><a href="mailto:prsatyarthi2404@gmail.com">prsatyarthi2404@gmail.com</a></li>
-      <li><a href="https://github.com/pushpam2404" rel="me">github.com/pushpam2404</a></li>
-      <li><a href="https://www.linkedin.com/in/pushpamrajsatyarthi/" rel="me">linkedin.com/in/pushpamrajsatyarthi</a></li>
-    </ul>
   </section>
 </BaseLayout>
 
@@ -190,25 +186,4 @@ const speakerOrg = wh.dim_org.find((o) => o.org_id === speaker.org_id);
     color: inherit;
   }
 
-  .contact-list {
-    font-family: var(--font-data);
-    font-size: var(--text-small);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .contact-list a {
-    color: var(--color-ink-soft);
-    text-decoration: none;
-  }
-
-  .contact-list a:hover {
-    color: var(--color-ink);
-    text-decoration: underline;
-    text-underline-offset: 0.18em;
-  }
 </style>

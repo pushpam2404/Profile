@@ -4,17 +4,33 @@ import StatusTag from '~/components/StatusTag.astro';
 import { formatFooter, formatValue } from '~/lib/format';
 import type { Verification } from '~/content.config';
 
+// A plain ORDER BY + LIMIT would fill the fold with whichever status happens to
+// sort first — here `measured`, of which there are 17. The opening view would then
+// show only flattering rows, which is the one thing this site must not do. Two rows
+// per status guarantees the reader meets `untested` above the fold.
 const HERO_SQL = `SELECT metric, value, verification
-  FROM career.fact_claim
- WHERE verification <> 'self_reported'
+  FROM (SELECT *, row_number() OVER (
+          PARTITION BY verification ORDER BY claim_id) AS rn
+        FROM career.fact_claim)
+ WHERE rn <= 2
  ORDER BY verification`;
 
+const PER_STATUS = 2;
+
 const wh = await buildWarehouse();
-const rows = wh.fact_claim
-  .filter((c) => c.verification !== 'self_reported')
-  .sort((a, b) => String(a.verification).localeCompare(String(b.verification)))
-  .slice(0, 8);
-const total = wh.fact_claim.filter((c) => c.verification !== 'self_reported').length;
+
+const seen = new Map<string, number>();
+const rows = [...wh.fact_claim]
+  .sort((a, b) => String(a.claim_id).localeCompare(String(b.claim_id)))
+  .filter((c) => {
+    const v = String(c.verification);
+    const n = (seen.get(v) ?? 0) + 1;
+    seen.set(v, n);
+    return n <= PER_STATUS;
+  })
+  .sort((a, b) => String(a.verification).localeCompare(String(b.verification)));
+
+const total = rows.length;
 ---
 <section class="hero" data-hero-state="static">
   <pre id="hero-query" class="query">{HERO_SQL}</pre>
