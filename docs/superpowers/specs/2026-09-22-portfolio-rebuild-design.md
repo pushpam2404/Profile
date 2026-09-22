@@ -58,7 +58,7 @@ argument. Nothing else in the design uses these hues.
 | `verified` | A third party confirms it, at a URL the reader can open right now. | `source_url` must be a public, non-authenticated link. |
 | `measured` | The author measured it. | `method` must state hardware, dataset, and procedure. `caveat` must state what the number does *not* prove. |
 | `self_reported` | The author's word. No external check available. | `evidence` may note a document held but not published. |
-| `untested` | Built, but never proven. | `caveat` must state what would be required to prove it. |
+| `untested` | Built, but never proven. | `caveat` must state what would be required to prove it, and `value` must be null — an untested claim has no measurement to report. |
 
 A claim with `verification: measured` and no `method` fails schema validation and breaks
 the build. This is the enforcement mechanism; it is not a convention.
