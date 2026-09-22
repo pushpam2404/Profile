@@ -1,0 +1,55 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ResultTable from '~/components/ResultTable.astro';
+import type { Column } from '~/components/ResultTable.astro';
+import { buildWarehouse } from '~/lib/warehouse';
+
+const wh = await buildWarehouse();
+
+const columns = [
+  { key: 'name', label: 'project', type: 'link', hrefKey: 'href' },
+  { key: 'year', label: 'year', numeric: true },
+  { key: 'context', label: 'context' },
+  { key: 'status', label: 'status' },
+] satisfies Column[];
+
+const rows = wh.dim_project.map((p) => ({
+  name: p.name,
+  href: `/projects/${p.project_id}`,
+  year: p.year,
+  context: p.context,
+  status: p.status,
+}));
+---
+<BaseLayout
+  title="Projects — Pushpam Raj Satyarthi"
+  description="Six case studies, ordered as they were built, each carrying its own claims and caveats."
+>
+  <h1>Projects</h1>
+  <p class="lede prose-measure">
+    Six projects, ordered as they were built. Each name opens a case study
+    with the claims recorded for that project, including the ones that were
+    never proven.
+  </p>
+  <ResultTable
+    columns={columns}
+    rows={rows}
+    caption="Six projects ordered by build order, each name linking to its case study"
+    footerSeconds={0.003}
+  />
+</BaseLayout>
+
+<style>
+  h1 {
+    font-family: var(--font-prose);
+    font-weight: 400;
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    margin: 1rem 0 1rem;
+  }
+
+  .lede {
+    color: var(--color-ink-soft);
+    margin: 0 0 1.5rem;
+  }
+</style>

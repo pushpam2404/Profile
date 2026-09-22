@@ -18,9 +18,7 @@ skills:
   - python
   - sql
   - etl-pipeline-design
-  - fault-tolerant-pipeline-architecture
   - schema-normalization
-  - incremental-delta-loading
   - pandas
   - numpy
   - sqlite
