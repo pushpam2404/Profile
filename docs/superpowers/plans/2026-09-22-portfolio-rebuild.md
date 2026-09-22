@@ -2182,8 +2182,15 @@ Keyboard contract from spec §9: `Escape` in the editor moves focus to the Run c
 
 Wires the editor: lazy `initEngine()` on first Run, `renderHead`/`renderInto` for
 results, the `formatFooter` form for the footer, and an error surface that prints the
-engine's own message in `--color-untested`. Per spec §4, an error explains what happened
-and how to fix it, and does not apologise. When `result.truncated`, the footer reads
+engine's own message.
+
+**The error surface must not use a status hue.** Those four colours mean "how well is this
+claim evidenced", and a failed query is not a claim. Distinguish the error by treatment
+instead — mono text in `--color-ink` on a `--color-bar` band with a left rule in
+`--color-ink-soft`. Borrowing `--color-untested` here would say something the error does
+not mean, which is the same mistake already caught twice on the focus ring and the nav.
+
+Per spec §4, an error explains what happened and how to fix it, and does not apologise. When `result.truncated`, the footer reads
 `500 rows in set (0.0XX s), truncated`.
 
 - [ ] **Step 4: Verify**
