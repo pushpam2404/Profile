@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import HeroQuery from '~/components/HeroQuery.astro';
+import ConsoleIsland from '~/components/ConsoleIsland.astro';
 import ResultTable from '~/components/ResultTable.astro';
 import type { Column } from '~/components/ResultTable.astro';
 import { buildWarehouse } from '~/lib/warehouse';
@@ -75,6 +76,7 @@ const speakerOrg = wh.dim_org.find((o) => o.org_id === speaker.org_id);
   </header>
 
   <HeroQuery />
+  <ConsoleIsland />
 
   <section aria-labelledby="projects-heading">
     <h2 id="projects-heading">Projects</h2>

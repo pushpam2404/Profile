@@ -1,0 +1,43 @@
+---
+// Upgrades the statically rendered hero to live query output. The markup it
+// replaces is already complete, so this is an enhancement: if anything here
+// fails, the build-time table simply stands.
+---
+
+<script>
+  import { formatFooter } from '~/lib/format';
+
+  const mount = document.querySelector<HTMLElement>('[data-hero-state]');
+  const queryEl = document.getElementById('hero-query');
+  const resultEl = document.getElementById('hero-result');
+  const footerEl = document.getElementById('hero-footer');
+
+  if (mount && queryEl && resultEl && footerEl) {
+    const io = new IntersectionObserver(
+      async (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        try {
+          // Kept out of the initial bundle: the WASM is several megabytes and
+          // must never delay first paint.
+          const [{ initEngine }, { renderInto }] = await Promise.all([
+            import('~/scripts/console-engine'),
+            import('~/scripts/render-result'),
+          ]);
+          const engine = await initEngine();
+          const sql = queryEl.textContent ?? '';
+          const result = await engine.query(sql);
+          if (result.rows.length === 0) return; // keep the static table
+          renderInto(resultEl, result);
+          footerEl.textContent = formatFooter(result.rows.length, result.seconds);
+          mount.dataset.heroState = 'live';
+        } catch {
+          // The static table stands. Nothing to tell the reader — the page
+          // already shows the same rows.
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(mount);
+  }
+</script>

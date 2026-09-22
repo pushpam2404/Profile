@@ -13,7 +13,14 @@ const label: Record<Verification, string> = {
 ---
 <span class={`status status--${status}`} data-status={status}>{label[status]}</span>
 
-<style>
+<!--
+  These rules are global, not scoped, because the console and the live hero
+  build status cells with createElement at runtime — markup Astro's scoping
+  never sees. The status classes are therefore a deliberate global contract,
+  and this component owns them. They stay out of global.css so the guard
+  asserting no status hue appears there keeps its meaning.
+-->
+<style is:global>
   /* Status is text first; colour is reinforcement, never the only signal. */
   .status {
     font-family: var(--font-data);
