@@ -24,7 +24,6 @@ stack:
 skills:
   - python
   - xgboost
-  - scikit-learn
   - feature-engineering
   - model-tuning-and-eval
   - shap-explainability

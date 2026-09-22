@@ -18,7 +18,6 @@ stack:
   - SHA-256 hash chain
 skills:
   - python
-  - linux-unix-shell
   - os-architecture
 order: 1
 ---
