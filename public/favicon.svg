@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Greenbar mark">
-  <!-- Ground: --color-paper -->
+  <!-- Ground: token color-paper. A light filled square reads against both light and dark browser chrome. -->
   <rect width="32" height="32" fill="#EDEFEA" />
-  <!-- Three continuous-feed bands: --color-bar -->
-  <rect x="0" y="1" width="32" height="8" fill="#E2E8DD" />
-  <rect x="0" y="12" width="32" height="8" fill="#E2E8DD" />
-  <rect x="0" y="23" width="32" height="8" fill="#E2E8DD" />
-  <!-- One verified rule: --color-verified. The site's mark, not a status indicator. -->
-  <line x1="4" y1="16" x2="28" y2="16" stroke="#0F6E63" stroke-width="1.5" />
+  <!-- Three bands: token color-ink-soft. token color-bar was correct for page-scale zebra
+       striping (~1.05:1 against paper) but is imperceptible once downscaled to a 16px tab
+       icon. Ink-soft clears ~6.3:1 against the paper ground and survives that downscale. -->
+  <rect x="0" y="3" width="32" height="6" fill="#4A5A52" />
+  <rect x="0" y="13" width="32" height="6" fill="#4A5A52" />
+  <rect x="0" y="23" width="32" height="6" fill="#4A5A52" />
+  <!-- One verified rule: token color-verified, the site's mark, not a status indicator.
+       Placed in the paper gap between the second and third band rather than on top of a
+       band: verified and ink-soft are close in luminance (~1.2:1) and the rule would nearly
+       vanish drawn over a band, whereas it clears ~5.3:1 drawn on paper. -->
+  <line x1="4" y1="21" x2="28" y2="21" stroke="#0F6E63" stroke-width="1.5" />
 </svg>
