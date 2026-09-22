@@ -1,10 +1,214 @@
 ---
-// Placeholder home page. Task 9 replaces this with the real home page.
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import HeroQuery from '~/components/HeroQuery.astro';
+import ResultTable from '~/components/ResultTable.astro';
+import type { Column } from '~/components/ResultTable.astro';
+import { buildWarehouse } from '~/lib/warehouse';
+import { formatValue } from '~/lib/format';
+
+const wh = await buildWarehouse();
+
+const projectColumns = [
+  { key: 'name', label: 'project', type: 'link', hrefKey: 'href' },
+  { key: 'year', label: 'year', numeric: true },
+  { key: 'context', label: 'context' },
+  { key: 'status', label: 'status' },
+] satisfies Column[];
+
+const projectRows = wh.dim_project.map((p) => ({
+  name: p.name,
+  href: `/projects/${p.project_id}`,
+  year: p.year,
+  context: p.context,
+  status: p.status,
+}));
+
+const claimColumns = [
+  { key: 'metric', label: 'metric' },
+  { key: 'value', label: 'value', numeric: true },
+  { key: 'verification', label: 'verification', type: 'status' },
+] satisfies Column[];
+
+// A deliberately mixed set: one row from each of the four statuses, so the
+// page's first claims table is not just the hero's measured rows repeated.
+const SELECTED_CLAIM_IDS = [
+  'ibm-data-engineering-track',
+  'secure-erasure-photorec-recovery',
+  'cgpa',
+  'nist-800-88-purge',
+  'autocomplete-lookup-complexity',
+  'bulk-extractor-integration',
+];
+
+const claimRows = SELECTED_CLAIM_IDS.map((id) => {
+  const c = wh.fact_claim.find((row) => row.claim_id === id);
+  if (!c) throw new Error(`Selected claim not found in warehouse: ${id}`);
+  return {
+    metric: c.metric,
+    value: formatValue(c.value as string | null, c.unit as string | null),
+    verification: c.verification,
+  };
+});
+
+const testimonial = wh.fact_testimonial.find((t) => t.testimonial_id === 'ambuj-2026-06');
+if (!testimonial) throw new Error('Expected the Ambuj Upadhyay testimonial in the warehouse.');
+const speaker = wh.dim_person.find((p) => p.person_id === testimonial.person_id);
+if (!speaker) throw new Error('Expected the testimonial speaker in dim_person.');
+const speakerOrg = wh.dim_org.find((o) => o.org_id === speaker.org_id);
 ---
 <BaseLayout
   title="Pushpam Raj Satyarthi"
   description="Data engineering and backend portfolio of Pushpam Raj Satyarthi, built as a verifiable ledger of claims."
 >
-  <h1>Scaffold.</h1>
+  <header class="intro">
+    <p class="role prose-measure">
+      Third-year Computer Science undergraduate at GITAM University, working
+      toward data engineering and backend roles.
+    </p>
+    <h1 class="name">Pushpam Raj Satyarthi</h1>
+    <p class="thesis prose-measure">
+      Every claim on this site carries a verification status, including the
+      ones that don't flatter the author. The query below runs against that
+      ledger directly, and further down the page states plainly what has not
+      yet been proven, not only what has.
+    </p>
+  </header>
+
+  <HeroQuery />
+
+  <section aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Projects</h2>
+    <ResultTable
+      columns={projectColumns}
+      rows={projectRows}
+      caption="Six projects, each name linking to its case study"
+      footerSeconds={0.003}
+    />
+  </section>
+
+  <section aria-labelledby="claims-heading">
+    <h2 id="claims-heading">Selected claims</h2>
+    <p class="lede prose-measure">
+      One row from each verification status, including the self-reported
+      CGPA figure that has no public transcript behind it. The <a href="/claims">complete ledger</a> holds all of them.
+    </p>
+    <ResultTable
+      columns={claimColumns}
+      rows={claimRows}
+      caption="A sample spanning verified, measured, self-reported and untested claims"
+      footerSeconds={0.002}
+    />
+  </section>
+
+  <section aria-labelledby="testimonial-heading" class="testimonial">
+    <h2 id="testimonial-heading">What a colleague says</h2>
+    <blockquote class="pull prose-measure">
+      <p>{testimonial.body}</p>
+      <footer>
+        {speaker.name} — {speaker.title}{speakerOrg ? `, ${speakerOrg.name}` : ''}, <a href={testimonial.source_url as string} rel="noopener">LinkedIn</a>
+      </footer>
+    </blockquote>
+  </section>
+
+  <section aria-labelledby="contact-heading" class="contact">
+    <h2 id="contact-heading">Get in touch</h2>
+    <p class="prose-measure">
+      The fastest way to reach me is email. The claims ledger and the
+      console are open to read and query without asking first.
+    </p>
+    <ul class="contact-list">
+      <li><a href="mailto:prsatyarthi2404@gmail.com">prsatyarthi2404@gmail.com</a></li>
+      <li><a href="https://github.com/pushpam2404" rel="me">github.com/pushpam2404</a></li>
+      <li><a href="https://www.linkedin.com/in/pushpamrajsatyarthi/" rel="me">linkedin.com/in/pushpamrajsatyarthi</a></li>
+    </ul>
+  </section>
 </BaseLayout>
+
+<style>
+  .intro {
+    margin-top: 1rem;
+  }
+
+  .role {
+    font-family: var(--font-prose);
+    font-size: var(--text-small);
+    color: var(--color-ink-soft);
+    margin: 0 0 0.5rem;
+  }
+
+  .name {
+    font-family: var(--font-prose);
+    font-weight: 400;
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    margin: 0 0 1rem;
+  }
+
+  .thesis {
+    font-size: var(--text-body);
+    margin: 0;
+  }
+
+  section {
+    margin: 3rem 0;
+  }
+
+  h2 {
+    font-family: var(--font-prose);
+    font-weight: 500;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    margin: 0 0 1rem;
+  }
+
+  .lede {
+    color: var(--color-ink-soft);
+    margin: 0 0 1rem;
+  }
+
+  .lede a {
+    color: var(--color-ink);
+  }
+
+  .pull {
+    margin: 0;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--color-rule);
+  }
+
+  .pull p {
+    margin: 0 0 0.75rem;
+  }
+
+  .pull footer {
+    font-family: var(--font-data);
+    font-size: var(--text-label);
+    color: var(--color-ink-soft);
+  }
+
+  .pull footer a {
+    color: inherit;
+  }
+
+  .contact-list {
+    font-family: var(--font-data);
+    font-size: var(--text-small);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .contact-list a {
+    color: var(--color-ink-soft);
+    text-decoration: none;
+  }
+
+  .contact-list a:hover {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+</style>
