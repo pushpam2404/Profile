@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pushpam Raj Satyarthi | Data Engineer & Backend Systems Developer</title>
-  <meta name="description" content="Personal developer portfolio of Pushpam Raj Satyarthi, 3rd year CSE student at GITAM University and Data Engineer specializing in ETL pipelines, FastAPI, and robust backend systems.">
+  <title>Pushpam Raj Satyarthi | Data and Backend Developer</title>
+  <meta name="description" content="Portfolio of Pushpam Raj Satyarthi, a third-year CSE student at GITAM University working on data pipelines and backend systems with Python, SQL and Node.js.">
+  <meta name="theme-color" content="#0d0d0f">
+  <meta name="author" content="Pushpam Raj Satyarthi">
+  <link rel="canonical" href="https://pushpam2404-profile.vercel.app/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0d0f'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%2300f2fe'%3EPR%3C/text%3E%3C/svg%3E">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pushpam Raj Satyarthi | Data and Backend Developer">
+  <meta property="og:description" content="Portfolio of Pushpam Raj Satyarthi, a third-year CSE student at GITAM University working on data pipelines and backend systems with Python, SQL and Node.js.">
+  <meta property="og:url" content="https://pushpam2404-profile.vercel.app/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pushpam Raj Satyarthi | Data and Backend Developer">
+  <meta name="twitter:description" content="Portfolio of Pushpam Raj Satyarthi, a third-year CSE student at GITAM University working on data pipelines and backend systems with Python, SQL and Node.js.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Pushpam Raj Satyarthi","url":"https://pushpam2404-profile.vercel.app/","sameAs":["https://github.com/pushpam2404","https://www.linkedin.com/in/pushpamrajsatyarthi/"],"alumniOf":{"@type":"CollegeOrUniversity","name":"GITAM University"}}</script>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +27,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
 
   <script>
     tailwind.config = {
@@ -46,11 +58,20 @@
 
   <style type="text/css">
     /* Custom styles and overrides */
+    html, body { overflow-x: clip; }
     body {
       background-color: #0d0d0f;
       color: #94a3b8;
-      overflow-x: hidden;
     }
+    .text-xxs { font-size: 0.75rem; line-height: 1rem; }
+    :focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; border-radius: 4px; }
+    .skip-link {
+      position: absolute; left: 1rem; top: -4rem; z-index: 100;
+      background: #38bdf8; color: #0d0d0f; padding: .5rem 1rem; border-radius: 4px;
+      font-weight: 600; transition: top .15s;
+    }
+    .skip-link:focus { top: 1rem; }
+    #project-drawer:focus { outline: none; }
 
     /* Scrollbar Styling */
     ::-webkit-scrollbar {
@@ -137,6 +158,7 @@
   </style>
 </head>
 <body class="font-sans antialiased selection:bg-brand-blue/30 selection:text-brand-cyan relative">
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- Cursor Radial Glow -->
   <div class="pointer-events-none fixed inset-0 z-30 opacity-0 lg:opacity-100 bg-radial-glow transition-opacity duration-500" id="radial-glow"></div>
@@ -155,7 +177,7 @@
       </a>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-8 text-sm font-medium">
+      <nav aria-label="Primary" class="hidden md:flex space-x-8 text-sm font-medium">
         <a href="#about" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">About</a>
         <a href="#skills" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Skills</a>
         <a href="#experience" class="nav-link text-brand-textSecondary hover:text-brand-textPrimary transition-colors relative py-1">Experience</a>
@@ -168,12 +190,12 @@
       <!-- CTA -->
       <div class="hidden md:block">
         <a href="mailto:prsatyarthi2404@gmail.com" class="font-mono text-xs border border-brand-blue/30 text-brand-blue bg-brand-blue/5 hover:bg-brand-blue/10 hover:border-brand-blue/60 px-4 py-2 rounded transition-all duration-200">
-          ssh pushpam@dev
+          Email me
         </a>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-brand-textSecondary hover:text-brand-textPrimary focus:outline-none" aria-label="Toggle menu">
+      <button id="mobile-menu-btn" class="md:hidden p-3 text-brand-textSecondary hover:text-brand-textPrimary" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
     </div>
@@ -189,13 +211,13 @@
       <a href="#contact" class="mobile-nav-link block text-base text-brand-textSecondary hover:text-brand-textPrimary py-2">Contact</a>
       <div class="pt-4">
         <a href="mailto:prsatyarthi2404@gmail.com" class="block text-center font-mono text-xs border border-brand-blue/30 text-brand-blue bg-brand-blue/5 px-4 py-2.5 rounded">
-          ssh pushpam@dev
+          Email me
         </a>
       </div>
     </div>
   </header>
 
-  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main id="main" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Hero Section -->
     <section id="hero" class="min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row items-center justify-between gap-12 py-12 lg:py-20">
@@ -204,7 +226,7 @@
         <!-- Status Badge -->
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          SYSTEM: ACTIVE | AVAILABLE FOR INTERNSHIPS
+          Open to internships
         </div>
         
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-textPrimary tracking-tight leading-none">
@@ -212,11 +234,11 @@
         </h1>
         
         <h2 class="text-xl sm:text-2xl font-mono text-brand-cyan">
-          Data Engineer &amp; Backend Systems Developer
+          Data and Backend Developer
         </h2>
         
         <p class="text-base sm:text-lg text-brand-textSecondary leading-relaxed">
-          3rd year CSE undergraduate with internship experience shipping production backend systems. Proven hands-on depth in Python, SQL, PostgreSQL, FastAPI, and ETL pipeline architecture, backed by a systems-level engineering mindset.
+          Third-year CSE student at GITAM University. I work mostly with Python, SQL, PostgreSQL and FastAPI, and I spent the summer of 2026 as an AIML intern at Motherson Technology Services.
         </p>
 
         <!-- CTA Buttons -->
@@ -257,7 +279,7 @@
               <span class="w-3 h-3 rounded-full bg-yellow-500/30"></span>
               <span class="w-3 h-3 rounded-full bg-green-500/30"></span>
             </div>
-            <div class="text-xs font-mono text-brand-textSecondary">etl_pipeline_monitor.sh</div>
+            <div class="text-xs font-mono text-brand-textSecondary">etl_pipeline_diagram (illustrative)</div>
             <div class="w-4 h-4"></div>
           </div>
 
@@ -335,13 +357,13 @@
             <div class="flex justify-between items-center mb-2">
               <div class="flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-ping"></span>
-                <span class="text-brand-textPrimary font-semibold">PIPELINE MONITOR</span>
+                <span class="text-brand-textPrimary font-semibold">PIPELINE DIAGRAM</span>
               </div>
-              <div class="text-brand-cyan" id="node-status">State: Running</div>
+              <div class="text-brand-cyan" id="node-status">Illustrative</div>
             </div>
             <!-- Node Detail Context Panel -->
             <div id="pipeline-details" class="bg-brand-bg/50 border border-brand-border/40 rounded p-3 text-slate-400 min-h-[64px]">
-              Click on any node in the pipeline above to inspect its properties, latency metrics, and operational schema.
+              This is a generic ETL diagram, not live data. Select a node to see what that stage does.
             </div>
           </div>
         </div>
@@ -355,15 +377,15 @@
         <div class="lg:col-span-7 space-y-8">
           <div class="space-y-4">
             <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">01 // About the Developer</div>
-            <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Data Obsessed</h3>
+            <h3 class="text-3xl font-bold text-brand-textPrimary">About me</h3>
             <p class="leading-relaxed text-brand-textSecondary">
-              I'm a 3rd year B.Tech Computer Science student at GITAM University, Visakhapatnam (CGPA: 9.17) with a core focus on backend architecture and data engineering. I build systems that process, transform, and store data reliably at scale.
+              I'm a 3rd year B.Tech Computer Science student at GITAM University, Visakhapatnam (CGPA: 9.17) with a core focus on backend architecture and data engineering. I like building things that move data around and keep it correct.
             </p>
             <p class="leading-relaxed text-brand-textSecondary">
-              Recently, I wrapped up a software engineering internship at <strong class="text-brand-textPrimary">Motherson Technology Services</strong>, where I independently designed and shipped the hybrid data persistence layer for <strong class="text-brand-textPrimary">LegalLens</strong>—a live AI legal research platform.
+              Recently, I wrapped up a software engineering internship at <strong class="text-brand-textPrimary">Motherson Technology Services</strong>, where I built the chat history storage layer for <strong class="text-brand-textPrimary">LegalLens</strong>a live AI legal research platform.
             </p>
             <p class="leading-relaxed text-brand-textSecondary">
-              I view coding not just as writing functions, but as managing memory, minimizing database latency, and engineering fault tolerance. When I'm not optimizing queries or writing ETL scripts, you'll find me listening to the Arctic Monkeys, reading One Piece, dreaming of Triumph motorcycles, or brewing a cup of Davidoff Espresso 57.
+              Outside of coding I listen to the Arctic Monkeys, read One Piece, think about Triumph motorcycles and drink Davidoff Espresso 57.
             </p>
           </div>
 
@@ -430,8 +452,8 @@
             
             <!-- Terminal Screen -->
             <div class="flex-grow p-4 font-mono text-xs overflow-y-auto space-y-3" id="terminal-screen">
-              <div class="text-slate-500">Pushpam Raj Satyarthi Shell - v1.0.2</div>
-              <div class="text-slate-500">Type 'help' to list available system commands.</div>
+              <div class="text-slate-400">Pushpam Raj Satyarthi, interactive shell</div>
+              <div class="text-slate-400">Type 'help' to list available system commands.</div>
               
               <div class="space-y-1" id="terminal-history">
                 <!-- Executed commands will go here -->
@@ -440,13 +462,13 @@
               <!-- Input prompt line -->
               <div class="flex items-center gap-2 text-brand-cyan">
                 <span>guest@pushpam.dev:~$</span>
-                <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none focus:ring-0 text-brand-textPrimary p-0" autocomplete="off" autofocus spellcheck="false">
+                <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none focus:ring-0 text-brand-textPrimary p-0" autocomplete="off" spellcheck="false">
               </div>
             </div>
 
             <!-- Terminal Shortcuts Footer -->
             <div class="px-4 py-3 bg-brand-card border-t border-brand-border flex flex-wrap gap-2 items-center text-xxs font-mono text-brand-textSecondary">
-              <span class="text-brand-blue uppercase text-[10px]">Quick Queries:</span>
+              <span class="text-brand-blue uppercase text-xs">Quick Queries:</span>
               <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('cat about.md')">cat about.md</button>
               <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('get --skills')">get --skills</button>
               <button class="bg-brand-bg hover:bg-brand-border border border-brand-border/60 text-brand-cyan px-2 py-0.5 rounded transition-colors" onclick="runTerminalCommand('curl /experience')">curl /experience</button>
@@ -460,9 +482,9 @@
     <section id="skills" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
       <div class="space-y-4 mb-12">
         <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">02 // Technical Capabilities</div>
-        <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Database Architecture</h3>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Skills</h3>
         <p class="max-w-2xl text-brand-textSecondary">
-          A bento-style mapping of technologies and disciplines I work with. Organized by layer and core complexity.
+          Technologies I have used, grouped by area.
         </p>
       </div>
 
@@ -479,7 +501,7 @@
               <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Data Engineering</h4>
             </div>
             <p class="text-xs text-brand-textSecondary leading-relaxed">
-              Designing pipelines that ingest multi-source data, handle schema drift, implement delta loads, and guarantee ACID properties across ingestion targets.
+              Extracting data from several sources, cleaning and normalizing it, and loading it incrementally.
             </p>
             <div class="flex flex-wrap gap-2 pt-2">
               <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">ETL Pipeline Design</span>
@@ -489,7 +511,7 @@
               <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Fault-Tolerant Architecture</span>
             </div>
           </div>
-          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-[10px] text-brand-blue">
+          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-xs text-brand-blue">
             <span>PIPELINE PARADIGM: ELT &amp; ETL</span>
             <span>STATUS: CERTIFIED</span>
           </div>
@@ -505,7 +527,7 @@
               <h4 class="font-mono text-sm font-bold text-brand-textPrimary uppercase">Database Systems</h4>
             </div>
             <p class="text-xs text-brand-textSecondary leading-relaxed">
-              Specialized in relational schema design up to 3NF, query execution plan optimization, indexing strategies, and hybrid persistence models.
+              Relational schema design up to 3NF, reading query plans, and choosing indexes.
             </p>
             <div class="flex flex-wrap gap-2 pt-2">
               <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-cyan">PostgreSQL</span>
@@ -517,7 +539,7 @@
               <span class="text-xs font-mono px-2.5 py-1 rounded bg-brand-bg border border-brand-border text-brand-textPrimary">Query Optimization</span>
             </div>
           </div>
-          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-[10px] text-brand-blue">
+          <div class="border-t border-brand-border/40 mt-6 pt-4 flex items-center justify-between font-mono text-xs text-brand-blue">
             <span>FAVORITE ENGINE: POSTGRESQL</span>
             <span>INDEXING: B-TREE/GIN</span>
           </div>
@@ -626,9 +648,9 @@
     <section id="experience" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
       <div class="space-y-4 mb-12">
         <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">03 // Professional Experience</div>
-        <h3 class="text-3xl font-bold text-brand-textPrimary">Engineering in the Wild</h3>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Experience</h3>
         <p class="max-w-2xl text-brand-textSecondary">
-          My tenure in industry-grade software engineering, building systems deployed to production.
+          One internship so far.
         </p>
       </div>
 
@@ -687,35 +709,35 @@
                 <span class="font-bold">SYSTEM METADATA</span>
                 <span class="text-brand-cyan">Active</span>
               </div>
-              <div class="space-y-1.5 text-[10px]">
+              <div class="space-y-1.5 text-xs">
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Language:</span>
+                  <span class="text-slate-400">Language:</span>
                   <span>Python / TypeScript</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Framework:</span>
+                  <span class="text-slate-400">Framework:</span>
                   <span>FastAPI + React</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Persistence 1:</span>
+                  <span class="text-slate-400">Persistence 1:</span>
                   <span class="text-brand-cyan">SQLite (Metadata)</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Persistence 2:</span>
+                  <span class="text-slate-400">Persistence 2:</span>
                   <span class="text-brand-blue">Azure Blob (Payload)</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Module size:</span>
+                  <span class="text-slate-400">Module size:</span>
                   <span>316 lines</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-slate-500">Endpoints:</span>
+                  <span class="text-slate-400">Endpoints:</span>
                   <span>9 CRUD routes</span>
                 </div>
               </div>
             </div>
             
-            <div class="border-t border-brand-border/40 mt-4 pt-3 text-[10px] text-slate-500">
+            <div class="border-t border-brand-border/40 mt-4 pt-3 text-xs text-slate-400">
               // SQLite coordinates metadata tracking with Azure Blob payload writes in a unified transactional flow.
             </div>
           </div>
@@ -726,141 +748,89 @@
     <!-- Projects Section -->
     <section id="projects" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
       <div class="space-y-4 mb-12">
-        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">04 // Production-Grade Builds</div>
-        <h3 class="text-3xl font-bold text-brand-textPrimary">Systems &amp; Architectures</h3>
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">04 // Projects</div>
+        <h3 class="text-3xl font-bold text-brand-textPrimary">Things I have built</h3>
         <p class="max-w-2xl text-brand-textSecondary">
-          Selected backend and data systems built to solve real-world engineering constraints. Click on any project to inspect the technical details and architecture.
+          Four projects, with a short list of other repositories below. Each card has a details panel and links to the code.
         </p>
       </div>
 
       <!-- Projects Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- Project 1 -->
-        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-etl')">
+        <article class="glass-card rounded-lg p-6 flex flex-col justify-between">
           <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xxs font-mono text-brand-blue uppercase">ETL Pipeline</span>
-              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
-            </div>
-            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">Global Banking Data</h4>
-            <p class="text-sm text-brand-textSecondary leading-relaxed">
-              Fault-tolerant multi-source ETL pipeline ingesting raw financial datasets into a unified SQL data warehouse. Built to handle outlier detection and incremental updates.
-            </p>
-            <!-- Impact Metrics -->
-            <div class="grid grid-cols-2 gap-3 py-2">
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">-30%</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Redundancy</div>
-              </div>
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">Delta</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Loads Active</div>
-              </div>
+            <span class="text-xs font-mono text-brand-blue">ETL pipeline</span>
+            <h4 class="text-xl font-bold text-brand-textPrimary">Global Banking ETL</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">Python pipeline that scrapes market capitalization data for the largest banks, converts currencies with vectorized Pandas and NumPy, and loads the result into SQLite and CSV.</p>
+            <div class="grid grid-cols-2 gap-3 py-2"><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">SQLite + CSV</div><div class="text-xxs text-brand-textSecondary font-mono">Outputs</div></div><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">NumPy</div><div class="text-xxs text-brand-textSecondary font-mono">Vectorized transform</div></div></div>
+          </div>
+          <div class="pt-4 border-t border-brand-border/40 mt-4 space-y-3">
+            <div class="flex flex-wrap gap-2"><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Python</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Pandas</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">NumPy</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">BeautifulSoup</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">SQLite</span></div>
+            <div class="flex flex-wrap items-center gap-x-2">
+              <button type="button" data-project="project-etl" class="text-xs font-mono text-brand-textPrimary border border-brand-border hover:border-brand-blue/50 rounded px-3 py-2">Details</button>
+              <a href="https://github.com/pushpam2404/global-finance-etl" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-blue hover:text-brand-cyan py-2 pr-3">Source<span class="sr-only"> (opens in a new tab)</span></a>
             </div>
           </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Python</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Pandas</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">NumPy</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">SQL</span>
-          </div>
-        </div>
+        </article>
 
-        <!-- Project 2 -->
-        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-kaps')">
+        <article class="glass-card rounded-lg p-6 flex flex-col justify-between">
           <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xxs font-mono text-brand-blue uppercase">Healthcare Systems</span>
-              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
-            </div>
-            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">KAPS MedTech Backend</h4>
-            <p class="text-sm text-brand-textSecondary leading-relaxed">
-              3NF-compliant healthcare management platform backend featuring smart inventory auto-quarantining, secure PHI pipelines, and automated database seeding.
-            </p>
-            <!-- Impact Metrics -->
-            <div class="grid grid-cols-2 gap-3 py-2">
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">3NF</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Postgres Schema</div>
-              </div>
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">&lt;30s</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">One-Cmd Deploy</div>
-              </div>
+            <span class="text-xs font-mono text-brand-blue">Full-stack web app</span>
+            <h4 class="text-xl font-bold text-brand-textPrimary">KAPS MedTech</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">University clinic app where students book doctors, and doctors record diagnoses and prescriptions. Express API on PostgreSQL with JWT auth, bcrypt password hashing and rate limiting.</p>
+            <div class="grid grid-cols-2 gap-3 py-2"><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">29</div><div class="text-xxs text-brand-textSecondary font-mono">Integration checks</div></div><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">Vercel + Neon</div><div class="text-xxs text-brand-textSecondary font-mono">Deployed on</div></div></div>
+          </div>
+          <div class="pt-4 border-t border-brand-border/40 mt-4 space-y-3">
+            <div class="flex flex-wrap gap-2"><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Node.js</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Express</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">PostgreSQL</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">JWT</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">bcrypt</span></div>
+            <div class="flex flex-wrap items-center gap-x-2">
+              <button type="button" data-project="project-kaps" class="text-xs font-mono text-brand-textPrimary border border-brand-border hover:border-brand-blue/50 rounded px-3 py-2">Details</button>
+              <a href="https://github.com/pushpam2404/KAPS-Medtech" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-blue hover:text-brand-cyan py-2 pr-3">Source<span class="sr-only"> (opens in a new tab)</span></a><a href="https://kaps-medtech.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-blue hover:text-brand-cyan py-2 pr-3">Live<span class="sr-only"> (opens in a new tab)</span></a>
             </div>
           </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">PostgreSQL</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Node.js</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Raw SQL</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">JWT</span>
-          </div>
-        </div>
+        </article>
 
-        <!-- Project 3 -->
-        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-autocomplete')">
+        <article class="glass-card rounded-lg p-6 flex flex-col justify-between">
           <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xxs font-mono text-brand-blue uppercase">Systems Programming</span>
-              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
-            </div>
-            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">High-Performance Autocomplete</h4>
-            <p class="text-sm text-brand-textSecondary leading-relaxed">
-              Low-latency autocomplete engine implemented in C using a Trie data structure with Min-Heap ranking. Verified with zero memory leaks under Valgrind.
-            </p>
-            <!-- Impact Metrics -->
-            <div class="grid grid-cols-2 gap-3 py-2">
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">O(k)</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Lookup Complexity</div>
-              </div>
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">0 Leaks</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Valgrind Audited</div>
-              </div>
+            <span class="text-xs font-mono text-brand-blue">Full-stack web app</span>
+            <h4 class="text-xl font-bold text-brand-textPrimary">TripSync</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">Travel companion for road trips: route planning, nearby stops, a Gemini-powered chat assistant and trip logging. The repo README says it is still in development.</p>
+            <div class="grid grid-cols-2 gap-3 py-2"><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">React + Express</div><div class="text-xxs text-brand-textSecondary font-mono">Client and API</div></div><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">MongoDB</div><div class="text-xxs text-brand-textSecondary font-mono">Database</div></div></div>
+          </div>
+          <div class="pt-4 border-t border-brand-border/40 mt-4 space-y-3">
+            <div class="flex flex-wrap gap-2"><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">TypeScript</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">React</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Express</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">MongoDB</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Gemini API</span></div>
+            <div class="flex flex-wrap items-center gap-x-2">
+              <button type="button" data-project="project-tripsync" class="text-xs font-mono text-brand-textPrimary border border-brand-border hover:border-brand-blue/50 rounded px-3 py-2">Details</button>
+              <a href="https://github.com/pushpam2404/Trip-Sync" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-blue hover:text-brand-cyan py-2 pr-3">Source<span class="sr-only"> (opens in a new tab)</span></a><a href="https://trip-sync-rho.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-blue hover:text-brand-cyan py-2 pr-3">Live<span class="sr-only"> (opens in a new tab)</span></a>
             </div>
           </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">C</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Make</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Valgrind</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">GDB</span>
-          </div>
-        </div>
+        </article>
 
-        <!-- Project 4 -->
-        <div class="glass-card rounded-lg p-6 flex flex-col justify-between cursor-pointer group hover:-translate-y-1 transition-all duration-300" onclick="openProjectDrawer('project-tripsync')">
+        <article class="glass-card rounded-lg p-6 flex flex-col justify-between">
           <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xxs font-mono text-brand-blue uppercase">Geospatial Web App</span>
-              <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-textSecondary group-hover:text-brand-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
-            </div>
-            <h4 class="text-xl font-bold text-brand-textPrimary group-hover:text-brand-cyan transition-colors">TripSync (SIH 2025)</h4>
-            <p class="text-sm text-brand-textSecondary leading-relaxed">
-              AI-powered travel platform with a geospatial routing pipeline integrating Mapbox and Google Maps. Deployed within a strict 24-hour hackathon window.
-            </p>
-            <!-- Impact Metrics -->
-            <div class="grid grid-cols-2 gap-3 py-2">
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">24 Hours</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Prototype Build</div>
-              </div>
-              <div class="border-l-2 border-brand-cyan pl-3">
-                <div class="text-sm font-mono font-bold text-brand-textPrimary">SIH</div>
-                <div class="text-xxs text-brand-textSecondary uppercase font-mono">Internal Qualifier</div>
-              </div>
+            <span class="text-xs font-mono text-brand-blue">Systems programming</span>
+            <h4 class="text-xl font-bold text-brand-textPrimary">Autocomplete engine in C</h4>
+            <p class="text-sm text-brand-textSecondary leading-relaxed">Prefix search in C using a Trie, with a min-heap to rank the top suggestions. Checked with Valgrind. This one has no public repository.</p>
+            <div class="grid grid-cols-2 gap-3 py-2"><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">O(k)</div><div class="text-xxs text-brand-textSecondary font-mono">Prefix lookup</div></div><div class="border-l-2 border-brand-cyan pl-3"><div class="text-sm font-mono font-bold text-brand-textPrimary">Valgrind</div><div class="text-xxs text-brand-textSecondary font-mono">Leak checked</div></div></div>
+          </div>
+          <div class="pt-4 border-t border-brand-border/40 mt-4 space-y-3">
+            <div class="flex flex-wrap gap-2"><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">C</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Make</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Valgrind</span><span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">GDB</span></div>
+            <div class="flex flex-wrap items-center gap-x-2">
+              <button type="button" data-project="project-autocomplete" class="text-xs font-mono text-brand-textPrimary border border-brand-border hover:border-brand-blue/50 rounded px-3 py-2">Details</button>
+              
             </div>
           </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-brand-border/40 mt-4">
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">TypeScript</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">MongoDB</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">React</span>
-            <span class="text-xxs font-mono px-2 py-0.5 rounded bg-brand-bg border border-brand-border">Gemini API</span>
-          </div>
-        </div>
-
+        </article>
       </div>
+
+      <h4 class="text-lg font-bold text-brand-textPrimary mt-14 mb-4">More on GitHub</h4>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/mealbridge" target="_blank" rel="noopener noreferrer">mealbridge</a><p class="text-brand-textSecondary mt-1">MERN app that connects kitchens with surplus food to NGOs. <a class="text-brand-blue hover:text-brand-cyan underline" href="https://mealbridge-app.vercel.app" target="_blank" rel="noopener noreferrer">Live</a></p></li>
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/astra-3d-music-universe" target="_blank" rel="noopener noreferrer">astra-3d-music-universe</a><p class="text-brand-textSecondary mt-1">WebGL scene that maps Spotify listening history onto star systems, with Web Audio synthesis. <a class="text-brand-blue hover:text-brand-cyan underline" href="https://astra-3d-music-universe.vercel.app" target="_blank" rel="noopener noreferrer">Live</a></p></li>
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/sluice" target="_blank" rel="noopener noreferrer">sluice</a><p class="text-brand-textSecondary mt-1">Small Python data pipeline runner, set up as an open-source practice repo with issues.</p></li>
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/terminal-arcade" target="_blank" rel="noopener noreferrer">terminal-arcade</a><p class="text-brand-textSecondary mt-1">Terminal games in pure Python for first-time contributors.</p></li>
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/open-source-launchpad" target="_blank" rel="noopener noreferrer">open-source-launchpad</a><p class="text-brand-textSecondary mt-1">A practice website for making a first pull request. <a class="text-brand-blue hover:text-brand-cyan underline" href="https://pushpam2404.github.io/open-source-launchpad/" target="_blank" rel="noopener noreferrer">Live</a></p></li>
+        <li class="glass-card rounded-lg p-4"><a class="font-mono text-brand-blue hover:text-brand-cyan" href="https://github.com/pushpam2404/sih_149" target="_blank" rel="noopener noreferrer">sih_149</a><p class="text-brand-textSecondary mt-1">Smart India Hackathon prototype: secure data erasure and file recovery tool with a hash-chained audit log.</p></li>
+      </ul>
     </section>
 
     <!-- Education & Certifications Section -->
@@ -968,10 +938,10 @@
     <!-- Achievements Section -->
     <section id="achievements" class="reveal py-16 lg:py-24 border-t border-brand-border/30">
       <div class="space-y-4 mb-12">
-        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">07 // Proof of Velocity</div>
+        <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">07 // Hackathons</div>
         <h3 class="text-3xl font-bold text-brand-textPrimary">Hackathon Milestones</h3>
         <p class="max-w-2xl text-brand-textSecondary">
-          Demonstrated capability to deliver production-ready architectures under competitive time constraints.
+          Two 24-hour hackathon builds.
         </p>
       </div>
 
@@ -988,7 +958,7 @@
               Led development of <strong class="text-brand-textPrimary">TripSync</strong>, an AI-powered travel platform, delivering a functional prototype from zero within a 24-hour constraint.
             </p>
           </div>
-          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-500">
+          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-400">
             Role: Lead Systems Developer | Scope: Geospatial &amp; AI Integration
           </div>
         </div>
@@ -1005,7 +975,7 @@
               Deployed the full <strong class="text-brand-textPrimary">KAPS MedTech</strong> healthcare backend within 24 hours, including PostgreSQL schema design, API endpoints, and secure authentication: under competitive conditions.
             </p>
           </div>
-          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-500">
+          <div class="border-t border-brand-border/40 pt-3 text-xxs font-mono text-slate-400">
             Role: Solo Backend Developer | Scope: PostgreSQL Schema, Auth, Express APIs
           </div>
         </div>
@@ -1019,16 +989,16 @@
           <div class="text-xs font-mono text-brand-cyan uppercase tracking-wider">08 // Establish Connection</div>
           <h3 class="text-3xl sm:text-4xl font-bold text-brand-textPrimary">Let's Build Something Real</h3>
           <p class="text-brand-textSecondary max-w-xl mx-auto text-sm sm:text-base">
-            I am actively looking for Data Engineering and Backend Systems internships. If you need someone who understands database indexing, write-path optimizations, and doesn't ship tutorial code, let's talk.
+            I am looking for data engineering and backend internships. The easiest way to reach me is email.
           </p>
         </div>
 
         <!-- Simulated terminal connection -->
         <div class="border border-brand-border bg-[#0a0a0c] rounded-lg p-4 font-mono text-xs max-w-md mx-auto text-left space-y-1.5 shadow-xl">
-          <div class="text-slate-500">// Terminal SSH command</div>
+          <div class="text-slate-400">// Email</div>
           <div class="flex justify-between items-center text-brand-cyan">
-            <span>$ ssh pushpam@satya-systems -p 2222</span>
-            <button class="hover:text-brand-textPrimary p-1 text-slate-400" onclick="copySSH()" title="Copy SSH connection command" id="ssh-copy-btn">
+            <span>$ mail prsatyarthi2404@gmail.com</span>
+            <button class="hover:text-brand-textPrimary p-3 -m-2 text-slate-400" onclick="copySSH()" aria-label="Copy email address" title="Copy email address" id="ssh-copy-btn">
               <i data-lucide="copy" class="w-4 h-4"></i>
             </button>
           </div>
@@ -1054,12 +1024,8 @@
           </a>
         </div>
 
-        <div class="pt-12 border-t border-brand-border/20 text-xxs font-mono text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="pt-12 border-t border-brand-border/20 text-xxs font-mono text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div>© 2026 Pushpam Raj Satyarthi. Built with HTML, Tailwind &amp; Vanilla JS.</div>
-          <div class="flex items-center gap-4">
-            <span>BUILD: <span class="text-emerald-400">PASS</span></span>
-            <span>LATENCY: <span class="text-brand-cyan">12ms</span></span>
-          </div>
         </div>
       </div>
     </section>
@@ -1067,7 +1033,7 @@
   </main>
 
   <!-- SIDE-DRAWER FOR PROJECT DETAILS -->
-  <div id="project-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-brand-bg border-l border-brand-border shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col hidden" role="dialog" aria-modal="true">
+  <div id="project-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-brand-bg border-l border-brand-border shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col hidden" role="dialog" aria-modal="true" aria-labelledby="drawer-title" tabindex="-1">
     <!-- Drawer Header -->
     <div class="p-6 border-b border-brand-border flex items-center justify-between bg-brand-card">
       <div>
@@ -1091,27 +1057,27 @@
   <!-- Project Details Data Store (JSON Script) -->
   <script id="project-data" type="application/json">
     {
-      "project-etl": {
-        "tag": "Data Engineering | ETL Pipeline",
-        "title": "Global Banking Data Pipeline",
-        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>This pipeline handles the ingestion of heterogeneous financial transaction logs (CSV, JSON, SQL database streams) into a centralized Postgres data warehouse. It enforces type safety, normalizes schemas, and filters out outliers in a vectorized transformation step.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>PIPELINE STAGE DETAILS</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Ingestion:</span><span>Multi-threaded file watchers + REST listener</span><span class='text-slate-500'>2. Outliers:</span><span>Vectorized Z-score outlier isolation (NumPy)</span><span class='text-slate-500'>3. Load Strategy:</span><span>Incremental delta loads (UPSERT based on timestamp)</span><span class='text-slate-500'>4. Alerts:</span><span>Slack Webhooks + structured JSON log exports</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>Architectural Backbone:</strong> Architected a fault-tolerant, multi-source ETL pipeline in Python ingesting raw financial datasets from heterogeneous sources into a unified SQL data warehouse, forming the backbone of a centralized analytics layer.</li><li><strong>30% Redundancy Reduction:</strong> Reduced data redundancy by 30% by engineering automated schema normalization and outlier detection scripts using vectorized NumPy operations, enforcing strict type validation at the transformation stage.</li><li><strong>Incremental Delta Loading:</strong> Cut pipeline processing overhead by implementing incremental delta loads in place of full batch refreshes, eliminating redundant data reprocessing on each run.</li><li><strong>Fault-Tolerance:</strong> Built a structured logging and alerting system that intercepts ingestion failures and schema mismatches pre-load, preventing silent data corruption from ever reaching the warehouse.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Code Sample: Outlier Detection</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>def detect_outliers_vectorized(df, threshold=3.0):\n    # Calculate Z-scores across transaction amounts\n    amounts = df['amount'].to_numpy()\n    mean = np.mean(amounts)\n    std = np.std(amounts)\n    \n    if std == 0:\n        return df\n        \n    z_scores = (amounts - mean) / std\n    # Mark transactions exceeding threshold for quarantine\n    df['is_quarantined'] = np.abs(z_scores) > threshold\n    return df</pre></div></div>"
-      },
-      "project-kaps": {
-        "tag": "Database & API Design | Healthcare",
-        "title": "KAPS MedTech Backend",
-        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A secure, 3NF relational backend system modeled to handle hospital workflows. The system models patients, doctors, appointment slots, and pharmacy inventory. Built with strict referential integrity rules and automatic expiry quarantining.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>BACKEND METRICS</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Schema Normalization:</span><span>3NF (Third Normal Form) compliant</span><span class='text-slate-500'>2. Security:</span><span>BCrypt (Hashing) + JWT (Sessionless Auth)</span><span class='text-slate-500'>3. Seeding Time:</span><span>&lt;15 seconds (10k rows)</span><span class='text-slate-500'>4. Expiry Engine:</span><span>Cron-driven SQL quarantine trigger</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>3NF Schema Design:</strong> Architected a 3NF-compliant relational schema in PostgreSQL modeling complex many-to-many relationships across patients, doctors, and appointment slots: eliminating transitive dependencies and ensuring referential integrity at scale.</li><li><strong>Medication Expiry Isolation:</strong> Engineered a real-time smart inventory module using raw SQL and Node.js that auto detects and quarantines expired medications, replacing a fully manual audit process.</li><li><strong>Security Integration:</strong> Secured PHI (Protected Health Information) pipelines using BCrypt password hashing with stateless JWT authentication, decoupling session state from the server and aligning with healthcare data privacy standards.</li><li><strong>One-Command Seeding:</strong> Automated database initialization and seeding via a custom init_db.js script, reducing environment setup time to under 30 seconds and enabling one-command deployment for dev and testing environments.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Database Schema: Appointments M-M Link</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>CREATE TABLE appointments (\n    id SERIAL PRIMARY KEY,\n    patient_id INT REFERENCES patients(id) ON DELETE CASCADE,\n    doctor_id INT REFERENCES doctors(id) ON DELETE RESTRICT,\n    slot_time TIMESTAMP NOT NULL,\n    status VARCHAR(20) DEFAULT 'scheduled',\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE(doctor_id, slot_time) -- Prevent double booking\n);</pre></div></div>"
-      },
-      "project-autocomplete": {
-        "tag": "Systems Programming | Low-Latency C",
-        "title": "High-Performance Autocomplete",
-        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A low-latency autocomplete search engine written in pure C. It utilizes a Trie (prefix tree) data structure to achieve search times independent of the overall dataset size, combined with a Min-Heap priority queue to return the Top-N matching suggestions.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>ALGORITHMIC COMPLEXITY</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Prefix Lookup:</span><span>O(k) where k is prefix length</span><span class='text-slate-500'>2. Ranking Top-N:</span><span>O(M log N) via Min-Heap priority queue</span><span class='text-slate-500'>3. Memory Footprint:</span><span>Optimized structs with byte-alignment</span><span class='text-slate-500'>4. Verification:</span><span>Valgrind Memcheck (Clean heap summary)</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>O(k) Lookup Speed:</strong> Built a low-latency autocomplete backend in C using a Trie (prefix tree), achieving O(k) lookup complexity where k is query length: making search speed independent of total dataset size.</li><li><strong>Real-Time Ranking:</strong> Integrated a Min-Heap priority queue to rank and surface Top-N most frequent search terms in O(log N) time, enabling real-time ranked suggestion output.</li><li><strong>Zero Memory Leaks:</strong> Achieved zero memory leaks through manual heap management with custom allocation patterns minimizing heap fragmentation; verified clean across all test cases via Valgrind.</li><li><strong>Cold-Start Serialization:</strong> Implemented a binary serialization protocol to persist the Trie to disk, enabling sub-second cold-start restarts without rebuilding the index from raw source data.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Code Sample: Trie Node Struct</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>typedef struct TrieNode {\n    char ch;\n    int frequency;\n    bool is_end_of_word;\n    struct TrieNode* children[26];\n} TrieNode;\n\nTrieNode* create_node(char ch) {\n    TrieNode* node = (TrieNode*)malloc(sizeof(TrieNode));\n    node->ch = ch;\n    node->frequency = 0;\n    node->is_end_of_word = false;\n    for (int i = 0; i < 26; i++) {\n        node->children[i] = NULL;\n    }\n    return node;\n}</pre></div></div>"
-      },
-      "project-tripsync": {
-        "tag": "Geospatial & Web Engineering",
-        "title": "TripSync Travel Platform",
-        "html": "<div class='space-y-6'><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Architectural Overview</h5><p class='text-brand-textSecondary leading-relaxed'>A full-stack, type-safe travel routing platform built for the Smart India Hackathon 2025. Coordinates geospatial route calculation, multi-stop planning, and AI itinerary generation.</p></div><div class='border border-brand-border bg-brand-card/30 rounded p-4 font-mono text-xs space-y-2'><div class='text-brand-blue font-bold'>SYSTEM METRIC</div><div class='grid grid-cols-2 gap-2 text-xxs'><span class='text-slate-500'>1. Database:</span><span>MongoDB (Geospatial 2dsphere indexes)</span><span class='text-slate-500'>2. APIs:</span><span>Mapbox GL + Google Maps Direction API</span><span class='text-slate-500'>3. AI Integration:</span><span>Gemini API (Structured JSON output)</span><span class='text-slate-500'>4. Compile Uptime:</span><span>100% strict TypeScript types</span></div></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Key Technical Accomplishments</h5><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li><strong>Geospatial Pipeline:</strong> Engineered a geospatial data pipeline using Mapbox and Google Maps APIs for dynamic multi-stop route visualizations with real-time waypoint prediction.</li><li><strong>TypeScript Migration:</strong> Led full-stack TypeScript migration with strict type enforcement across the entire codebase, closing a class of runtime type errors identified during pre-migration QA.</li></ul></div><div class='space-y-2'><h5 class='font-mono text-xs text-brand-cyan uppercase'>Geospatial Coordinate Query</h5><pre class='p-3 bg-[#08080a] border border-brand-border rounded font-mono text-xxs text-emerald-400 overflow-x-auto'>// MongoDB Geo-Spatial Query to find nearby waypoints\nasync function findNearbyWaypoints(coordinates: [number, number], maxDistanceMeters: number) {\n    return await WaypointModel.find({\n        location: {\n            $near: {\n                $geometry: {\n                    type: \"Point\",\n                    coordinates: coordinates // [longitude, latitude]\n                },\n                $maxDistance: maxDistanceMeters\n            }\n        }\n    });\n}</pre></div></div>"
-      }
-    }
+  "project-etl": {
+    "tag": "Data engineering | ETL",
+    "title": "Global Banking ETL",
+    "html": "<div class='space-y-6'><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li>Scrapes market capitalization figures for the world's largest banks with Requests and BeautifulSoup.<\/li><li>Converts currencies with vectorized NumPy and Pandas operations instead of row loops.<\/li><li>Writes the cleaned data to SQLite and to CSV.<\/li><li>Logs each stage with timestamps so a run can be traced.<\/li><\/ul><div class='font-mono text-xs text-brand-textSecondary'>Stack: Python, Pandas, NumPy, BeautifulSoup, Requests, SQLite<\/div><\/div>"
+  },
+  "project-kaps": {
+    "tag": "Full-stack | Healthcare",
+    "title": "KAPS MedTech",
+    "html": "<div class='space-y-6'><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li>Students and staff book appointments with university doctors. Doctors see a daily queue and record diagnoses, advice and prescriptions.<\/li><li>Express 5 API on PostgreSQL (Neon in production), static HTML/JS frontend, deployed on Vercel.<\/li><li>JWT auth, bcrypt password hashing, rate limiting and per-user resource checks.<\/li><li>A Node script runs 29 integration checks against the API.<\/li><\/ul><div class='font-mono text-xs text-brand-textSecondary'>Stack: Node.js, Express, PostgreSQL, JWT, bcrypt<\/div><\/div>"
+  },
+  "project-autocomplete": {
+    "tag": "Systems programming | C",
+    "title": "Autocomplete engine in C",
+    "html": "<div class='space-y-6'><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li>Trie for prefix lookup, so lookup time depends on the prefix length k and not on the dataset size.<\/li><li>Min-heap to keep the top-N ranked suggestions.<\/li><li>Built with Make and checked with Valgrind and GDB.<\/li><li>No public repository for this one, so there is no link.<\/li><\/ul><div class='font-mono text-xs text-brand-textSecondary'>Stack: C, Make, Valgrind, GDB<\/div><\/div>"
+  },
+  "project-tripsync": {
+    "tag": "Full-stack | Travel",
+    "title": "TripSync",
+    "html": "<div class='space-y-6'><ul class='list-disc pl-4 space-y-2 text-brand-textSecondary'><li>React 19 + TypeScript + Vite client with an Express + MongoDB API.<\/li><li>Route and map features use the Mappls (MapmyIndia) SDK. A chat assistant calls Gemini through the Google Gen AI SDK.<\/li><li>Trip logging with vehicle and passenger details.<\/li><li>The README says the app is still in development and has known bugs.<\/li><\/ul><div class='font-mono text-xs text-brand-textSecondary'>Stack: TypeScript, React, Express, MongoDB, Mappls, Gemini<\/div><\/div>"
+  }
+}
   </script>
 
   <!-- JavaScript Behavior -->
@@ -1143,7 +1109,7 @@
 
     mobileBtn.addEventListener('click', () => {
       mobileNav.classList.toggle('hidden');
-      const icon = mobileBtn.querySelector('i');
+      mobileBtn.setAttribute('aria-expanded', String(!mobileNav.classList.contains('hidden')));
       if (mobileNav.classList.contains('hidden')) {
         mobileBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
       } else {
@@ -1156,6 +1122,7 @@
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
       link.addEventListener('click', () => {
         mobileNav.classList.add('hidden');
+        mobileBtn.setAttribute('aria-expanded', 'false');
         mobileBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
         lucide.createIcons();
       });
@@ -1292,29 +1259,29 @@
     // Interactive pipeline details
     const nodeDetails = {
       'source-db': {
-        title: "Relational DB Source",
-        desc: "Ingests raw, transactional data from PostgreSQL production clusters. Monitors replication logs via Change Data Capture (CDC) to capture delta records.",
-        metrics: "Latency: ~4ms | CDC Active | Daily Vol: 4.2M rows"
+        title: "Relational database source",
+        desc: "Reads transactional rows from a SQL database. Incremental loads track a timestamp so only new or changed rows move on.",
+        metrics: "Typical source: PostgreSQL"
       },
       'source-api': {
-        title: "Web Services API Ingestion",
-        desc: "Pulls JSON payloads from third-party APIs. Implements adaptive token-bucket rate limiting and automatic retry backing off.",
-        metrics: "Latency: ~12ms | Format: JSON | Uptime: 99.98%"
+        title: "API source",
+        desc: "Pulls JSON from web APIs, with retries and backoff when a call fails.",
+        metrics: "Format: JSON"
       },
       'source-blob': {
-        title: "Azure Blob Ingestion Engine",
-        desc: "Triggers on new object creation in Azure Blob Storage. Leverages event-driven Azure Event Grid to queue raw files for processing.",
-        metrics: "Type: Object Store | Event-driven | Max Size: 50GB/file"
+        title: "File and object storage source",
+        desc: "Picks up raw files such as CSV or JSON from object storage and queues them for processing.",
+        metrics: "Type: object store"
       },
       'transform': {
-        title: "Transformation & Validation Engine",
-        desc: "Parses, normalizes, and sanitizes incoming data. Uses vectorized NumPy operations for outlier detection and structural schema validation.",
-        metrics: "Capacity: 15,000 rows/sec | Outlier filter: Z-Score > 3.0"
+        title: "Transform and validate",
+        desc: "Cleans and normalizes incoming data, checks types and flags outliers with vectorized Pandas and NumPy operations.",
+        metrics: "Tools: Pandas, NumPy"
       },
       'warehouse': {
-        title: "Data Warehouse Target",
-        desc: "Applies UPSERT operations to avoid data duplication. Highly indexed to support low-latency BI queries and analytical workloads.",
-        metrics: "Target: PostgreSQL (3NF) | Indexing: B-Tree + GIN | Delta-loads only"
+        title: "Warehouse target",
+        desc: "Loads with UPSERTs so reruns do not create duplicates, into a schema normalized to 3NF.",
+        metrics: "Typical target: PostgreSQL"
       }
     };
 
@@ -1341,12 +1308,11 @@
     const terminalHistory = document.getElementById('terminal-history');
 
     const terminalCommands = {
-      'help': 'Available system commands:<br>  <span class="text-brand-cyan">cat about.md</span>      - Display personal bio and background<br>  <span class="text-brand-cyan">get --skills</span>    - List core programming and systems skills<br>  <span class="text-brand-cyan">curl /experience</span> - Fetch details of Motherson Tech internship<br>  <span class="text-brand-cyan">ls projects</span>      - List all active projects<br>  <span class="text-brand-cyan">ping gitam</span>       - Perform network latency check to GITAM University<br>  <span class="text-brand-cyan">clear</span>            - Clear terminal log',
-      'cat about.md': '<strong>Pushpam Raj Satyarthi</strong><br>3rd year B.Tech CSE Student &amp; Data Engineer | GITAM University (CGPA: 9.17)<br>Targeting production backend and data systems roles. Obsessed with ETL, database architecture, and performance tuning.',
+      'help': 'Available system commands:<br>  <span class="text-brand-cyan">cat about.md</span>      - Display personal bio and background<br>  <span class="text-brand-cyan">get --skills</span>    - List core programming and systems skills<br>  <span class="text-brand-cyan">curl /experience</span> - Fetch details of Motherson Tech internship<br>  <span class="text-brand-cyan">ls projects</span>      - List all active projects<br>  <span class="text-brand-cyan">clear</span>            - Clear terminal log',
+      'cat about.md': '<strong>Pushpam Raj Satyarthi</strong><br>3rd year B.Tech CSE student | GITAM University (CGPA: 9.17)<br>Interested in backend and data engineering roles: ETL, database design and query performance.',
       'get --skills': '<strong>[TECHNICAL CAPABILITIES]</strong><br>- <u>Languages</u>: Python, C, C++, Java, SQL, TypeScript, JavaScript<br>- <u>Data Eng</u>: ETL, Incremental Delta Loading, 3NF Schema Normalization, Warehousing<br>- <u>Databases</u>: PostgreSQL, MongoDB, MySQL, SQLite, Stored Procedures, Query Optimization<br>- <u>Frameworks</u>: FastAPI, Node.js, React, Pandas, NumPy, Mongoose<br>- <u>Sys &amp; Tools</u>: Linux Shell, Git, Valgrind, GDB, Make',
       'curl /experience': '<strong>HTTP/1.1 200 OK</strong><br>Company: Motherson Technology Services Limited<br>Role: Software Engineering Intern (AIML Team)<br>Duration: May 2026 - June 2026<br>Key Deliverables:<br>  - Shipped LegalLens hybrid persistence (SQLite + Azure Blob)<br>  - Deployed per-feature-mode storage isolation<br>  - Developed 316-line FastAPI module (9 CRUD endpoints)<br>  - Conducted codebase audit, patching 14+ system bugs',
-      'ls projects': 'Active systems in repository:<br>  1. <span class="text-brand-cyan">banking-etl</span>        - Fault-tolerant financial data pipeline<br>  2. <span class="text-brand-cyan">kaps-backend</span>       - Hospital inventory &amp; 3NF PostgreSQL database<br>  3. <span class="text-brand-cyan">autocomplete-trie</span>  - Low-latency C-based prefix search engine<br>  4. <span class="text-brand-cyan">tripsync</span>          - Geospatial route engine (SIH 2025 Qualifier)',
-      'ping gitam': 'PING gitam.edu (142.250.183.46): 56 data bytes<br>64 bytes from 142.250.183.46: icmp_seq=0 ttl=118 time=8.42 ms<br>64 bytes from 142.250.183.46: icmp_seq=1 ttl=118 time=9.12 ms<br>64 bytes from 142.250.183.46: icmp_seq=2 ttl=118 time=8.95 ms<br>--- gitam.edu ping statistics ---<br>3 packets transmitted, 3 packets received, 0.0% packet loss<br>rtt min/avg/max/mdev = 8.42/8.83/9.12/0.29 ms'
+      'ls projects': 'Projects on GitHub:<br>  1. <span class="text-brand-cyan">global-finance-etl</span>  - Python ETL pipeline for bank market-cap data<br>  2. <span class="text-brand-cyan">KAPS-Medtech</span>        - Clinic appointments app, Node + PostgreSQL<br>  3. <span class="text-brand-cyan">Trip-Sync</span>           - AI travel companion, React + Express + MongoDB<br>  4. <span class="text-brand-cyan">mealbridge</span>          - MERN app linking kitchens with NGOs',
     };
 
     terminalInput.addEventListener('keydown', (e) => {
@@ -1410,6 +1376,11 @@
     const drawerTag = document.getElementById('drawer-tag');
     const drawerContent = document.getElementById('drawer-content');
 
+    let lastTrigger = null;
+    document.querySelectorAll('[data-project]').forEach(btn => {
+      btn.addEventListener('click', () => openProjectDrawer(btn.dataset.project));
+    });
+
     function openProjectDrawer(projectId) {
       const dataStore = JSON.parse(document.getElementById('project-data').textContent);
       const projectDetails = dataStore[projectId];
@@ -1428,6 +1399,9 @@
       drawerOverlay.classList.remove('pointer-events-none', 'opacity-0');
       drawerOverlay.classList.add('opacity-100');
 
+      lastTrigger = document.activeElement;
+      projectDrawer.focus();
+
       // Prevent background scrolling
       document.body.classList.add('overflow-hidden');
     }
@@ -1441,6 +1415,7 @@
       setTimeout(() => {
         projectDrawer.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
+        if (lastTrigger) { lastTrigger.focus(); lastTrigger = null; }
       }, 300);
     }
 
@@ -1453,7 +1428,7 @@
 
     // 8. Copy SSH Command to Clipboard
     function copySSH() {
-      const text = "ssh pushpam@satya-systems -p 2222";
+      const text = "prsatyarthi2404@gmail.com";
       navigator.clipboard.writeText(text).then(() => {
         const copyBtn = document.getElementById('ssh-copy-btn');
         copyBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';

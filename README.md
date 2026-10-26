@@ -1,65 +1,50 @@
-# Pushpam Raj Satyarthi — Developer Portfolio
+# Profile
 
-Single-page personal portfolio site with a dark, terminal/IDE-inspired aesthetic. Built as one self-contained `index.html` — no build step, no bundler, no `npm install`.
+My portfolio site: https://pushpam2404-profile.vercel.app
 
-**Live:** [pushpam2404-profile.vercel.app](https://pushpam2404-profile.vercel.app/)
+One static `index.html`. Tailwind comes from its CDN build, icons from Lucide, fonts from Google Fonts, and everything else (CSS, JS, project data) is inline. There is no build step. Vercel deploys it from `main`.
 
-## Stack
+![Desktop view](docs/screenshots/desktop-hero.png)
 
-- Plain HTML5 + vanilla JS (no framework)
-- [Tailwind CSS](https://tailwindcss.com/) via CDN (`cdn.tailwindcss.com`), custom theme extension for colors/fonts
-- [Lucide Icons](https://lucide.dev/) via CDN
-- Google Fonts: Inter (body), JetBrains Mono (code/terminal UI)
-- Everything (CSS, JS, data) lives inline in `index.html`
-
-## Running it
-
-No install needed. Either:
-
-```bash
-open index.html          # macOS, opens directly in browser
-```
-
-or serve it locally (recommended, since some browsers restrict `fetch`/clipboard APIs on `file://`):
-
-```bash
-python3 -m http.server 8000
-# visit http://localhost:8000
-```
+| Projects section | Mobile |
+|---|---|
+| ![Projects at 1440px](docs/screenshots/desktop-projects.png) | ![Mobile hero at 390px](docs/screenshots/mobile-hero.png) |
 
 ## Sections
 
-| Section | `id` | Content |
-|---|---|---|
-| Hero | `#hero` | Intro, status badge, animated ETL pipeline SVG diagram |
-| About | `#about` | Bio |
-| Skills | `#skills` | Languages, data eng stack, databases, frameworks, tools, CS fundamentals |
-| Experience | `#experience` | Motherson Technology Services internship (AIML team) |
-| Projects | `#projects` | 4 project cards, each opens a detail drawer |
-| Education | `#education` | GITAM University + certifications |
-| Achievements | `#achievements` | Awards/recognition |
-| Contact | `#contact` | Contact links |
+About, skills, experience (one internship), projects, education and certification, two hackathon entries, and contact. The projects section has four cards with a details panel each, plus a short list of other repositories. Every link points to a repository or deployment that exists under github.com/pushpam2404.
 
-## Notable interactive bits
+## Running it locally
 
-- **ETL pipeline animation** (hero, `#pipeline-svg`) — animated packets flow from source nodes → transform → warehouse; click a node to see its details in the panel (`selectPipelineNode()`).
-- **Project drawer** — clicking a project card calls `openProjectDrawer(id)`, which pulls structured data out of the inline `<script type="application/json" id="project-data">` block and renders it into a slide-out panel.
-- **Fake terminal** (`#terminal-input`) — supports commands like `help`, `cat about.md`, `get --skills`, `curl /experience`, `ls projects`, `ping gitam`, `clear`. Unknown input returns a `command not found` message. Input is escaped via `escapeHTML()` before rendering.
-- **Copy-to-clipboard SSH string** — `copySSH()`, uses `navigator.clipboard`.
-- Scroll-triggered section reveals and active-nav-link highlighting via `IntersectionObserver`.
-- Respects `prefers-reduced-motion`: disables the pipeline animation loop and reveal transitions.
+```bash
+python3 -m http.server 8000
+# open http://localhost:8000
+```
 
-## Editing content
+Opening `index.html` directly also works.
 
-There's no CMS or data file — content lives directly in the markup:
+## Things on the page that do something
 
-- **Project details**: edit the JSON in the `#project-data` `<script>` block (~line 1081).
-- **Terminal commands/output**: edit the `terminalCommands` object in the JS (~line 1332).
-- **Pipeline node descriptions**: edit the `nodeDetails` object (~line 1282).
-- **Colors/fonts**: edit `tailwind.config` in the `<head>` (~line 20).
+- The hero diagram is a generic ETL illustration. Clicking a node shows what that stage does. It is labelled as illustrative because it is not live data.
+- The terminal accepts `help`, `cat about.md`, `get --skills`, `curl /experience`, `ls projects` and `clear`. Input is escaped before it is rendered.
+- The project details panel reads from the JSON block with id `project-data`.
+- The copy button in the contact section copies my email address.
+- Motion respects `prefers-reduced-motion`.
 
-## Known gaps
+## Accessibility and SEO
 
-- Tailwind is loaded from the CDN (`cdn.tailwindcss.com`), which is explicitly [not recommended for production](https://tailwindcss.com/docs/installation/play-cdn) by the Tailwind docs — fine for a portfolio, but worth a proper build step (PostCSS/CLI) if this ever needs to scale or drop the CDN dependency.
-- No meta tags beyond title/description — no Open Graph/Twitter card, no favicon, no `robots.txt`/sitemap.
-- No analytics or form backend wired to the Contact section (check `#contact` for whether it's mailto-only or expects a form submission target).
+Skip link, a labelled mobile menu button with `aria-expanded`, visible focus outlines, keyboard-reachable project buttons, a details dialog that moves focus in and returns it on close, and Open Graph, Twitter and JSON-LD metadata. Body text contrast is above 4.5:1 on the dark background.
+
+## Editing
+
+- Project cards: the Projects section in `index.html`.
+- Details panels: the `project-data` JSON block.
+- Terminal output: the `terminalCommands` object.
+- Diagram text: the `nodeDetails` object.
+- Colors and fonts: `tailwind.config` in the `<head>`.
+
+## Known limits
+
+- Tailwind runs in the browser from `cdn.tailwindcss.com`, which Tailwind says is not meant for production. Moving to the Tailwind CLI would need a build step.
+- There is no social preview image.
+- Some figures in the experience, about and hackathon sections (bugs found, endpoints, course count, hackathon results) come from me and cannot be checked from a public repository.

@@ -51,5 +51,5 @@ There's no CMS or external data file — everything is edited directly in `index
 ## Known constraints
 
 - Tailwind is loaded via the CDN Play build (`cdn.tailwindcss.com`), which Tailwind's own docs say is not recommended for production. Acceptable for this portfolio; would need a real build step (PostCSS/CLI) to change.
-- No favicon, no Open Graph/Twitter meta tags, no `robots.txt`/sitemap.
+- The favicon is an inline SVG data URI. Open Graph and Twitter tags are set, but there is no preview image, `robots.txt` or sitemap.
 - The Contact section has no wired analytics or form backend — check whether it's mailto-only before assuming form submission works.
