@@ -2,7 +2,7 @@
 
 My portfolio site: https://pushpam2404-profile.vercel.app
 
-One static `index.html`. Tailwind comes from its CDN build, icons from Lucide, fonts from Google Fonts, and everything else (CSS, JS, project data) is inline. There is no build step. Vercel deploys it from `main`.
+A static `index.html`. Styles are Tailwind CSS 3, compiled with the Tailwind CLI into `assets/tailwind.css`, which is committed, so Vercel serves the files as they are and needs no build command. Icons come from Lucide and fonts from Google Fonts. The JS and project data are inline in the HTML.
 
 ![Desktop view](docs/screenshots/desktop-hero.png)
 
@@ -21,7 +21,14 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-Opening `index.html` directly also works.
+To change styles, edit `src/input.css`, `tailwind.config.js` or the classes in `index.html`, then rebuild the stylesheet and commit it:
+
+```bash
+npm install
+npm run build:css      # or npm run watch:css while editing
+```
+
+The build scans `index.html` for class names, so a class used only in another file would be dropped.
 
 ## Things on the page that do something
 
@@ -33,7 +40,7 @@ Opening `index.html` directly also works.
 
 ## Accessibility and SEO
 
-Skip link, a labelled mobile menu button with `aria-expanded`, visible focus outlines, keyboard-reachable project buttons, a details dialog that moves focus in and returns it on close, and Open Graph, Twitter and JSON-LD metadata. Body text contrast is above 4.5:1 on the dark background.
+Skip link, a labelled mobile menu button with `aria-expanded`, visible focus outlines, keyboard-reachable project buttons, a details dialog that moves focus in and returns it on close, and Open Graph, Twitter and JSON-LD metadata with a 1200x630 preview image. Body text contrast is above 4.5:1 on the dark background.
 
 ## Editing
 
@@ -41,10 +48,11 @@ Skip link, a labelled mobile menu button with `aria-expanded`, visible focus out
 - Details panels: the `project-data` JSON block.
 - Terminal output: the `terminalCommands` object.
 - Diagram text: the `nodeDetails` object.
-- Colors and fonts: `tailwind.config` in the `<head>`.
+- Colors and fonts: `tailwind.config.js`.
+- Social preview image: `docs/social-preview.html` is the source. Render it at 1200x630 and copy the PNG to `assets/og.png` (served) and `docs/social-preview.png` (for uploading in the GitHub repo settings).
 
 ## Known limits
 
-- Tailwind runs in the browser from `cdn.tailwindcss.com`, which Tailwind says is not meant for production. Moving to the Tailwind CLI would need a build step.
-- There is no social preview image.
+- `assets/tailwind.css` is generated, so it has to be rebuilt and committed after style changes.
+- The GitHub repo social preview has to be uploaded by hand in the repo settings (no API). Use `docs/social-preview.png`.
 - Some figures in the experience, about and hackathon sections (bugs found, endpoints, course count, hackathon results) come from me and cannot be checked from a public repository.

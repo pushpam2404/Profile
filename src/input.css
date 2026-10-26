@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+    /* Custom styles and overrides */
+    html, body { overflow-x: clip; }
+    body {
+      background-color: #0d0d0f;
+      color: #94a3b8;
+    }
+    .text-xxs { font-size: 0.75rem; line-height: 1rem; }
+    :focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; border-radius: 4px; }
+    .skip-link {
+      position: absolute; left: 1rem; top: -4rem; z-index: 100;
+      background: #38bdf8; color: #0d0d0f; padding: .5rem 1rem; border-radius: 4px;
+      font-weight: 600; transition: top .15s;
+    }
+    .skip-link:focus { top: 1rem; }
+    #project-drawer:focus { outline: none; }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d0d0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f1f24;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+
+    /* Subtle grid background */
+    .bg-grid {
+      background-image: radial-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Mouse following glow */
+    .bg-radial-glow {
+      background: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(56, 189, 248, 0.05), transparent 40%);
+    }
+
+    /* Glassmorphism card effect */
+    .glass-card {
+      background: rgba(19, 19, 22, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(31, 31, 36, 0.8);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 20px rgba(56, 189, 248, 0.03);
+    }
+
+    /* Terminal-specific input styling */
+    .terminal-input::after {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background-color: #00f2fe;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    /* Scroll triggered animation classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+      .scroll-smooth {
+        scroll-behavior: auto;
+      }
+      .bg-radial-glow {
+        display: none;
+      }
+    }

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A single-page personal developer portfolio for Pushpam Raj Satyarthi. The entire site — HTML, CSS, and JS — lives in one self-contained `index.html` (~1500+ lines). There is no build step, no bundler, no package.json, and no dependencies to install. Tailwind CSS, Lucide Icons, and Google Fonts are all loaded via CDN `<script>`/`<link>` tags in the `<head>`.
+A single-page personal developer portfolio for Pushpam Raj Satyarthi. The page is `index.html` with its JS and project data inline. Styles are Tailwind CSS 3 built with the Tailwind CLI from `src/input.css` and `tailwind.config.js` into `assets/tailwind.css`, which is committed so Vercel serves static files with no build command. Lucide icons and Google Fonts load from CDNs.
 
 Live site: https://pushpam2404-profile.vercel.app/ (deployed as a static site, presumably via Vercel from this repo).
 
@@ -24,9 +24,9 @@ There is no lint, test, or build command — verify changes by opening the page 
 
 ## Architecture
 
-Everything is inline in `index.html`, organized top to bottom as:
+Layout of `index.html`, top to bottom:
 
-1. `<head>` — CDN includes, `tailwind.config` theme extension (custom `brand.*` colors, fonts), and a `<style>` block with custom CSS (glassmorphism cards, scrollbar styling, reveal/blink animations, `prefers-reduced-motion` overrides).
+1. `<head>` — meta, Open Graph and Twitter tags, JSON-LD, the stylesheet link and the Lucide script. Custom CSS (glass cards, scrollbar, reveal and blink animations, `prefers-reduced-motion` overrides) lives in `src/input.css`.
 2. Markup — sections in page order, each with a stable `id` used both for anchor nav and `IntersectionObserver` scroll-tracking: `#hero`, `#about`, `#skills`, `#experience`, `#projects`, `#education`, `#achievements`, `#contact`.
 3. `<script id="project-data" type="application/json">` (~line 1092) — structured data for the 4 project cards, read at runtime rather than hardcoded in the DOM.
 4. A single `<script>` block at the bottom (~line 1160+) containing all page behavior, described below.
@@ -46,10 +46,10 @@ There's no CMS or external data file — everything is edited directly in `index
 - **Project details**: the JSON in the `#project-data` `<script>` block (~line 1081).
 - **Terminal commands/output**: the `terminalCommands` object (~line 1332).
 - **Pipeline node descriptions**: the `nodeDetails` object (~line 1282).
-- **Colors/fonts**: `tailwind.config` in the `<head>` (~line 20).
+- **Colors/fonts**: `tailwind.config.js`. After any class or CSS change run `npm install` once, then `npm run build:css` and commit `assets/tailwind.css`.
 
 ## Known constraints
 
-- Tailwind is loaded via the CDN Play build (`cdn.tailwindcss.com`), which Tailwind's own docs say is not recommended for production. Acceptable for this portfolio; would need a real build step (PostCSS/CLI) to change.
-- The favicon is an inline SVG data URI. Open Graph and Twitter tags are set, but there is no preview image, `robots.txt` or sitemap.
+- The stylesheet is generated. The build scans only `index.html` for class names.
+- The favicon is an inline SVG data URI. The preview image is `assets/og.png` (source `docs/social-preview.html`, copy at `docs/social-preview.png`). There is no `robots.txt` or sitemap.
 - The Contact section has no wired analytics or form backend — check whether it's mailto-only before assuming form submission works.

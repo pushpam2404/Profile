@@ -13,7 +13,13 @@
   <meta property="og:title" content="Pushpam Raj Satyarthi | Data and Backend Developer">
   <meta property="og:description" content="Portfolio of Pushpam Raj Satyarthi, a third-year CSE student at GITAM University working on data pipelines and backend systems with Python, SQL and Node.js.">
   <meta property="og:url" content="https://pushpam2404-profile.vercel.app/">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://pushpam2404-profile.vercel.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pushpam Raj Satyarthi, Data and Backend Developer, third-year CSE student at GITAM University">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://pushpam2404-profile.vercel.app/assets/og.png">
+  <meta name="twitter:image:alt" content="Pushpam Raj Satyarthi, Data and Backend Developer, third-year CSE student at GITAM University">
   <meta name="twitter:title" content="Pushpam Raj Satyarthi | Data and Backend Developer">
   <meta name="twitter:description" content="Portfolio of Pushpam Raj Satyarthi, a third-year CSE student at GITAM University working on data pipelines and backend systems with Python, SQL and Node.js.">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Pushpam Raj Satyarthi","url":"https://pushpam2404-profile.vercel.app/","sameAs":["https://github.com/pushpam2404","https://www.linkedin.com/in/pushpamrajsatyarthi/"],"alumniOf":{"@type":"CollegeOrUniversity","name":"GITAM University"}}</script>
@@ -23,139 +29,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/tailwind.css">
   
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@0.468.0"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            brand: {
-              bg: '#0d0d0f',
-              card: '#131316',
-              border: '#1f1f24',
-              cyan: '#00f2fe',
-              blue: '#38bdf8',
-              textPrimary: '#f8fafc',
-              textSecondary: '#94a3b8',
-            }
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          }
-        }
-      }
-    }
-  </script>
 
-  <style type="text/css">
-    /* Custom styles and overrides */
-    html, body { overflow-x: clip; }
-    body {
-      background-color: #0d0d0f;
-      color: #94a3b8;
-    }
-    .text-xxs { font-size: 0.75rem; line-height: 1rem; }
-    :focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; border-radius: 4px; }
-    .skip-link {
-      position: absolute; left: 1rem; top: -4rem; z-index: 100;
-      background: #38bdf8; color: #0d0d0f; padding: .5rem 1rem; border-radius: 4px;
-      font-weight: 600; transition: top .15s;
-    }
-    .skip-link:focus { top: 1rem; }
-    #project-drawer:focus { outline: none; }
 
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0d0d0f;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1f1f24;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #38bdf8;
-    }
 
-    /* Subtle grid background */
-    .bg-grid {
-      background-image: radial-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 0);
-      background-size: 24px 24px;
-    }
-
-    /* Mouse following glow */
-    .bg-radial-glow {
-      background: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(56, 189, 248, 0.05), transparent 40%);
-    }
-
-    /* Glassmorphism card effect */
-    .glass-card {
-      background: rgba(19, 19, 22, 0.6);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(31, 31, 36, 0.8);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03);
-    }
-
-    .glass-card:hover {
-      border-color: rgba(56, 189, 248, 0.3);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 20px rgba(56, 189, 248, 0.03);
-    }
-
-    /* Terminal-specific input styling */
-    .terminal-input::after {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 15px;
-      background-color: #00f2fe;
-      margin-left: 4px;
-      animation: blink 1s infinite;
-      vertical-align: middle;
-    }
-
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
-    }
-
-    /* Scroll triggered animation classes */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .reveal {
-        transition: none;
-        opacity: 1;
-        transform: none;
-      }
-      .scroll-smooth {
-        scroll-behavior: auto;
-      }
-      .bg-radial-glow {
-        display: none;
-      }
-    }
-  </style>
 </head>
 <body class="font-sans antialiased selection:bg-brand-blue/30 selection:text-brand-cyan relative">
   <a href="#main" class="skip-link">Skip to content</a>
