@@ -3,11 +3,11 @@ import PageTop from './PageTop.astro';
 import { heroStats, site } from '../data/site';
 ---
 
-<section id="top" aria-labelledby="hero-title" class="relative isolate overflow-hidden">
+<section id="top" aria-labelledby="hero-title" class="relative isolate z-30 overflow-hidden">
   <!-- Decorative mesh: starts after load (see scripts/membrane.ts) and stays still for reduced motion. -->
   <canvas class="mesh" data-membrane aria-hidden="true"></canvas>
 
-  <div class="wrap relative z-10 pt-3 pb-12 md:pt-3 md:pb-16">
+  <div class="wrap relative z-10 pt-0 pb-12 md:pb-16">
     <PageTop reveal />
 
     <div class="mt-12 max-w-5xl md:mt-16" data-mesh-zone>

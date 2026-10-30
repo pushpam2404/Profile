@@ -28,7 +28,7 @@ const textOnly = projects.filter((p) => p.data.shots.length === 0);
         <div class="lg:col-span-7">
           <div class="t-prose grid gap-5 text-lg" data-reveal>
             {about.paragraphs.map((p) => <p class="j">{p}</p>)}
-            <p class="j text-ink2">{about.learning}</p>
+            <p class="text-ink2">{about.learning}</p>
           </div>
 
           <h3 class="t-label mt-14 mb-4 text-ink3">Leadership and community</h3>
@@ -59,7 +59,7 @@ const textOnly = projects.filter((p) => p.data.shots.length === 0);
         </div>
 
         <div class="lg:col-span-5">
-          <div class="lg:sticky lg:top-24">
+          <div>
             <StackFigure />
           </div>
         </div>
@@ -171,7 +171,7 @@ const textOnly = projects.filter((p) => p.data.shots.length === 0);
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-14" data-bench>
         <!-- The big number mirrors the open claim. It repeats text that is also in the list, so it is hidden from screen readers. -->
         <div class="bench-wrap hidden lg:col-span-5 lg:block" aria-hidden="true">
-          <div class="lg:sticky lg:top-24">
+          <div class="lg:sticky" style="top: calc(57px + var(--mh) + 1.5rem)">
             <p class="bench-figure" data-bench-figure style={`color:var(--c-${hue[proof[0].status]}-ink)`}>{proof[0].figure}</p>
             <p class="mt-4 max-w-xs text-ink2" data-bench-unit>{proof[0].unit}</p>
             <p class="t-label mt-5" data-bench-status style={`color:var(--c-${hue[proof[0].status]}-ink)`}><span class="mr-1.5">{mark[proof[0].status]}</span>{statusInfo[proof[0].status].label}</p>
@@ -222,7 +222,7 @@ const textOnly = projects.filter((p) => p.data.shots.length === 0);
               <li class="border-b border-line py-5">
                 <p class="t-h3">{h.name}</p>
                 <p class="t-label mt-1 text-accent">{h.result}</p>
-                <p class="j mt-2 text-[0.95rem] text-ink2">{h.what}</p>
+                <p class="mt-2 text-[0.95rem] text-ink2">{h.what}</p>
               </li>
             ))}
           </ul>
