@@ -5,6 +5,7 @@ import { nav, site } from '../data/site';
 // The masthead and ruled strip that open every page (after harryjatkins.com).
 interface Props { reveal?: boolean }
 const { reveal = false } = Astro.props;
+void reveal;
 const home = Astro.url.pathname === '/' ? '' : '/';
 const links = nav.filter((n) => n.id !== 'contact');
 ---
@@ -16,33 +17,35 @@ const links = nav.filter((n) => n.id !== 'contact');
     <Masthead words />
   </div>
 
-  <div class="hero-strip mt-3 grid grid-cols-2 gap-x-4 gap-y-6 pt-3 md:flex md:justify-between md:gap-x-8" data-reveal={reveal ? '' : undefined}>
+  <!-- From tablet width the strip is a second bar tucked behind the masthead: it slides out as you scroll up and back in as you scroll down, in step with the scroll (see scripts/site.ts). -->
+  <div class="strip-spacer" aria-hidden="true"></div>
+  <div class="strip-fixed" data-strip>
+  <div class="hero-strip">
     <p>
-      <span class="block text-ink">{site.name}</span>
+      <span class="ink">{site.name}</span>
       {site.role}
     </p>
     <nav aria-label="On this page">
       <ul>
         {links.map((n) => (
           <li>
-            <a href={`${home}#${n.id}`} class="inline-flex min-h-6 items-baseline gap-3 hover:text-ink">
-              {n.label}
-            </a>
+            <a href={`${home}#${n.id}`} data-nav-link={n.id}>{n.label}</a>
           </li>
         ))}
       </ul>
     </nav>
     <div role="group" aria-label="Display modes (keyboard shortcuts T, D and M)">
       <button type="button" class="mode" data-mode="text" aria-pressed="false" aria-keyshortcuts="T">
-        Text mode <span class="mode-state" aria-hidden="true" data-mode-state>( T )</span>
+        <span>Text mode</span><span class="mode-state" aria-hidden="true" data-mode-state>( <span class="mode-letter">N</span> )</span>
       </button>
       <button type="button" class="mode" data-mode="dark" aria-pressed="false" aria-keyshortcuts="D">
-        Dark mode <span class="mode-state" aria-hidden="true" data-mode-state>( D )</span>
+        <span>Dark mode</span><span class="mode-state" aria-hidden="true" data-mode-state>( <span class="mode-letter">N</span> )</span>
       </button>
       <button type="button" class="mode" data-mode="mono" aria-pressed="false" aria-keyshortcuts="M">
-        Monochrome <span class="mode-state" aria-hidden="true" data-mode-state>( M )</span>
+        <span>Monochrome</span><span class="mode-state" aria-hidden="true" data-mode-state>( <span class="mode-letter">N</span> )</span>
       </button>
     </div>
-    <p class="md:text-right">{site.location}</p>
+    <p class="place">Visakhapatnam,<br />India</p>
+  </div>
   </div>
 </div>

@@ -205,6 +205,16 @@ html[data-text] [data-membrane] {
     background: var(--accent);
     color: var(--on-accent);
   }
+  /* The enlarged header pushes the page down and gives it back as it closes: the browser must not correct the scroll position for that. */
+  html,
+  body,
+  main,
+  footer {
+    overflow-anchor: none;
+  }
+  html {
+    overscroll-behavior-y: none;
+  }
   section[id] {
     scroll-margin-top: 8rem;
   }
@@ -526,6 +536,7 @@ figcaption {
   position: absolute;
   top: 0.5rem;
   left: 0;
+  transform-origin: left top;
 }
 .mast-fixed .mast-cell:nth-child(2) {
   left: 38%;
@@ -534,11 +545,12 @@ figcaption {
   left: 62%;
 }
 @media (min-width: 768px) {
+  /* The initials sit over the first three columns of the strip below. */
   .mast-fixed .mast-cell:nth-child(2) {
-    left: 33.333%;
+    left: 25%;
   }
   .mast-fixed .mast-cell:nth-child(3) {
-    left: 66.666%;
+    left: 50%;
   }
 }
 .mast-fixed .mast-letter,
@@ -609,35 +621,107 @@ html:not(.js) .mast-spacer {
 .mesh.is-on {
   opacity: 1;
 }
+/* The strip under the masthead (after harryjatkins.com): small type, two tones, four equal columns. From tablet width it is fixed
+   behind the masthead and slides out and in with the scroll (see scripts/site.ts); on phones it is an ordinary block. */
+.strip-spacer {
+  display: none;
+}
+@media (min-width: 768px) {
+  .strip-spacer {
+    display: block;
+    height: 73px;
+  }
+  .strip-fixed {
+    position: fixed;
+    top: 57px;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding-top: var(--bar-h, var(--mh));
+    background: var(--bg);
+    /* The hairline under the strip is invisible at the top of the page and fades in once the page has scrolled (as on harryjatkins.com). */
+    border-bottom: 1px solid transparent;
+    will-change: transform;
+    transition:
+      transform 800ms cubic-bezier(0.83, 0, 0.17, 1),
+      border-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .strip-fixed.is-scrolled {
+    border-bottom-color: var(--border);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .strip-fixed {
+      transition: none;
+    }
+  }
+  .strip-fixed .hero-strip {
+    max-width: 90rem;
+    margin-inline: auto;
+    padding: 0.75rem 1rem;
+  }
+}
 .hero-strip {
-  font-size: 0.8125rem;
-  line-height: 1.4;
-  color: var(--text-2);
-  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1rem;
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: var(--text-3);
+}
+.hero-strip .ink,
+.hero-strip a[aria-current],
+.hero-strip a:hover,
+.hero-strip .mode:hover,
+.hero-strip .mode[aria-pressed='true'] {
+  color: var(--text);
+}
+.hero-strip ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hero-strip a {
+  display: inline-block;
+  min-height: 1.5rem;
+}
+.hero-strip .ink {
+  display: block;
+}
+@media (min-width: 768px) {
+  .hero-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    line-height: 1;
+  }
+  /* Tight lines like the reference. The links and buttons here are shorter than the 24px WCAG 2.2 target size (the top nav has the same links at full size). */
+  .hero-strip a,
+  .hero-strip .mode {
+    min-height: 0;
+  }
+  .hero-strip .place {
+    justify-self: end;
+  }
 }
 .mode {
-  display: flex;
+  display: grid;
+  grid-template-columns: 6.5rem auto;
   align-items: baseline;
-  gap: 0.75rem;
   min-height: 1.5rem;
   padding: 0;
   border: 0;
   background: none;
-  color: var(--text-2);
+  color: inherit;
   font: inherit;
+  letter-spacing: inherit;
   text-align: left;
   cursor: pointer;
-  transition: color var(--dur-hover) var(--ease-std);
 }
-.mode:hover,
-.mode[aria-pressed='true'] {
+.mode-letter {
   color: var(--text);
 }
-.mode-state {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-}
-.mode[aria-pressed='true'] .mode-state {
+.mode[aria-pressed='true'] .mode-letter {
   color: var(--accent);
 }
 
