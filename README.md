@@ -1,58 +1,65 @@
 # Profile
 
-My portfolio site: https://pushpam2404-profile.vercel.app
+My portfolio: https://pushpam2404-profile.vercel.app
 
-A static `index.html`. Styles are Tailwind CSS 3, compiled with the Tailwind CLI into `assets/tailwind.css`, which is committed, so Vercel serves the files as they are and needs no build command. Icons come from Lucide and fonts from Google Fonts. The JS and project data are inline in the HTML.
+Built with [Astro](https://astro.build) and Tailwind CSS 4. It ships no framework JavaScript: the only script is about 60 lines for the theme switch, scroll reveal and active nav link. Fonts are self-hosted through `@fontsource`.
 
-![Desktop view](docs/screenshots/desktop-hero.png)
+![Home page at 1440px](docs/screenshots/home-desktop.png)
 
-| Projects section | Mobile |
+| Projects | Mobile |
 |---|---|
-| ![Projects at 1440px](docs/screenshots/desktop-projects.png) | ![Mobile hero at 390px](docs/screenshots/mobile-hero.png) |
+| ![Projects at 1440px](docs/screenshots/projects-desktop.png) | ![Home page at 375px](docs/screenshots/home-mobile.png) |
 
-## Sections
+## Structure
 
-About, skills, experience (one internship), projects, education and certification, two hackathon entries, and contact. The projects section has four cards with a details panel each, plus a short list of other repositories. Every link points to a repository or deployment that exists under github.com/pushpam2404.
+The page follows one flow: who I am, what I build, proof, contact.
 
-## Running it locally
+| Section | What is in it |
+|---|---|
+| Hero | The headline, an index of the sections, and four numbers that can each be checked |
+| 01 Who I am | About, leadership and community, education, and an illustrative ETL figure |
+| 02 Work | The Motherson internship and the toolbox |
+| 03 Projects | Five projects with their own pages under `/projects/<name>/`, plus a list of other repositories |
+| 04 Proof | Every claim with its evidence and a status: verified, measured or reported. Also the IBM course certificates and hackathons |
+| 05 Contact | Email, LinkedIn, GitHub, phone |
 
-```bash
-python3 -m http.server 8000
-# open http://localhost:8000
-```
-
-To change styles, edit `src/input.css`, `tailwind.config.js` or the classes in `index.html`, then rebuild the stylesheet and commit it:
+## Running it
 
 ```bash
 npm install
-npm run build:css      # or npm run watch:css while editing
+npm run dev        # http://localhost:4321
+npm run build      # runs `astro check` first, then builds to dist/
+npm run preview    # serve the production build
 ```
 
-The build scans `index.html` for class names, so a class used only in another file would be dropped.
+Node 22.23.4 or newer.
 
-## Things on the page that do something
+## Editing content
 
-- The hero diagram is a generic ETL illustration. Clicking a node shows what that stage does. It is labelled as illustrative because it is not live data.
-- The terminal accepts `help`, `cat about.md`, `get --skills`, `curl /experience`, `ls projects` and `clear`. Input is escaped before it is rendered.
-- The project details panel reads from the JSON block with id `project-data`.
-- The copy button in the contact section copies my email address.
-- Motion respects `prefers-reduced-motion`.
+Nothing is hard-coded in the components.
 
-## Accessibility and SEO
+- Projects: one YAML file each in `src/content/projects/`. The schema is `src/content.config.ts`, so a missing field fails the build. A project without a public link has `repo: null`.
+- Everything else (hero numbers, experience, education, skills, leadership, proof table, other repositories): `src/data/site.ts`.
+- Screenshots: `src/assets/projects/<project-name>.png`, with the alt text in the YAML as `imageAlt`.
+- Colors, type scale and motion tokens: `src/styles/global.css`. The tokens come from the design system.
+- `TODO` comments mark gaps that need information only I have.
 
-Skip link, a labelled mobile menu button with `aria-expanded`, visible focus outlines, keyboard-reachable project buttons, a details dialog that moves focus in and returns it on close, and Open Graph, Twitter and JSON-LD metadata with a 1200x630 preview image. Body text contrast is above 4.5:1 on the dark background.
+## Proof statuses
 
-## Editing
+- **Verified**: anyone can check it in a public repository or live site.
+- **Measured**: my own benchmark, with the method and caveats written down.
+- **Reported**: my account of private or institutional work, with no public evidence yet.
 
-- Project cards: the Projects section in `index.html`.
-- Details panels: the `project-data` JSON block.
-- Terminal output: the `terminalCommands` object.
-- Diagram text: the `nodeDetails` object.
-- Colors and fonts: `tailwind.config.js`.
-- Social preview image: `docs/social-preview.html` is the source. Render it at 1200x630 and copy the PNG to `assets/og.png` (served) and `docs/social-preview.png` (for uploading in the GitHub repo settings).
+## Deploying
 
-## Known limits
+Vercel builds with `vercel.json` (`framework: astro`, `npm run build`, output `dist`).
 
-- `assets/tailwind.css` is generated, so it has to be rebuilt and committed after style changes.
-- The GitHub repo social preview has to be uploaded by hand in the repo settings (no API). Use `docs/social-preview.png`.
-- Some figures in the experience, about and hackathon sections (bugs found, endpoints, course count, hackathon results) come from me and cannot be checked from a public repository.
+## What changed from the old site
+
+- The fake terminal and the project details drawer are gone. The terminal repeated content that is now in the sections, and each project has a real page instead of a drawer.
+- Added the fake-account detection engine (my headline project), the SIH 2026 result, and the leadership roles, which the old site did not have.
+- The hero numbers are ones I can point to. The old site's "29 integration checks" is now 23, which is what the repository contains today.
+
+## Social preview
+
+`docs/social-preview.html` is the source for `public/og.png`. Open it at 1200x630, screenshot it, and copy the PNG to `public/og.png` and `docs/social-preview.png`.
