@@ -1,0 +1,33 @@
+order: 5
+title: KAPS MedTech
+tagline: A university clinic app where students book doctors and doctors record diagnoses and prescriptions.
+context: Gitathon, a 24-hour university hackathon
+role: Solo backend developer
+status: live
+color: teal
+shots:
+  - file: 01-queue.jpg
+    alt: "KAPS MedTech doctor view with a patient queue for the day. Each booked appointment shows a time, the reason for the visit, and Start visit and Cancel buttons. The patient names are demo data."
+  - file: 02-booking.png
+    alt: "The KAPS MedTech booking page, with a department suggestion."
+  - file: 03-records.jpg
+    alt: "A student\u2019s visit records: for each visit the date, doctor, diagnosis, advice and prescriptions. Demo data."
+  - file: 06-appointments.jpg
+    alt: "The student's Appointments tab: two booked visits, one with a neurologist and one with an orthopedist, each with Reschedule and Cancel buttons and filters by date and reason. Demo data."
+  - file: 04-treatment.png
+    alt: "The doctor\u2019s treatment form."
+  - file: 05-mobile.png
+    alt: "The student\u2019s appointments list on a 390-pixel-wide phone."
+stack: [Node.js, Express, PostgreSQL, JWT, bcrypt, Neon, Vercel]
+points:
+  - Students and staff book appointments with university doctors. Doctors see a daily queue and record diagnoses, advice and prescriptions.
+  - Express 5 API on PostgreSQL (Neon in production) with a static HTML and JavaScript frontend, deployed on Vercel.
+  - JWT authentication, bcrypt password hashing, rate limiting and per-user resource checks.
+  - Booking inserts and turns a unique-index violation into a 409, so four simultaneous requests for one slot cannot double-book it.
+  - An integration suite runs against a real PostgreSQL, and GitHub Actions runs it on every push.
+facts:
+  - { label: Integration tests, value: "23 cases" }
+  - { label: Deployed on, value: "Vercel + Neon" }
+links:
+  repo: https://github.com/pushpam2404/KAPS-Medtech
+  live: https://kaps-medtech.vercel.app

@@ -1,0 +1,34 @@
+order: 2
+title: Fake account and threat detection engine
+tagline: Scores a social media account as real, suspicious or fake, and says why.
+context: Smart India Hackathon 2026 · SIH-1775 · ITBP / Ministry of Home Affairs
+role: Led development
+status: live
+color: red
+badge: Featured
+shots:
+  - file: 01-result.png
+    alt: "The detector at 1440 pixels wide: sample profiles to load, the form of account numbers, the risk score and the SHAP reasons behind it."
+  - file: 02-scan.png
+    alt: "The scan screen at 1440 pixels wide: a profile link field, a platform switch, three sample profiles and a form of account numbers, with a standby panel where the result appears."
+  - file: 04-mobile.png
+    alt: "The detector on a 390-pixel-wide phone: the four section buttons stacked, a profile link field and the platform switch."
+  - file: 03-batch.png
+    alt: "The batch screen: a drop zone for a CSV of account numbers, with the required columns listed under it."
+stack: [Python, XGBoost, SHAP, FastAPI, React, TypeScript, Playwright, SentenceTransformers, NetworkX]
+points:
+  - Two XGBoost classifiers, one on 13 features for Twitter/X and one on 7 for Instagram and Facebook, trained on 101,302 labeled accounts (64,919 and 36,383).
+  - SHAP values become plain-language risk factors, and a PDF case file can be exported.
+  - A URL scan reads a public profile with Playwright or Instaloader, then adds caption-similarity and display-name-versus-handle checks using the all-MiniLM-L6-v2 sentence-embedding model.
+  - A NetworkX graph of related accounts, batch scoring from a CSV, and a small case workflow that only moves forward one step at a time.
+limits:
+  - The URL scan needs network access and often a logged-in session. The repo README says it was not re-run during the last cleanup.
+  - The cases shown at first start are seeded demo data.
+  - Re-evaluating the saved models gave 89.82% on X and 96.72% on Meta, close to but not identical to the 90.04% and 96.87% recorded in models/results.md.
+facts:
+  - { label: Labeled accounts, value: "101,302" }
+  - { label: Recorded accuracy, value: "90.04% X · 96.87% Meta" }
+  - { label: Features, value: "13 X · 7 Meta" }
+links:
+  repo: https://github.com/pushpam2404/fake_acc
+  live: https://fake-acc.vercel.app

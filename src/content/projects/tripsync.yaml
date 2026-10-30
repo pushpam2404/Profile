@@ -1,0 +1,31 @@
+order: 6
+title: TripSync
+tagline: A travel companion for road trips with route planning, nearby stops, a chat assistant and trip logging.
+context: Started for Smart India Hackathon 2025 · internal-round qualifier
+role: Led development
+status: in-development
+color: amber
+shots:
+  - file: 01-home.png
+    alt: "TripSync home screen in the light theme: a greeting, a yellow Where to? button, shortcuts to the Sakha chat assistant, the planner, saved routes and trip history, and the last trip."
+  - file: 02-sakha.png
+    alt: "The Sakha chat assistant on a phone in demo mode: a Mumbai to Lonavala suggestion answered with a route card and a Start navigation button."
+  - file: 03-planner.png
+    alt: "The trip planner on a phone, choosing a stay."
+  - file: 04-history.png
+    alt: "Trip history on a phone."
+  - file: 06-saved.png
+    alt: "Saved routes on a phone: Pune to Goa with a stay in Kolhapur, and Mumbai to Nashik, each with Navigate and Reverse buttons. Demo data."
+  - file: 05-navigation.png
+    alt: "The navigation screen on a phone, showing directions as a list because the map could not load."
+stack: [TypeScript, React 19, Vite, Express, MongoDB, Mappls, Gemini]
+points:
+  - A React 19, TypeScript and Vite client talking to an Express and MongoDB API.
+  - Route and map features use the Mappls (MapmyIndia) SDK. The chat assistant calls Gemini through the Google Gen AI SDK.
+  - Trip logging with vehicle and passenger details.
+  - The prototype was built from zero inside the 24-hour hackathon window.
+limits:
+  - The repo README says the app is still in development and has known bugs.
+links:
+  repo: https://github.com/pushpam2404/Trip-Sync
+  live: https://trip-sync-rho.vercel.app

@@ -1,0 +1,19 @@
+order: 9
+title: Autocomplete engine in C
+tagline: Prefix search in C using a Trie, with a min-heap that keeps the top suggestions ranked.
+context: Systems programming
+role: Author
+status: no-public-repo
+color: red
+stack: [C, Make, Valgrind, GDB]
+points:
+  - A Trie for prefix lookup, so lookup time depends on the prefix length k and not on the size of the dataset.
+  - A min-heap keeps the top-N ranked suggestions.
+  - Built with Make and checked with Valgrind and GDB.
+limits:
+  - There is no public repository for this one, so there is no link. # TODO: publish the source or leave as is.
+facts:
+  - { label: Lookup, value: "O(k)" }
+links:
+  repo: null
+  live: null

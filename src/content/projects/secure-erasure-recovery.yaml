@@ -1,0 +1,37 @@
+order: 3
+title: Secure data erasure and file recovery tool
+tagline: One desktop app that wipes drives and files securely and recovers deleted ones, with every action recorded in a tamper-evident audit log.
+context: Smart India Hackathon, problem statement 26149 (NTRO)
+role: Sole author (entered as a team project)
+status: prototype
+color: teal
+shots:
+  - file: 01-recovery.png
+    alt: "The Recovery page after scanning a practice disk image: the deleted PNG was found by two engines, Sleuth Kit and PhotoRec, with a confidence score of 100 and the same SHA-256."
+  - file: 02-dashboard.png
+    alt: "The dashboard: audit entries, chain integrity marked intact, the number of reports, and the latest actions."
+  - file: 03-audit-log.png
+    alt: "The audit log: each erase and scan as a numbered entry with its hash, and buttons to verify the chain and generate a certificate."
+  - file: 04-file-eraser.png
+    alt: "The file and folder eraser after a completed erase, with a warning about copy-on-write filesystems."
+  - file: 05-drive-eraser.png
+    alt: "The drive eraser listing this computer's drives, every one marked blocked because it is internal or holds the system, with simulation mode switched on."
+stack: [Python, PySide6, SQLite, pytsk3, PhotoRec, ReportLab, GitHub Actions]
+points:
+  - A secure drive eraser for disk images and removable drives (the system drive is always blocked) with single-pass, NIST 800-88 Clear and DoD 5220.22-M overwrites and a read-back check after each pass. Simulation mode is on by default.
+  - A file and folder eraser that overwrites, renames, clears extended attributes and unlinks, and warns about copy-on-write filesystems such as APFS.
+  - File carving and recovery with Sleuth Kit (pytsk3) and PhotoRec, file-type classification, a 0 to 100 confidence score and SHA-256 hashes, with cross-checking between engines.
+  - Every action goes into a SHA-256 hash chain with per-entry HMAC tags and append-only database triggers, and can be exported as PDF and JSON reports or an Ed25519-signed certificate modelled on BSA 2023 Section 63.
+  - Runs on Windows, Linux and macOS with the same look, and the automated tests run on all three in GitHub Actions.
+limits:
+  - This is a hackathon prototype, not a certified product. The README lists what is tested, what has caveats and what is not done.
+  - Erasing or scanning a physical drive has not been tested on any of the three platforms. Overwriting does not guarantee erasure on SSDs or copy-on-write filesystems.
+  - The audit log is tamper-evident, not tamper-proof, and the certificate has not been legally reviewed.
+  - The screenshots here come from a practice disk image and temporary files, not real evidence.
+facts:
+  - { label: Problem statement, value: "SIH 26149, NTRO" }
+  - { label: Platforms, value: "Windows, Linux and macOS" }
+  - { label: Erase standards, value: "Single pass, NIST 800-88 Clear, DoD 5220.22-M" }
+links:
+  repo: https://github.com/pushpam2404/SIH_149
+  live: null

@@ -1,0 +1,30 @@
+order: 7
+title: Open Source Launchpad
+tagline: A small website that teaches first-timers to make their first pull request, and is itself the project they practise on.
+context: Hacktoberfest, for GitHub Community GITAM
+role: Author and maintainer
+status: live
+color: blue
+shots:
+  - file: 01-home.png
+    alt: "The home page: a gradient headline, two buttons and the first steps of making a contribution."
+  - file: 02-start-and-events.png
+    alt: "Starting points for first-time contributors, and the table of October events."
+  - file: 03-wall.png
+    alt: "The contributor wall, with a search box and contributor cards."
+  - file: 04-git-basics.png
+    alt: "The Git basics page, which walks through a first contribution step by step."
+  - file: 05-mobile.png
+    alt: "The home page on a 390-pixel-wide phone."
+stack: [HTML, CSS, JavaScript, GitHub Actions, GitHub Pages]
+points:
+  - A walkthrough of the Git workflow, a pre-pull-request checklist, a glossary, an FAQ and a contributor wall, in plain HTML and CSS with no build step and no framework.
+  - The open issues are sized for someone who has never made a pull request. Each one names the file to open, what done looks like and how to check it.
+  - GitHub Actions do the housekeeping, including lint, a secret scan, labels, greetings for new contributors, issue claims, and automatic merging once the checks pass. The contributor index is rebuilt and the site redeployed every day.
+  - One of three practice repositories I created for Hacktoberfest, with Terminal Arcade (small Python games) and sluice (a small data pipeline runner).
+facts:
+  - { label: Automation, value: "9 GitHub Actions workflows" }
+  - { label: Setup for contributors, value: "None. No build step." }
+links:
+  repo: https://github.com/pushpam2404/open-source-launchpad
+  live: https://pushpam2404.github.io/open-source-launchpad/

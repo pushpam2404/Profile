@@ -1,0 +1,27 @@
+order: 8
+title: Global banking ETL
+tagline: A Python pipeline that scrapes market capitalization data for the world's largest banks and loads it into SQLite and CSV.
+context: Personal project
+role: Author
+status: code-only
+color: teal
+snippet:
+  file: bank_project.py
+  lines: transform(), print calls and comments removed
+  code: |
+    def transform(df, csv_path):
+        exchange_rate_df = pd.read_csv(csv_path)
+        exchange_rate = exchange_rate_df.set_index('Currency').to_dict()['Rate']
+        df['MC_GBP_Billion'] = [np.round(x * exchange_rate['GBP'], 2) for x in df['MC_USD_Billion']]
+        df['MC_EUR_Billion'] = [np.round(x * exchange_rate['EUR'], 2) for x in df['MC_USD_Billion']]
+        df['MC_INR_Billion'] = [np.round(x * exchange_rate['INR'], 2) for x in df['MC_USD_Billion']]
+        return df
+stack: [Python, Pandas, NumPy, BeautifulSoup, Requests, SQLite]
+points:
+  - Scrapes market capitalization figures with Requests and BeautifulSoup, finding the Market Cap column by its header name instead of its position, so a layout change does not break it.
+  - Converts currencies with vectorized NumPy and Pandas operations instead of row loops, and casts types strictly.
+  - Writes the cleaned data to SQLite through context managers, so a crash does not leave a connection open or the database locked, and to CSV.
+  - Logs each stage with timestamps so a run can be traced.
+links:
+  repo: https://github.com/pushpam2404/global-finance-etl
+  live: null

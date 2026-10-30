@@ -1,0 +1,36 @@
+order: 1
+title: Astra
+tagline: Turns Spotify listening history into a 3D map you can fly around, with artists grouped into clusters by what they have in common.
+context: Personal project, built for myself because there is always something playing
+role: Author
+status: live
+color: violet
+shots:
+  - file: 01-overview.jpg
+    alt: "Astra's map of my own listening history: 20 coloured clusters of artists, each artist a planet, with the lens buttons along the top and the cluster list in the side panel."
+  - file: 02-cluster.jpg
+    alt: "The Hindi and Soundtrack cluster in focus: 632 artists as red planets, with the cluster timeline and artist list in the side panel."
+  - file: 03-artist.jpg
+    alt: "One artist, Aaryan Shah, selected. Her songs orbit her planet as moons, and her listening timeline is in the side panel."
+  - file: 04-lens.jpg
+    alt: "The whole map under the current-rotation lens, so only what I played in the last 60 days stays lit."
+  - file: 05-cluster-lens.jpg
+    alt: "The R&B and Soul cluster under the same lens, with its peak year and its artists."
+stack: [JavaScript, Three.js, Vite, Node.js, Express, Web Audio, IndexedDB, Vercel]
+points:
+  - Reads a Spotify connection (top artists, recent plays, Liked Songs) or the full Extended Streaming History export. Parsing and clustering run in the browser, so a 100 MB export never goes through a server.
+  - Clusters come from Louvain community detection on a similarity graph of shared genres and countries, collaborations and songs played in the same session. Positions come from a 3D UMAP embedding, then a collision pass keeps planets apart.
+  - Genres come from public data (Wikidata, MusicBrainz, and Last.fm if a key is given), because Spotify no longer returns artist genres to apps in development mode. There are no hardcoded genre tables.
+  - Lenses filter the map and the side panel together (past favourites, not heard in a while, current rotation, all-time staples, one per year). The selected artist, cluster and lens live in the URL, so Back and Forward work.
+  - The planets are Three.js shaders on a plain JavaScript front end with no UI framework, and the server is a small Express app that also runs as a Vercel function.
+limits:
+  - The screenshots show my own listening history (51,772 plays from 2020 to 2026), loaded from the browser's cache.
+  - The map refines as genre lookups arrive, so clusters can shift a little while it loads. Where a lookup finds no usable tags, an artist can land in an odd cluster.
+facts:
+  - { label: Clustering, value: "Louvain communities, 3D UMAP layout" }
+  - { label: My history on the map, value: "3,213 artists, 7,773 songs, 20 clusters" }
+  - { label: Clustering quality, value: "ARI 0.683, purity 0.855 on 8 synthetic listeners" }
+  - { label: Tests, value: "26 unit and API tests, run in CI" }
+links:
+  repo: https://github.com/pushpam2404/astra-3d-music-universe
+  live: https://astra-3d-music-universe.vercel.app

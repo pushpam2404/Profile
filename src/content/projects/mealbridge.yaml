@@ -1,0 +1,35 @@
+order: 4
+title: MealBridge
+tagline: A marketplace that connects kitchens with surplus food to NGOs nearby, so cooked food is collected before it spoils.
+context: Web Application Framework course project
+role: Author
+status: live
+color: green
+shots:
+  - file: 01-home.jpg
+    alt: "MealBridge home page with the live pickup board."
+  - file: 02-browse.jpg
+    alt: "The browse page: open food listings with search, city and category filters, soonest-expiring first."
+  - file: 03-claimed.png
+    alt: "A listing that an NGO has claimed, showing its pickup code."
+  - file: 04-dashboard.jpg
+    alt: "The donor dashboard: meals donated, food rescued and the listings waiting for a claim. Demo data."
+  - file: 05-impact.jpg
+    alt: "The public impact report."
+  - file: 06-mobile.png
+    alt: "The browse page on a phone."
+stack: [React 19, Vite, Tailwind CSS, Node.js, Express, MongoDB, Mongoose, JWT, Vercel]
+points:
+  - A kitchen posts surplus food with a pickup window and a best-before time, and a nearby NGO claims it. Claims are atomic, so two NGOs can never claim the same listing, and contact details are shared only between the two parties.
+  - Full create, read, update and delete for listings, a live board sorted by soonest expiry with countdown timers, and search, city, category and food-type filters that live in the URL so a filtered view can be shared.
+  - A JWT-secured REST API on Express with Zod validation, bcrypt password hashing and rate limiting, backed by MongoDB Atlas through Mongoose and deployed to Vercel as a serverless function.
+  - A public impact report with weekly and per-category charts, and a personal impact summary for each donor (meals, kilograms and CO2e).
+  - Responsive from 360 px phones up, with light and dark themes, labelled forms, keyboard-friendly dialogs, a skip link, visible focus rings and reduced-motion support.
+limits:
+  - The kitchens, NGOs and listings in the screenshots are demo data.
+facts:
+  - { label: Tests, value: "23 API tests (Vitest and Supertest)" }
+  - { label: Hosting, value: "Vercel and MongoDB Atlas" }
+links:
+  repo: https://github.com/pushpam2404/mealbridge
+  live: https://mealbridge-app.vercel.app
