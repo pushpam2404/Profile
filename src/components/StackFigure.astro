@@ -1,0 +1,37 @@
+---
+import { layers } from '../data/site';
+// Three layers of the stack, each with one project that shows it. Decorative SVG, text list beside it carries the meaning.
+const ys = [10, 112, 214];
+---
+
+<figure class="rounded-3xl border border-line bg-surface p-5 md:p-7" data-reveal>
+  <svg viewBox="0 0 520 300" class="w-full" aria-hidden="true" focusable="false">
+    <g stroke="var(--border)" stroke-width="2" stroke-dasharray="4 5" fill="none">
+      <path d="M260 82V112" />
+      <path d="M260 184V214" />
+    </g>
+    {layers.map((l, i) => (
+      <g>
+        <rect x="0" y={ys[i]} width="520" height="72" rx="14" fill="var(--surface-2)" stroke="var(--border)" stroke-width="1.5" />
+        <text x="22" y={ys[i] + 30} font-family="var(--font-mono)" font-size="16" letter-spacing="1.5" fill="var(--text-3)">{String(i + 1).padStart(2, '0')} · {l.title.toUpperCase()}</text>
+        {l.items.map((it, j) => (
+          <text x={22 + j * 165} y={ys[i] + 56} font-family="var(--font-mono)" font-size="21" fill="var(--text)">{it}</text>
+        ))}
+      </g>
+    ))}
+    {[0, 1.1].map((d) => <circle class="packet down" cx="260" cy="82" r="4.5" fill="var(--accent)" style={`--run:30px;--d:${d}`} />)}
+    {[0.5, 1.6].map((d) => <circle class="packet down" cx="260" cy="184" r="4.5" fill="var(--accent)" style={`--run:30px;--d:${d}`} />)}
+  </svg>
+  <dl class="mt-6 grid gap-5">
+    {layers.map((l, i) => (
+      <div class="grid grid-cols-[2rem_1fr] gap-x-3">
+        <dt class="t-label pt-1 text-accent">{String(i + 1).padStart(2, '0')}</dt>
+        <dd>
+          <p class="font-semibold">{l.title} <span class="t-label ml-1 font-normal text-ink3">{l.items.join(' · ')}</span></p>
+          <p class="mt-1 text-[0.95rem] text-ink2">{l.desc} See <a class="underline underline-offset-2 hover:text-ink" href={`/projects/${l.project.slug}/`}>{l.project.name}</a>.</p>
+        </dd>
+      </div>
+    ))}
+  </dl>
+  <figcaption class="t-label mt-6 border-t border-line pt-4 text-ink3">Where each project sits in the stack</figcaption>
+</figure>

@@ -1,0 +1,36 @@
+---
+import Masthead from './Masthead.astro';
+import { nav, site } from '../data/site';
+---
+
+<footer class="border-t border-line bg-paper">
+  <div class="wrap grid gap-10 pt-16 pb-10 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <p class="t-h3 max-w-sm">Open to software engineering and data internships.</p>
+      <a class="btn btn-primary mt-6" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+    <div>
+      <h2 class="t-label mb-3 text-ink3">Navigate</h2>
+      <ul class="grid gap-2">
+        {nav.map((n) => <li><a class="text-ink2 hover:text-ink" href={`/#${n.id}`}>{n.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="t-label mb-3 text-ink3">Elsewhere</h2>
+      <ul class="grid gap-2">
+        <li><a class="text-ink2 hover:text-ink" href={site.github} rel="me noopener" target="_blank">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+        <li><a class="text-ink2 hover:text-ink" href={site.linkedin} rel="me noopener" target="_blank">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+        <li><a class="text-ink2 hover:text-ink" href={site.phoneHref}>{site.phone}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap t-label flex flex-wrap items-center justify-between gap-3 pb-4 text-ink3">
+    <span>© 2026 {site.name}</span>
+    <span>{site.location}</span>
+    <a href="#main" class="hover:text-ink">Back to top ↑</a>
+  </div>
+
+  <!-- Decorative echo of the hero masthead. The real name is in the text above. -->
+  <Masthead cropped />
+</footer>

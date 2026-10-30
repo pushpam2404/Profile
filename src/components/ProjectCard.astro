@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { shotsFor } from '../lib/shots';
+
+// One entry in the numbered project index: ruled header, then a card whose picture is the project's first real screenshot.
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const d = project.data;
+const cover = shotsFor(project.id, d.shots)[0];
+const num = String(d.order).padStart(2, '0');
+const status = d.status === 'no-public-repo' ? 'No public repository' : d.status === 'in-development' ? 'In development' : d.status === 'prototype' ? 'Prototype' : d.status === 'code-only' ? 'Code only' : 'Live';
+---
+
+<div class="tile-name">
+  <div class="tile-head flex items-baseline justify-between gap-4">
+    <h3 class="text-[0.95rem] font-medium leading-snug">
+      <a class="tile-link" href={`/projects/${project.id}/`}>{d.title}</a>
+    </h3>
+    <span class="t-label shrink-0" style="color:var(--pc-ink)" aria-hidden="true">{num}</span>
+  </div>
+  <p class="text-[0.8125rem] text-ink2">{d.role}</p>
+</div>
+
+<div class="tile" data-has-img={cover ? '' : undefined}>
+  {
+    cover && (
+      <div class="tile-shot" data-shot={project.id}>
+        <Image
+          src={cover.img}
+          alt={cover.alt}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 640px) 640px, 100vw"
+          loading={d.order === 1 ? 'eager' : 'lazy'}
+        />
+      </div>
+    )
+  }
+  <div class="tile-flat" aria-hidden="true">
+    {
+      d.snippet ? (
+        <pre class="tile-code"><code>{d.snippet.code}</code></pre>
+      ) : (
+        <>
+          <p class="font-display text-7xl font-bold tracking-tight text-ink/20">{num}</p>
+          <p class="text-sm text-ink2">{d.tagline}</p>
+        </>
+      )
+    }
+  </div>
+  <div class="tile-meta">
+    <p class="t-label status">{status}</p>
+    <ul class="mt-2 flex gap-1.5 overflow-hidden" aria-label="Stack">
+      {d.stack.slice(0, 2).map((s) => <li class="chip">{s}</li>)}
+    </ul>
+  </div>
+</div>

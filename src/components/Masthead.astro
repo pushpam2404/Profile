@@ -1,0 +1,28 @@
+---
+// Three initials set very large on a four-column grid (after harryjatkins.com). Decorative: the name is in the text beside it.
+// With `words`, hovering the masthead shrinks each initial and spells out its word: Pushpam, Raj, Satyarthi.
+interface Props { cropped?: boolean; words?: boolean }
+const { cropped = false, words = false } = Astro.props;
+const cells = [
+  { initial: 'P', word: 'Pushpam' },
+  { initial: 'R', word: 'Raj' },
+  { initial: 'S', word: 'Satyarthi' },
+];
+---
+
+<div class:list={['masthead wrap', cropped && 'masthead-cropped']} aria-hidden="true">
+  <div class="masthead-row" data-mast-row>
+    {
+      cells.map((c, n) => (
+        <span class="mast-cell" style={`grid-column:${n + 1}`}>
+          <span class="mast-letter mast-initial">{c.initial}</span>
+          {words && (
+            <span class="mast-word">
+              {[...c.word].map((ch, j) => <span class:list={[j === 0 && 'first']} style={`--j:${j}`}>{ch}</span>)}
+            </span>
+          )}
+        </span>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,40 @@
+---
+import PageTop from './PageTop.astro';
+import { heroStats, site } from '../data/site';
+---
+
+<section id="top" aria-labelledby="hero-title" class="relative isolate overflow-hidden">
+  <!-- Decorative mesh: starts after load (see scripts/membrane.ts) and stays still for reduced motion. -->
+  <canvas class="mesh" data-membrane aria-hidden="true"></canvas>
+
+  <div class="wrap relative z-10 pt-3 pb-12 md:pt-3 md:pb-16">
+    <PageTop reveal />
+
+    <div class="mt-12 max-w-5xl md:mt-16" data-mesh-zone>
+      <p class="t-label inline-flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1.5 text-ink2" data-reveal>
+        <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
+        Open to software engineering and data internships
+      </p>
+      <h1 id="hero-title" class="mt-6" data-reveal style="--i:1">
+        <span class="sr-only">{site.name}. </span>
+        <span class="t-display block">I like building things.</span>
+      </h1>
+      <p class="t-prose j mt-7 text-ink2" data-reveal style="--i:2">
+        Third-year CSE student at GITAM University with a 9.17 CGPA. I spent summer 2026 on the AIML team at Motherson Technology Services.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3" data-reveal style="--i:3">
+        <a class="btn btn-primary" href="#projects">See what I built</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+
+    <dl class="mt-12 grid grid-cols-2 gap-x-4 gap-y-6 md:mt-16 md:grid-cols-4" data-reveal>
+      {heroStats.map((s, i) => (
+        <div class="flex flex-col-reverse justify-end gap-2 border-t-2 pt-3" style={`border-color:var(--c-${['blue', 'red', 'teal', 'amber'][i]})`}>
+          <dt class="text-sm text-ink2">{s.label}</dt>
+          <dd class="font-display text-4xl font-semibold tracking-tight md:text-5xl" style={`color:var(--c-${['blue', 'red', 'teal', 'amber'][i]}-ink)`}>{s.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

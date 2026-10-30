@@ -1,0 +1,250 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import StackFigure from '../components/StackFigure.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { about, alsoBuilt, certifications, education, experience, hackathons, leadership, proof, site, skills, statusInfo } from '../data/site';
+import type { Status } from '../data/site';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const mark: Record<Status, string> = { verified: '●', measured: '◐', reported: '○' };
+const hue: Record<Status, string> = { verified: 'green', measured: 'blue', reported: 'violet' };
+const groupHue = ['blue', 'teal', 'amber', 'violet', 'green', 'red', 'blue', 'teal'];
+const job = experience[0];
+const withPictures = projects.filter((p) => p.data.shots.length > 0);
+const textOnly = projects.filter((p) => p.data.shots.length === 0);
+---
+
+<BaseLayout>
+  <Hero />
+
+  <!-- 01 · WHO I AM -->
+  <section id="about" class="section border-t border-line">
+    <div class="wrap">
+      <SectionHeader index="01" title="Who am I?" />
+      <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-7">
+          <div class="t-prose grid gap-5 text-lg" data-reveal>
+            {about.paragraphs.map((p) => <p class="j">{p}</p>)}
+            <p class="j text-ink2">{about.learning}</p>
+          </div>
+
+          <h3 class="t-label mt-14 mb-4 text-ink3">Leadership and community</h3>
+          <ul class="border-t border-line">
+            {leadership.map((l, i) => (
+              <li class="grid gap-1 border-b border-line py-5 md:grid-cols-[1fr_auto] md:gap-8" data-reveal style={`--i:${i}`}>
+                <div>
+                  <p class="t-h3">{l.title}</p>
+                  <p class="mt-1 text-[0.97rem] text-ink2">{l.note}</p>
+                </div>
+                <p class="t-label text-ink3 md:pt-2 md:text-right">{l.period}</p>
+              </li>
+            ))}
+          </ul>
+
+          <h3 class="t-label mt-14 mb-4 text-ink3">Education</h3>
+          <div class="border-t border-line pt-5" data-reveal>
+            <div class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1">
+              <p class="t-h3">{education.school}</p>
+              <p class="t-label text-ink3">{education.period} · CGPA {education.cgpa}</p>
+            </div>
+            <p class="mt-1 text-ink2">{education.degree}, {education.place}</p>
+            <ul class="mt-4 flex flex-wrap gap-1.5" aria-label="Relevant coursework">
+              {education.coursework.map((c) => <li class="chip">{c}</li>)}
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="lg:sticky lg:top-24">
+            <StackFigure />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · WORK -->
+  <section id="work" class="section border-t border-line">
+    <div class="wrap">
+      <SectionHeader index="02" title="Work" lead="One internship so far, on a live AI product." />
+      <article class="grid gap-8 lg:grid-cols-12 lg:gap-14" data-reveal>
+        <div class="lg:col-span-4">
+          <p class="t-h3">{job.org}</p>
+          <p class="mt-2 font-semibold">{job.role}</p>
+          <p class="mt-1 text-ink2">{job.product}</p>
+          <p class="t-label mt-4 text-ink3">{job.period} · {job.place}</p>
+          <dl class="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
+            {job.meta.map((m) => (
+              <div class="bg-bg p-4">
+                <dt class="t-label text-ink3">{m.k}</dt>
+                <dd class="mt-1 font-medium">{m.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <ul class="grid gap-5 lg:col-span-8">
+          {job.points.map((pt) => (
+            <li class="flex gap-4 border-b border-line pb-5 last:border-b-0">
+              <span aria-hidden="true" class="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent"></span>
+              <span class="t-prose j">{pt}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+
+      <h3 class="t-label mt-20 mb-6 text-ink3">Toolbox</h3>
+      <div class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        {skills.map((g, i) => (
+          <div data-reveal style={`--i:${i % 4}`}>
+            <h4 class="mb-3 flex items-center gap-2 border-b border-line pb-2 font-semibold"><span aria-hidden="true" class="size-2.5 rounded-[3px]" style={`background:var(--c-${groupHue[i]})`}></span>{g.group}</h4>
+            <ul class="grid gap-1 text-[0.95rem] text-ink2">
+              {g.items.map((it) => <li>{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · PROJECTS -->
+  <section id="projects" class="section border-t border-line">
+    <div class="wrap">
+      <SectionHeader index="03" title="Projects" lead="Screenshots are from the projects themselves. Where a repository is public, the source is linked." />
+      <ul class="grid gap-x-4 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {withPictures.map((p) => <li class="relative" data-reveal style={`--i:${(p.data.order - 1) % 3}; --pc:var(--text-3); --pc-ink:var(--text-2)`}><ProjectCard project={p} /></li>)}
+      </ul>
+
+      <div class="mt-16">
+        <div class="tile-head flex items-baseline justify-between" data-reveal>
+          <h3 class="text-[0.95rem] font-medium">More work</h3>
+          <span class="t-label text-ink3" aria-hidden="true">{String(textOnly.length + alsoBuilt.length).padStart(2, '0')}</span>
+        </div>
+        <p class="mb-3 text-[0.8125rem] text-ink2">Projects without a screen to show, smaller repositories and unfinished work.</p>
+        <ul class="grid md:grid-cols-2 md:gap-x-8">
+          {textOnly.map((p, i) => (
+            <li class="border-t border-line py-3" data-reveal style={`--i:${i % 3}`}>
+              <p class="flex flex-wrap items-baseline justify-between gap-x-3">
+                <a class="font-mono text-sm font-medium underline decoration-line underline-offset-4 hover:decoration-accent" href={`/projects/${p.id}/`}>{p.data.title}</a>
+                <span class="flex gap-3 text-sm font-semibold">
+                  {p.data.links.repo && <a class="underline decoration-line underline-offset-4 hover:decoration-accent" href={p.data.links.repo} target="_blank" rel="noopener">Source<span class="sr-only"> of {p.data.title} (opens in a new tab)</span></a>}
+                  {!p.data.links.repo && <span class="font-normal text-ink3">No public repository</span>}
+                </span>
+              </p>
+              <p class="mt-1 text-[0.9rem] text-ink2">{p.data.tagline}</p>
+            </li>
+          ))}
+          {alsoBuilt.map((a, i) => (
+            <li class="border-t border-line py-3" data-reveal style={`--i:${i % 3}`}>
+              <p class="flex flex-wrap items-baseline justify-between gap-x-3">
+                <span class="font-mono text-sm font-medium">{a.name}</span>
+                <span class="flex gap-3 text-sm font-semibold">
+                  {a.repo && <a class="underline decoration-line underline-offset-4 hover:decoration-accent" href={a.repo} target="_blank" rel="noopener">Source<span class="sr-only"> of {a.name} (opens in a new tab)</span></a>}
+                  {a.live && <a class="underline decoration-line underline-offset-4 hover:decoration-accent" href={a.live} target="_blank" rel="noopener">Live<span class="sr-only"> {a.name} (opens in a new tab)</span></a>}
+                </span>
+              </p>
+              <p class="mt-1 text-[0.9rem] text-ink2">{a.what}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · PROOF -->
+  <section id="proof" class="section border-t border-line">
+    <div class="wrap">
+      <SectionHeader index="04" title="Proof" lead="Every claim on this page, with how much weight it can carry." />
+
+      <ul class="mb-10 grid gap-x-8 gap-y-3 md:grid-cols-3" aria-label="Status legend">
+        {(Object.keys(statusInfo) as Status[]).map((k) => (
+          <li class="text-[0.92rem] text-ink2">
+            <span class="font-semibold text-ink"><span aria-hidden="true" class="mr-2" style={`color:var(--c-${hue[k]})`}>{mark[k]}</span>{statusInfo[k].label}.</span>{' '}
+            {statusInfo[k].meaning}
+          </li>
+        ))}
+      </ul>
+
+      <div class="grid gap-10 lg:grid-cols-12 lg:gap-14" data-bench>
+        <!-- The big number mirrors the open claim. It repeats text that is also in the list, so it is hidden from screen readers. -->
+        <div class="bench-wrap hidden lg:col-span-5 lg:block" aria-hidden="true">
+          <div class="lg:sticky lg:top-24">
+            <p class="bench-figure" data-bench-figure style={`color:var(--c-${hue[proof[0].status]}-ink)`}>{proof[0].figure}</p>
+            <p class="mt-4 max-w-xs text-ink2" data-bench-unit>{proof[0].unit}</p>
+            <p class="t-label mt-5" data-bench-status style={`color:var(--c-${hue[proof[0].status]}-ink)`}><span class="mr-1.5">{mark[proof[0].status]}</span>{statusInfo[proof[0].status].label}</p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          {proof.map((r, i) => (
+            <details class="bench-item" name="proof" open={i === 0} data-figure={r.figure} data-unit={r.unit} data-status={`${mark[r.status]}|${statusInfo[r.status].label}|${hue[r.status]}`} style={`--sc:var(--c-${hue[r.status]}); --sc-ink:var(--c-${hue[r.status]}-ink)`}>
+              <summary>
+                <span class="t-label w-6 shrink-0 text-ink3">{String(i + 1).padStart(2, '0')}</span>
+                <span class="bench-claim font-medium">{r.claim}</span>
+              </summary>
+              <div class="bench-detail pb-6 pl-10 text-[0.95rem] text-ink2">
+                <p class="font-display text-3xl font-semibold tracking-tight lg:hidden" style="color:var(--sc-ink)">{r.figure} <span class="font-sans text-sm font-normal text-ink2">{r.unit}</span></p>
+                <p class="j mt-2 lg:mt-0">{r.evidence}</p>
+                <p class="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                  <span class="t-label text-ink"><span aria-hidden="true" class="mr-1.5" style="color:var(--sc)">{mark[r.status]}</span>{statusInfo[r.status].label}</span>
+                  {r.href && <a class="font-semibold text-ink underline decoration-line underline-offset-4 hover:decoration-accent" href={r.href} target="_blank" rel="noopener">Check it<span class="sr-only"> (opens in a new tab)</span></a>}
+                </p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-20 grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div class="lg:col-span-7">
+          <h3 class="t-label mb-4 text-ink3">Certification</h3>
+          <div class="border-t border-line pt-5">
+            <p class="t-h3">{certifications.program}</p>
+            <p class="t-label mt-1 text-ink3">{certifications.issuer} · {certifications.earnedCount} courses completed</p>
+            <p class="t-prose j mt-3 text-ink2">{certifications.blurb}</p>
+          </div>
+          <ul class="mt-5 border-t border-line">
+            {certifications.courses.map((c) => (
+              <li class="flex items-baseline justify-between gap-6 border-b border-line py-2.5 text-[0.95rem]">
+                <span>{c.name}</span>
+                <span class="t-label shrink-0 text-ink3">{c.when ?? "Certificate on file"}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="lg:col-span-5">
+          <h3 class="t-label mb-4 text-ink3">Hackathons</h3>
+          <ul class="border-t border-line">
+            {hackathons.map((h) => (
+              <li class="border-b border-line py-5">
+                <p class="t-h3">{h.name}</p>
+                <p class="t-label mt-1 text-accent">{h.result}</p>
+                <p class="j mt-2 text-[0.95rem] text-ink2">{h.what}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · CONTACT -->
+  <section id="contact" class="section border-t border-line">
+    <div class="wrap">
+      <div class="rounded-[2rem] bg-[var(--btn-bg)] p-8 text-[var(--btn-fg)] md:p-14" data-reveal>
+        <p class="t-label opacity-70">05 · Contact</p>
+        <h2 class="t-h1 mt-4 max-w-3xl">Looking for software engineering internships.</h2>
+        <p class="j mt-5 max-w-xl text-lg opacity-80">The easiest way to reach me is email. I reply to messages about internships, projects and open-source work.</p>
+        <ul class="mt-10 flex flex-wrap gap-3">
+          <li><a class="btn !border-transparent !bg-[var(--btn-fg)] !text-[var(--btn-bg)]" href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a class="btn !border-current !text-[var(--btn-fg)]" href={site.linkedin} target="_blank" rel="me noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a class="btn !border-current !text-[var(--btn-fg)]" href={site.github} target="_blank" rel="me noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a class="btn !border-current !text-[var(--btn-fg)]" href={site.phoneHref}>{site.phone}</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

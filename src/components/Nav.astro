@@ -1,0 +1,72 @@
+---
+import { nav, site } from '../data/site';
+// On project pages the section links point back to the home page.
+const home = Astro.url.pathname === '/' ? '' : '/';
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-bg">
+  <nav aria-label="Primary" class="wrap flex h-14 items-center justify-between gap-3">
+    <a href="/" class="flex items-center gap-2 font-display text-lg font-bold tracking-tight" aria-label={`${site.name}, home`}>
+      <span aria-hidden="true" class="inline-block size-2.5 rounded-full bg-accent"></span>
+      {site.short}
+    </a>
+
+    <ul class="hidden items-center gap-7 md:flex">
+      {
+        nav.map((n) => (
+          <li>
+            <a href={`${home}#${n.id}`} data-nav-link={n.id} class="nav-link inline-block text-[0.95rem] text-ink2 hover:text-ink">
+              {n.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <div class="theme-switch flex rounded-full border border-line p-0.5" role="group" aria-label="Color theme">
+        {
+          [
+            { id: 'light', label: 'Light', d: 'M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4 7 17m10-10 1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z' },
+            { id: 'dark', label: 'Dark', d: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z' },
+            { id: 'system', label: 'Match system', d: 'M4 5h16v11H4zM9 20h6M12 16v4' },
+          ].map((t) => (
+            <button
+              type="button"
+              data-theme-set={t.id}
+              aria-pressed="false"
+              aria-label={t.label}
+              title={t.label}
+              class="grid size-8 place-items-center rounded-full text-ink2 transition-colors hover:text-ink aria-pressed:bg-[var(--btn-bg)] aria-pressed:text-[var(--btn-fg)]"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d={t.d} />
+              </svg>
+            </button>
+          ))
+        }
+      </div>
+      <a href={`${home}#contact`} class="btn btn-primary hidden md:inline-flex">Contact</a>
+      <button type="button" popovertarget="menu" class="btn md:hidden" aria-label="Open menu">Menu</button>
+    </div>
+  </nav>
+
+  <div id="menu" popover class="m-0 h-dvh w-dvw max-w-none border-0 bg-bg p-0 text-ink backdrop:bg-transparent">
+    <div class="wrap flex h-14 items-center justify-between">
+      <span class="font-display text-lg font-bold">Menu</span>
+      <button type="button" popovertarget="menu" popovertargetaction="hide" class="btn" aria-label="Close menu" autofocus>Close</button>
+    </div>
+    <ul class="wrap mt-6 grid gap-1">
+      {
+        nav.map((n, i) => (
+          <li>
+            <a href={`${home}#${n.id}`} class="flex items-baseline justify-between border-b border-line py-4 font-display text-4xl font-semibold tracking-tight">
+              <span>{n.label}</span>
+              <span class="t-label text-ink3">{String(i + 1).padStart(2, '0')}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,949 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bricolage-grotesque/index.css';
+@import '@fontsource-variable/instrument-sans/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
+
+/* Tokens follow DESIGN_SYSTEM.md. The inline script in BaseLayout sets data-theme to
+   "light" or "dark"; the media query is only the fallback for visitors without JavaScript. */
+:root {
+  --bg: #fafaf7;
+  --paper: #f2ede2;
+  --surface: #ffffff;
+  --surface-2: #f2f2ee;
+  --border: rgba(17, 17, 20, 0.14);
+  --text: #111114;
+  --text-2: #52525b;
+  --text-3: #6b6b75;
+  --accent: #c2410c;
+  --ramp: linear-gradient(90deg, #ff5b2e, #ec4899, #8b5cf6, #3b82f6, #14b8a6);
+  --on-accent: #ffffff;
+  --btn-bg: #111114;
+  --btn-fg: #fafaf7;
+  --ok: #15803d;
+  --c-red: #dc2626; --c-red-ink: #991b1b;
+  --c-teal: #0d9488; --c-teal-ink: #115e59;
+  --c-amber: #f59e0b; --c-amber-ink: #92400e;
+  --c-violet: #7c3aed; --c-violet-ink: #5b21b6;
+  --c-green: #16a34a; --c-green-ink: #166534;
+  --c-blue: #2563eb; --c-blue-ink: #1e40af;
+  --dur-micro: 120ms;
+  --dur-hover: 200ms;
+  --dur-ui: 320ms;
+  --dur-reveal: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.2, 0, 0, 1);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b0b0e;
+  --paper: #131318;
+  --surface: #131318;
+  --surface-2: #1a1a21;
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #f4f4f6;
+  --text-2: #a1a1aa;
+  --text-3: #8a8a94;
+  --accent: #ff5b2e;
+  --on-accent: #0b0b0e;
+  --btn-bg: #efe7d6;
+  --btn-fg: #0b0b0e;
+  --ok: #4ade80;
+  --c-red: #f87171; --c-red-ink: #fca5a5;
+  --c-teal: #2dd4bf; --c-teal-ink: #5eead4;
+  --c-amber: #fbbf24; --c-amber-ink: #fcd34d;
+  --c-violet: #a78bfa; --c-violet-ink: #c4b5fd;
+  --c-green: #4ade80; --c-green-ink: #86efac;
+  --c-blue: #60a5fa; --c-blue-ink: #93c5fd;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0b0b0e;
+    --paper: #131318;
+    --surface: #131318;
+    --surface-2: #1a1a21;
+    --border: rgba(255, 255, 255, 0.12);
+    --text: #f4f4f6;
+    --text-2: #a1a1aa;
+    --text-3: #8a8a94;
+    --accent: #ff5b2e;
+    --on-accent: #0b0b0e;
+    --btn-bg: #efe7d6;
+    --btn-fg: #0b0b0e;
+    --ok: #4ade80;
+  --c-red: #f87171; --c-red-ink: #fca5a5;
+  --c-teal: #2dd4bf; --c-teal-ink: #5eead4;
+  --c-amber: #fbbf24; --c-amber-ink: #fcd34d;
+  --c-violet: #a78bfa; --c-violet-ink: #c4b5fd;
+  --c-green: #4ade80; --c-green-ink: #86efac;
+  --c-blue: #60a5fa; --c-blue-ink: #93c5fd;
+    color-scheme: dark;
+  }
+}
+
+/* Page transitions (cross-document view transitions, progressive enhancement).
+   The sticky nav keeps its place and the page crossfades beneath it. Identical content, such as the masthead, does not flicker. */
+@view-transition {
+  navigation: auto;
+}
+header.sticky {
+  view-transition-name: site-nav;
+}
+::view-transition-group(site-nav) {
+  animation-duration: 0s;
+}
+::view-transition-group(*.shot) {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(*.shot),
+::view-transition-new(*.shot) {
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+  mix-blend-mode: normal;
+}
+/* The outgoing picture stays solid and the incoming one fades in over it: no double image mid-flight. */
+::view-transition-old(*.shot) {
+  animation: none;
+}
+::view-transition-new(*.shot) {
+  animation: vt-shot-in 240ms ease-out both;
+}
+/* Pictures with no partner on the other page (every card but the one opened) must fade, not hang over the new page. */
+::view-transition-old(*.shot):only-child {
+  animation: vt-shot-out 160ms ease-in both;
+}
+@keyframes vt-shot-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-shot-out {
+  to {
+    opacity: 0;
+  }
+}
+::view-transition-group(root) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+/* Dark and light dissolve into each other (a view transition, so the whole page crossfades at once). */
+html.theme-vt::view-transition-group(*) {
+  animation-duration: 800ms;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+/* Content that scroll-reveal would hide is shown straight away when arriving through a transition, so the new page is complete. */
+html.js.vt-in [data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Modes (hotkeys T, D, M). Monochrome greys the whole page, pictures included; text mode swaps pictures for flat tiles. */
+html[data-mono] {
+  filter: grayscale(1);
+}
+html[data-text] [data-membrane] {
+  display: none;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-ink2: var(--text-2);
+  --color-ink3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-onaccent: var(--on-accent);
+  --font-display: 'Bricolage Grotesque Variable', 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-sans: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Smooth anchor scrolling only after the page has loaded, so arriving on /#projects does not animate down from the top. */
+  @media (prefers-reduced-motion: no-preference) {
+    html.smooth {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  section[id] {
+    scroll-margin-top: 8rem;
+  }
+}
+
+/* Custom classes live in the components layer so Tailwind utilities (hidden, md:hidden, ...) can override them. */
+@layer components {
+/* ---------- Type scale (fluid, 375px to 1440px) ---------- */
+.t-mega {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(6rem, 18vw, 20rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+}
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(2.75rem, 1.2rem + 5vw, 5.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.t-prose {
+  max-width: 68ch;
+}
+/* Running text avoids one-word last lines and lonely words. */
+p,
+li,
+dd,
+figcaption {
+  text-wrap: pretty;
+}
+/* Running paragraphs marked `.j` are justified from tablet width up and left-aligned on phones, where the columns are too narrow.
+   Labels, headings, tags, tiles and short lines stay left-aligned. No hyphenation. */
+@media (min-width: 640px) {
+  .j {
+    text-align: justify;
+    hyphens: manual;
+  }
+}
+
+/* ---------- Layout helpers ---------- */
+.wrap {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .wrap {
+    padding-inline: 2rem;
+  }
+}
+.section {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--dur-micro) var(--ease-std),
+    background-color var(--dur-hover) var(--ease-std),
+    border-color var(--dur-hover) var(--ease-std);
+}
+.btn:hover {
+  border-color: var(--text-2);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border-color: transparent;
+}
+.btn-primary:hover {
+  border-color: transparent;
+  filter: brightness(1.08);
+}
+
+/* ---------- Chips, status marks ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+/* ---------- Scroll reveal (only hides content when JS is running) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+  html.js [data-reveal].in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Pipeline figure (transform + opacity only) ---------- */
+@keyframes packet {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--run));
+    opacity: 0;
+  }
+}
+.packet {
+  animation: packet 2.6s var(--ease-std) infinite;
+  animation-delay: calc(var(--d, 0) * 1s);
+  transform-box: fill-box;
+}
+@keyframes packet-down {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--run));
+    opacity: 0;
+  }
+}
+.packet.down {
+  animation-name: packet-down;
+}
+@media (prefers-reduced-motion: reduce) {
+  .packet {
+    animation: none;
+    opacity: 0.9;
+  }
+}
+
+/* ---------- Nav ---------- */
+.nav-link[aria-current='true'] {
+  color: var(--text);
+}
+.nav-link[aria-current='true']::after {
+  transform: scaleX(1);
+}
+.nav-link::after {
+  content: '';
+  display: block;
+  height: 2px;
+  margin-top: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  overflow: hidden;
+  transition:
+    transform var(--dur-ui) var(--ease-out),
+    border-color var(--dur-hover) var(--ease-std);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--text-3);
+  }
+}
+.card-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.card-link:focus-visible {
+  outline: none;
+}
+.card:has(.card-link:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Footer wordmark: clipped by its own container ---------- */
+.masthead-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.mast-letter {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(5.5rem, 14vw, 12.5rem);
+  line-height: 0.74;
+  letter-spacing: -0.04em;
+  margin-left: -0.06em;
+  color: var(--text);
+  user-select: none;
+}
+/* Footer echo of the masthead: the letters rise out of the bottom edge, clipped by their own box. */
+.masthead-cropped {
+  overflow: hidden;
+  height: clamp(4.5rem, 12.5vw, 11.5rem);
+}
+.masthead-cropped .mast-letter {
+  display: block;
+  color: var(--text-3);
+  opacity: 0.55;
+}
+
+/* Fixed masthead: a compact bar under the nav on every page. The three initials sit side by side; hovering spells the name out
+   at the same size (a tap on phones). */
+:root {
+  --f: clamp(1.5rem, 7.4vw, 1.9rem);
+  --mh: calc(var(--f) * 0.74 + 1.5rem);
+}
+@media (min-width: 768px) {
+  :root {
+    --f: min(3.75rem, 6.5vw);
+  }
+}
+.mast-spacer {
+  height: var(--mh);
+}
+.mast-fixed {
+  --k: 1;
+  position: fixed;
+  top: 57px;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  overflow: hidden;
+  height: var(--mh);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.mast-fixed .masthead-row {
+  display: block;
+  position: relative;
+  height: 100%;
+}
+.mast-fixed .mast-cell {
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+}
+.mast-fixed .mast-cell:nth-child(2) {
+  left: 38%;
+}
+.mast-fixed .mast-cell:nth-child(3) {
+  left: 62%;
+}
+@media (min-width: 768px) {
+  .mast-fixed .mast-cell:nth-child(2) {
+    left: 33.333%;
+  }
+  .mast-fixed .mast-cell:nth-child(3) {
+    left: 66.666%;
+  }
+}
+.mast-fixed .mast-letter,
+.mast-fixed .mast-word {
+  font-size: var(--f);
+}
+html:not(.js) .mast-fixed {
+  position: static;
+}
+html:not(.js) .mast-spacer {
+  display: none;
+}
+.mast-cell {
+  position: relative;
+  display: block;
+}
+.mast-word {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  margin-left: -0.06em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.74;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--text);
+  pointer-events: none;
+}
+.mast-word > span {
+  opacity: 0;
+  transition: opacity 160ms var(--ease-std);
+}
+.mast-initial {
+  transform-origin: left bottom;
+  transition: opacity 120ms var(--ease-std) 0ms;
+}
+/* The initial hands over to the first letter of its word, so kerning inside the word is right and the letters never change size. */
+.mast-fixed:is(:hover, .open) .mast-initial {
+  opacity: 0;
+  transition: opacity 100ms var(--ease-std) 40ms;
+}
+.mast-fixed:is(:hover, .open) .mast-word > .first {
+  opacity: 1;
+  transition: opacity 100ms var(--ease-std) 40ms;
+}
+.mast-fixed:is(:hover, .open) .mast-word > span:not(.first) {
+  opacity: 1;
+  transition: opacity 240ms var(--ease-out) calc(60ms + var(--j) * 38ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mast-initial,
+  .mast-word > span {
+    transition: none !important;
+  }
+}
+
+/* ---------- Hero ---------- */
+.mesh {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s cubic-bezier(0.45, 0, 0.55, 1);
+}
+.mesh.is-on {
+  opacity: 1;
+}
+.hero-strip {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--text-2);
+  border-top: 1px solid var(--border);
+}
+.mode {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-std);
+}
+.mode:hover,
+.mode[aria-pressed='true'] {
+  color: var(--text);
+}
+.mode-state {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+.mode[aria-pressed='true'] .mode-state {
+  color: var(--accent);
+}
+
+/* ---------- Project index (cards after harryjatkins.com) ---------- */
+.tile-head {
+  border-top: 2px solid transparent;
+  border-image: var(--ramp) 1;
+  padding-top: 0.6rem;
+}
+.tile {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--pc, var(--border)) 35%, var(--border));
+  background: color-mix(in srgb, var(--pc, transparent) 7%, var(--paper));
+  transition: border-color var(--dur-hover) var(--ease-std);
+}
+/* The screenshot runs edge to edge across the top of the card. */
+.tile-shot {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.tile-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+.tile-flat {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  overflow: hidden;
+  padding: 1.1rem 1.1rem 0;
+  background: color-mix(in srgb, var(--pc, transparent) 14%, transparent);
+}
+.tile-flat > p:first-child {
+  color: var(--pc, currentColor);
+}
+.tile-meta .status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--pc-ink, var(--text-3));
+}
+.tile-meta .status::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.tile-meta .chip {
+  border-color: color-mix(in srgb, var(--pc, var(--border)) 45%, var(--border));
+  background: color-mix(in srgb, var(--pc, transparent) 10%, transparent);
+}
+.tile:not([data-has-img]) .tile-flat,
+html[data-text] .tile .tile-flat {
+  display: flex;
+}
+html[data-text] .tile .tile-shot {
+  display: none;
+}
+.tile-code {
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.55;
+  color: var(--text-2);
+  white-space: pre;
+  -webkit-mask-image: linear-gradient(to right, #000 78%, transparent);
+  mask-image: linear-gradient(to right, #000 78%, transparent);
+}
+.tile-meta {
+  padding: 0.85rem 1.1rem 1rem;
+}
+.tile-name {
+  min-height: 4.6rem;
+}
+.tile-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.tile-link:focus-visible {
+  outline: none;
+}
+li:has(.tile-link:focus-visible) .tile {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  li:hover .tile {
+    border-color: var(--pc, var(--text-3));
+  }
+  li:hover .tile-shot img {
+    transform: scale(1.04);
+  }
+}
+
+/* ---------- Stitched screenshot sheet on project pages ---------- */
+/* One frame, hairline seams. The cover is the card's picture grown; the other rows slide out from under it. */
+.sheet {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--pc, var(--border)) 40%, var(--border));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--pc, var(--border)) 30%, var(--border));
+}
+.sheet-row {
+  display: flex;
+  gap: 1px;
+}
+.sheet-row > * {
+  min-width: 0;
+  background: var(--paper);
+}
+.sheet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+.sheet-code {
+  margin: 0;
+  padding: 1.5rem;
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--text-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sheet-row.grow {
+    animation: stitch-in 720ms var(--ease-out) both;
+    animation-delay: calc(260ms + var(--i, 0) * 150ms);
+    transform-origin: top center;
+  }
+}
+@keyframes stitch-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Active-mode chip (so a mode that is on is never invisible) ---------- */
+.mode-chip {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: calc(100vw - 2rem);
+}
+.mode-chip[hidden] {
+  display: none;
+}
+.mode-chip button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font: 600 0.8125rem/1 var(--font-sans);
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.25);
+}
+.mode-chip button span {
+  font: 500 0.6875rem/1 var(--font-mono);
+  opacity: 0.8;
+}
+
+/* ---------- Spec rows (label / value, ruled) ---------- */
+.close-btn {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  transition: color var(--dur-hover) var(--ease-std);
+}
+.close-btn:hover {
+  color: var(--pc-ink, var(--text));
+  background: color-mix(in srgb, var(--pc, var(--surface-2)) 16%, var(--surface-2));
+}
+.spec > div {
+  display: grid;
+  grid-template-columns: minmax(6rem, 0.8fr) 1.6fr;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.9375rem;
+}
+.spec > div:first-child {
+  border-top: 2px solid transparent;
+  border-image: var(--ramp) 1;
+}
+.spec > div:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.spec dt {
+  color: var(--text-3);
+}
+
+/* ---------- Proof: giant figure beside a one-open-at-a-time claim list (after Benchmark on motionin.design) ---------- */
+.bench-wrap {
+  container-type: inline-size;
+}
+.bench-figure {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(3rem, 25cqi, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bench-figure.swap,
+  .bench-detail {
+    animation: bench-in var(--dur-ui) var(--ease-out);
+  }
+}
+@keyframes bench-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.bench-item {
+  border-top: 1px solid var(--border);
+}
+.bench-item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.bench-item summary {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  list-style: none;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: color var(--dur-hover) var(--ease-std);
+}
+.bench-item summary::-webkit-details-marker {
+  display: none;
+}
+.bench-item summary:hover,
+.bench-item[open] summary {
+  color: var(--text);
+}
+.bench-claim {
+  text-wrap: pretty;
+  transform-origin: left center;
+  transform: scale(0.94);
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.bench-item[open] .bench-claim,
+.bench-item summary:hover .bench-claim {
+  transform: none;
+}
+.bench-item summary:focus-visible {
+  outline-offset: -2px;
+}
+
+
+@media print {
+  nav,
+  .theme-switch {
+    display: none;
+  }
+}
+}

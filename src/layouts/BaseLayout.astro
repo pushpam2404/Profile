@@ -1,0 +1,110 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  noindex?: boolean;
+}
+const {
+  title = `${site.name} | ${site.role}`,
+  description = site.description,
+  path = '/',
+  noindex = false,
+} = Astro.props;
+const canonical = new URL(path, site.url).toString();
+const ogImage = new URL('/og.png', site.url).toString();
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: site.role,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Visakhapatnam', addressCountry: 'IN' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'GITAM University' },
+  sameAs: [site.github, site.linkedin],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0b0b0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    <script is:inline>
+      // Runs before first paint so the page never flashes the wrong theme.
+      (function () {
+        var r = document.documentElement;
+        r.classList.add('js');
+        // Only the picture of the project being opened takes part in the shared-element morph. Naming every card would leave
+        // the other pictures hanging over the new page, and shrinking the sheet cover back into its card showed the whole
+        // screenshot before cropping it, so closing a project just fades.
+        function name(url) {
+          var m = url && new URL(url, location.href).pathname.match(/^\/projects\/([a-z0-9-]+)\/?$/);
+          if (!m) return;
+          var st = document.createElement('style');
+          st.setAttribute('data-vt', '');
+          st.textContent = '[data-shot="' + m[1] + '"]{view-transition-name:shot-' + m[1] + ';view-transition-class:shot}';
+          document.head.appendChild(st);
+        }
+        addEventListener('pageswap', function (e) {
+          if (e.viewTransition && e.activation && e.activation.entry) name(e.activation.entry.url);
+        });
+        function clear() {
+          document.querySelectorAll('style[data-vt]').forEach(function (n) { n.remove(); });
+        }
+        addEventListener('pagehide', clear);
+        addEventListener('pagereveal', function (e) {
+          // A page restored by the back button still carries the name given when it was left: clear it, or the cover morphs back.
+          clear();
+          if (!e.viewTransition) return;
+          r.classList.add('vt-in');
+        });
+        try {
+          var p = localStorage.getItem('theme-pref');
+          var dark = p === 'dark' || (p !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+          r.dataset.theme = dark ? 'dark' : 'light';
+          if (localStorage.getItem('mode-text')) r.setAttribute('data-text', '');
+          if (localStorage.getItem('mode-mono')) r.setAttribute('data-mono', '');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[var(--btn-bg)] focus:px-4 focus:py-2 focus:text-[var(--btn-fg)]"
+      >Skip to content</a
+    >
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <div id="mode-chip" class="mode-chip" role="group" aria-label="Display modes that are on" hidden></div>
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>
